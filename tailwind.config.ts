@@ -22,12 +22,29 @@ export default {
         close: 'linear-gradient(to right, #000000, #FFFFFF)',
         outsourcing: 'linear-gradient(to right, #FF8800, #84FF74)',
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
+      fontWeight: {
+        thin: '100',
+        extralight: '200',
+        light: '300',
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        black: '900',
+      },
       fontSize: {
         heading1: ['24px', '29px'], // font-size 24px, line-height 32px
         heading2: ['20px', '24px'],
         body1: ['14px', '17px'],
         caption1: ['12px', '14px'],
         caption2: ['10px', '12px'],
+      },
+      maxWidth: {
+        'screen-center': '783px',
       },
     },
   },

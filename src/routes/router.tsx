@@ -1,9 +1,15 @@
-import MyPage from '@/components/pages/MyPage';
-import LoginPage from '../components/pages/LoginPage';
+import LoginPage from '@/components/pages/LoginPage';
+import MainPage from '@/components/pages/MainPage';
 
 const router = [
-  { path: '/login', element: <LoginPage /> },
-  { path: '/mypage', element: <MyPage /> },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/',
+    element: <MainPage />,
+  },
 ];
 
 export default router;

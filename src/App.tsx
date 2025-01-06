@@ -1,18 +1,15 @@
 import router from '@/routes/router';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import queryClient from '@/utils/queryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-function App() {
+const App = () => {
+  const appRouter = createBrowserRouter(router);
   return (
-    <div className='bg-background'>
-      <BrowserRouter>
-        <Routes>
-          {router.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={appRouter} />
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;

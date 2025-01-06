@@ -28,17 +28,6 @@ export default {
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
       },
-      fontWeight: {
-        thin: '100',
-        extralight: '200',
-        light: '300',
-        regular: '400',
-        medium: '500',
-        semibold: '600',
-        bold: '700',
-        extrabold: '800',
-        black: '900',
-      },
       fontSize: {
         heading1: ['24px', '29px'],
         heading2: ['20px', '24px'],
@@ -48,6 +37,7 @@ export default {
       },
       maxWidth: {
         'screen-center': '783px',
+      },
       backgroundImage: {
         online: 'linear-gradient(to right, #039160, #96FFDA)',
         open: 'linear-gradient(to right, #9340FF, #FFDCDC)',
@@ -57,6 +47,6 @@ export default {
         outsourcing: 'linear-gradient(to right, #FF8800, #84FF74)',
       },
     },
+    plugins: [],
   },
-  plugins: [],
 } satisfies Config;

@@ -25,6 +25,9 @@ export default {
         extrabold: '800',
         black: '900',
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
       fontSize: {
         heading1: ['24px', '29px'],
         heading2: ['20px', '24px'],
@@ -44,6 +47,6 @@ export default {
         outsourcing: 'linear-gradient(to right, #FF8800, #84FF74)',
       },
     },
+    plugins: [],
   },
-  plugins: [],
 } satisfies Config;

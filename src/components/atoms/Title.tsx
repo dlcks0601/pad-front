@@ -41,7 +41,6 @@ const Title = ({
   size,
   ...props
 }: TitleProps) => {
-  console.log(cn(TitleVariants({ lineClamp, fontWeight, size, className })));
   return (
     <div
       {...props}

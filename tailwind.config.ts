@@ -11,6 +11,9 @@ export default {
         lightgray: '#EAEAEA',
         softblue: '#7593F4',
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
       fontWeight: {
         thin: '100',
         extralight: '200',

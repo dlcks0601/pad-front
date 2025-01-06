@@ -50,6 +50,7 @@ export default [
         1,
         { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
       ],
+      'import/extensions': ['off'],
     },
     settings: {
       react: {

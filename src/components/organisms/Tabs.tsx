@@ -14,7 +14,7 @@ const Tabs = ({ children }: TabProps) => {
       .map((el) => el.props.children);
     setTabs(tabs);
     setActiveTab(tabs[0]);
-  }, [children]);
+  }, []);
 
   return (
     <div className='w-full h-[38px] px-[5px] flex items-center bg-[#DCDCDC] rounded-[5px]'>

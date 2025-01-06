@@ -36,7 +36,7 @@ const ListItemButton = ({
   className,
 }: ItemButtonProps) => {
   return (
-    <button onClick={onClick} type='button' className={cn(className)}>
+    <button onClick={onClick} type='button' className={className}>
       {children}
     </button>
   );

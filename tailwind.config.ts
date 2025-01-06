@@ -25,6 +25,20 @@ export default {
         extrabold: '800',
         black: '900',
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
+      fontWeight: {
+        thin: '100',
+        extralight: '200',
+        light: '300',
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        black: '900',
+      },
       fontSize: {
         heading1: ['24px', '29px'],
         heading2: ['20px', '24px'],
@@ -32,6 +46,8 @@ export default {
         caption1: ['12px', '14px'],
         caption2: ['10px', '12px'],
       },
+      maxWidth: {
+        'screen-center': '783px',
       backgroundImage: {
         online: 'linear-gradient(to right, #039160, #96FFDA)',
         open: 'linear-gradient(to right, #9340FF, #FFDCDC)',

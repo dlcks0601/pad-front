@@ -3,9 +3,6 @@ import type { Config } from 'tailwindcss';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    fontFamily: {
-      sans: ['Pretendard', 'sans-serif'],
-    },
     extend: {
       colors: {
         background: '#F5F5F5',
@@ -14,11 +11,14 @@ export default {
         lightgray: '#EAEAEA',
         softblue: '#7593F4',
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
       fontWeight: {
         thin: '100',
         extralight: '200',
         light: '300',
-        normal: '400',
+        regular: '400',
         medium: '500',
         semibold: '600',
         bold: '700',
@@ -31,6 +31,9 @@ export default {
         body1: ['14px', '17px'],
         caption1: ['12px', '14px'],
         caption2: ['10px', '12px'],
+      },
+      maxWidth: {
+        'screen-center': '783px',
       },
       backgroundImage: {
         online: 'linear-gradient(to right, #039160, #96FFDA)',

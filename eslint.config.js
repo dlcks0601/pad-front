@@ -51,6 +51,12 @@ export default [
         { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
       ],
       'import/extensions': ['off'],
+      'react/function-component-definition': [
+        'error',
+        {
+          namedComponents: 'arrow-function', // 네임드 컴포넌트를 화살표 함수로 강제
+        },
+      ],
     },
     settings: {
       react: {

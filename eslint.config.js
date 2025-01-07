@@ -59,6 +59,7 @@ export default [
       ],
       'react/require-default-props': 'off',
       'react/jsx-props-no-spreading': 'off',
+      'react/self-closing-comp': 'off',
     },
     settings: {
       react: {

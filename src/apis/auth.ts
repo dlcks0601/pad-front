@@ -2,7 +2,6 @@ import { axiosInstance } from '@/apis/@core';
 import { API_PATH } from '@/apis/api-path';
 import { AuthRequest, AuthResponse, TokenResponse } from '@/types/auth.type';
 import { RoleRequest, RoleResponse } from '@/types/role.type';
-import fetcher from '@/utils/fetcher';
 import axios from 'axios';
 
 export const postAuthorizationCode = async ({
@@ -12,7 +11,7 @@ export const postAuthorizationCode = async ({
   const apiPath = API_PATH.login.replace(':provider', provider);
   console.log(`api 경로: http://localhost:8080${apiPath}`);
   const response = await axios.post(
-    `http://localhost:8080${apiPath}`,
+    `http://43.202.172.0:8080${apiPath}`,
     {
       code: authorizationCode,
     },

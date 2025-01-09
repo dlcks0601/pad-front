@@ -9,6 +9,7 @@ export const postAuthorizationCode = async ({
   provider,
 }: AuthRequest): Promise<AuthResponse> => {
   const apiPath = API_PATH.login.replace(':provider', provider);
+  console.log('apiPath' + apiPath);
   const response = await axios.post(apiPath, {
     code: authorizationCode,
   });

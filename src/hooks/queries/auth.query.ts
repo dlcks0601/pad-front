@@ -18,13 +18,13 @@ export const useAuthMutation = (): UseMutationResult<
     {
       onSuccess: (data) => {
         const { accessToken, user, isExistingUser, message } = data;
-        console.log('message: ' + message);
+        console.log('accessToken: ' + accessToken);
         login(user, accessToken);
         console.log('로그인 성공:', user);
         if (isExistingUser) {
-          navigate('/roleselect');
-        } else {
           navigate('/');
+        } else {
+          navigate('/roleselect');
         }
       },
       onError: (error) => {

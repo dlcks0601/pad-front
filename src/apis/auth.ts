@@ -10,9 +10,15 @@ export const postAuthorizationCode = async ({
 }: AuthRequest): Promise<AuthResponse> => {
   const apiPath = API_PATH.login.replace(':provider', provider);
   console.log(`api 경로: http://localhost:8080${apiPath}`);
-  const response = await axios.post(`http://localhost:8080${apiPath}`, {
-    code: authorizationCode,
-  });
+  const response = await axios.post(
+    `http://localhost:8080${apiPath}`,
+    {
+      code: authorizationCode,
+    },
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 

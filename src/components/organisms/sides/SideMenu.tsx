@@ -28,7 +28,7 @@ const SideMenu = () => {
     {
       type: 'search',
       label: '검색',
-      onClick: () => alert('/roleselect'),
+      onClick: () => navigate('/roleselect'),
     },
     {
       type: 'star',

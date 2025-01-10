@@ -19,8 +19,6 @@ export const useAuthMutation = (): UseMutationResult<
       onSuccess: (data) => {
         const { accessToken, user, isExistingUser, message } = data;
         console.log('accessToken: ' + accessToken);
-        const { accessToken, user, isExistingUser, message } = data;
-        console.log('accessToken: ' + accessToken);
         login(user, accessToken);
         console.log('로그인 성공:', user);
         if (isExistingUser) {

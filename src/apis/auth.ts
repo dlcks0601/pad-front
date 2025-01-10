@@ -10,7 +10,7 @@ export const postAuthorizationCode = async ({
 }: AuthRequest): Promise<AuthResponse> => {
   const apiPath = API_PATH.login.replace(':provider', provider);
   const response = await axios.post(
-    `${import.meta.env.BASE_SERVER_URL}${apiPath}`,
+    `http://43.202.172.0:8080${apiPath}`,
     {
       code: authorizationCode,
     },

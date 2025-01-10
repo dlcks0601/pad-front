@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Logo from '@/components/atoms/Logo';
 import Menu from '@/components/molecules/Menu';
 import Avatar from '@/components/atoms/Avatar';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SideMenu = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const SideMenu = () => {
     {
       type: 'mail',
       label: '메세지',
-      onClick: () => alert('네비게이션 연결해주세요'),
+      onClick: () => navigate('/chat'),
     },
     { type: 'home', label: '피드', onClick: () => navigate('/') },
     {

@@ -45,11 +45,10 @@ export const useRoleMutation = (): UseMutationResult<
   return useMutation(({ userRole }) => fetchUserRole({ userRole }), {
     onSuccess: (data) => {
       const { user } = data;
-      console.log('유저 롤 변경 성공 성공:', user.role_id);
       setUserRole(user.role_id);
     },
     onError: (error) => {
-      console.error('롤 변경 중 오류:', error);
+      console.error('Authorization Code 전송 중 오류:', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     },
   });

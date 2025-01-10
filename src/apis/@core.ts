@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuth from '@/store/useAuth';
 import { API_PATH } from '@/apis/api-path';
 
-axios.defaults.baseURL = 'http://43.202.172.0:8080';
+axios.defaults.baseURL = import.meta.env.VITE_BASE_SERVER_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,

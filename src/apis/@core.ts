@@ -26,7 +26,8 @@ axiosInstance.interceptors.response.use(
       try {
         // Refresh Token으로 Access Token 갱신
         console.log('updateToken 패칭 요청됨.');
-        const refreshResponse = await axiosInstance.post(API_PATH.updateToken);
+        const user_id = useAuth.getState().userInfo?.id;
+        const refreshResponse = await axios.post(API_PATH.updateToken, user_id);
         console.log('updateToken 패칭 실시됨.');
         const { accessToken } = refreshResponse.data;
         // 새 Access Token을 상태 저장소에 저장

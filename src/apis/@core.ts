@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuth from '@/store/useAuth';
 import { API_PATH } from '@/apis/api-path';
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+axios.defaults.baseURL = import.meta.env.VITE_BASE_SERVER_LOCAL_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,

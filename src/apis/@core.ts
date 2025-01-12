@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuth from '@/store/useAuth';
 import { API_PATH } from '@/apis/api-path';
 
-axios.defaults.baseURL = import.meta.env.BASE_SERVER_URL;
+axios.defaults.baseURL = import.meta.env.VITE_LOCAL_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -26,7 +26,8 @@ axiosInstance.interceptors.response.use(
       try {
         // Refresh Token으로 Access Token 갱신
         console.log('updateToken 패칭 요청됨.');
-        const refreshResponse = await axiosInstance.post(API_PATH.updateToken);
+        const user_id = useAuth.getState().userInfo?.id;
+        const refreshResponse = await axios.post(API_PATH.updateToken, user_id);
         console.log('updateToken 패칭 실시됨.');
         const { accessToken } = refreshResponse.data;
         // 새 Access Token을 상태 저장소에 저장

@@ -11,16 +11,16 @@ import SearchPage from '@/components/pages/SearchPage';
 
 const router = [
   {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
     path: '/',
     element: <MainLayout />,
     children: [
       {
         path: '/',
         element: <HomePage />,
-      },
-      {
-        path: '/login',
-        element: <LoginPage />,
       },
       {
         path: '/roleselect',

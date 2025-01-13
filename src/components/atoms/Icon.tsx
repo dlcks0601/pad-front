@@ -11,6 +11,11 @@ import {
   HeartIcon,
   EyeIcon,
   BookmarkIcon,
+  ChevronLeftIcon,
+  CalendarIcon,
+  BriefcaseIcon,
+  ClockIcon,
+  ChatBubbleLeftRightIcon,
   ArrowUpIcon,
   PhotoIcon,
 } from '@heroicons/react/24/outline';
@@ -31,6 +36,11 @@ type IconType =
   | 'eye'
   | 'bookmark'
   | 'user'
+  | 'behind'
+  | 'calendar'
+  | 'clock'
+  | 'roledetail'
+  | 'workflow';
   | 'arrow'
   | 'photo';
 
@@ -74,6 +84,21 @@ const Icon = ({ type, className = '', color }: IconProps) => {
       <BookmarkIcon className={cn(iconVariants({ color }), className)} />
     ),
     user: <UserCircleIcon className={cn(iconVariants({ color }), className)} />,
+    behind: (
+      <ChevronLeftIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    clock: <ClockIcon className={cn(iconVariants({ color }), className)} />,
+    roledetail: (
+      <BriefcaseIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    calendar: (
+      <CalendarIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    workflow: (
+      <ChatBubbleLeftRightIcon
+        className={cn(iconVariants({ color }), className)}
+      />
+    ),
     arrow: <ArrowUpIcon className={cn(iconVariants({ color }), className)} />,
     photo: <PhotoIcon className={cn(iconVariants({ color }), className)} />,
   };

@@ -40,7 +40,7 @@ type IconType =
   | 'calendar'
   | 'clock'
   | 'roledetail'
-  | 'workflow';
+  | 'workflow'
   | 'arrow'
   | 'photo';
 

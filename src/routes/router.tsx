@@ -7,9 +7,11 @@ import SettingsPage from '@/components/pages/SettingsPage';
 import MainLayout from '@/layouts/MainLayout';
 import ConnectionHubPage from '@/components/pages/ConnectionHubPage';
 import MyPage from '@/components/pages/MyPage';
-import ConnetcionHubDetailPage from '@/components/pages/ConnetcionHubDetailPage';
+import SubLayout from '@/layouts/SubLayout';
 import SearchPage from '@/components/pages/SearchPage';
-import TestPage from '@/components/pages/TestPage';
+import PadLoginPage from '@/components/pages/PadLoginPage';
+import PadSignupPage from '@/components/pages/PadSignupPage';
+import ConnetcionHubDetailPage from '@/components/pages/ConnetcionHubDetailPage';
 
 const router = [
   {
@@ -31,10 +33,6 @@ const router = [
       {
         path: '/auth/:provider/callback',
         element: <CallbackPage />,
-      },
-      {
-        path: '/chat',
-        element: <ChatPage />,
       },
       {
         path: '/mypage',
@@ -59,12 +57,26 @@ const router = [
     ],
   },
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/chat',
+    element: <SubLayout />,
+    children: [
+      {
+        path: '/chat',
+        element: <ChatPage />,
+      },
+    ],
   },
   {
-    path: '/test',
-    element: <TestPage />,
+    path: '/login/pad',
+    element: <PadLoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <PadSignupPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
   },
 ];
 

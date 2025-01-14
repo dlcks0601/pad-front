@@ -1,9 +1,10 @@
 import SettingsTemplate from '@/components/templates/SettingsTemplate';
-import useAuth from '@/store/useAuth.store';
+import useAuthStore from '@/store/authStore';
+// import useAuth from '@/store/useAuth.store';
 import { useEffect } from 'react';
 
 const SettingsPage = () => {
-  const { isLoggedIn } = useAuth.getState();
+  const { isLoggedIn } = useAuthStore.getState();
 
   useEffect(() => {
     if (!isLoggedIn) window.location.href = '/login';

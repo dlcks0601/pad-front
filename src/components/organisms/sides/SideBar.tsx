@@ -6,7 +6,7 @@ import {
 import PadContact from '@/components/molecules/PadContact';
 import SideBarTitle from '@/components/atoms/SideBarTitle';
 import { ProjectApplyButton } from '@/components/molecules/contents/HubApplyButton';
-import { applicantList } from '@/mock/applicantList.mock';
+import { applicantList } from '@/mocks/mock-data/applicantList.mock';
 
 const SideBar = () => {
   const location = useLocation();

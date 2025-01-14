@@ -210,7 +210,7 @@ body {
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  color: #adb5bd;
+  color: bg-background;
   content: attr(data-placeholder);
   float: left;
   height: 0;

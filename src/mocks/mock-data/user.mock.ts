@@ -20,3 +20,5 @@ export const createUsers = (length: number): User[] => {
 };
 
 export const user = createUser();
+
+export const users = [...createUsers(5), createUser('me')];

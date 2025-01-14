@@ -4,7 +4,11 @@ import TiptapEditor from '@/components/organisms/TiptapEditor';
 import useFeedStore from '@/store/postFeedStore';
 import { useState } from 'react';
 
-const PostFeedModal = () => {
+interface PostFeedModalProps {
+  onClose: () => void; // onClose prop 추가
+}
+
+const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
   const title = useFeedStore((state) => state.title);
   const content = useFeedStore((state) => state.content);
   const tags = useFeedStore((state) => state.tag);
@@ -16,10 +20,6 @@ const PostFeedModal = () => {
     tags: false,
     content: false,
   });
-
-  const onClose = () => {
-    console.log('모달 닫힘');
-  };
 
   const onSubmit = () => {
     const isContentEmpty = (html: string) => {
@@ -40,6 +40,7 @@ const PostFeedModal = () => {
     if (!hasError.title && !hasError.tags && !hasError.content) {
       console.log('폼 제출 성공:', { title, tags, content });
       resetFeed();
+      onClose(); // 제출 성공 시 모달 닫기
     } else {
       console.log('폼 제출 실패:', hasError);
     }

@@ -1,7 +1,9 @@
 import LoginButton from '@/components/atoms/LoginButton';
 import DefaultLogo from '@/assets/logos/DefaultLogo.svg';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const handleGoogleLogin = () => {
     window.location.href = `${import.meta.env.VITE_BASE_SERVER_URL}/auth/google`;
   };
@@ -10,6 +12,9 @@ const LoginPage = () => {
     window.location.href = `${import.meta.env.VITE_BASE_SERVER_URL}/auth/github`;
   };
 
+  const handlePadLogin = () => {
+    navigate('/login/pad');
+  };
   return (
     <div className='flex justify-center w-full min-h-svh'>
       <div className='w-[700px] min-h-full flex flex-col items-center gap-[20%] pt-[10%]'>
@@ -25,6 +30,7 @@ const LoginPage = () => {
             label='Google 시작하기'
             onClick={handleGoogleLogin}
           />
+          <LoginButton iconType='pad' label='로그인' onClick={handlePadLogin} />
         </div>
       </div>
     </div>

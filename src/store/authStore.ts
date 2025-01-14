@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { combine } from 'zustand/middleware';
 import { AuthAction, AuthState } from '@/types/auth.type';
 import { User } from '@/types/user.type';
 
-const useAuth = create(
+const useAuthStore = create(
   devtools(
     persist(
       combine<AuthState, AuthAction>(
@@ -25,9 +25,10 @@ const useAuth = create(
               userInfo: user,
             });
             console.log(
-              'user_id in store: ' + useAuth.getState().userInfo?.user_id
+              'user_id in store: ' + useAuthStore.getState().userInfo?.user_id
             );
             localStorage.setItem('@token', token);
+            // sessionStorage.setItem('@token', token); // 테스트 하기 위해 sessionStorage로 변경함
           },
           logout: () => {
             set({
@@ -54,10 +55,11 @@ const useAuth = create(
           accessToken: state.accessToken,
           userInfo: state.userInfo,
         }),
+        // storage: createJSONStorage(() => sessionStorage), // 유저 정보가 탭 별로 다르게 테스트 하기 위해 sessionStorage 사용
       }
     ),
     { name: 'AuthStore' }
   )
 );
 
-export default useAuth;
+export default useAuthStore;

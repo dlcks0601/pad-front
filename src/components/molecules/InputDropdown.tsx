@@ -1,18 +1,22 @@
 import InputDropdownItem from '@/components/molecules/InputDropdownItem';
 import { tagItem, tagColors } from '@/constants/tagItem';
+import useFeedStore from '@/store/postFeedStore';
 import { useState, useRef, useEffect } from 'react';
 
 const InputDropdown = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedTag, setSelectedTag] = useState<tagItem[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const setTag = useFeedStore((state) => state.setTag);
 
   const onClick = () => {
     setOpen(!open);
   };
 
   const removeTag = (tag: tagItem) => {
-    setSelectedTag((prev) => prev.filter((t) => t !== tag));
+    const updatedTags = selectedTag.filter((t) => t !== tag);
+    setSelectedTag(updatedTags);
+    setTag(updatedTags);
   };
 
   useEffect(() => {
@@ -28,7 +32,7 @@ const InputDropdown = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [dropdownRef]);
 
   return (
     <div
@@ -58,13 +62,16 @@ const InputDropdown = () => {
             </div>
           ))
         ) : (
-          <span className='text-gray'># 태그</span>
+          <span className='text-gray cursor-pointer'># 태그</span>
         )}
       </div>
       {open && (
         <InputDropdownItem
           selectedTag={selectedTag}
-          setSelectedTag={setSelectedTag}
+          setSelectedTag={(tags: tagItem[]) => {
+            setSelectedTag(tags);
+            setTag(tags);
+          }}
         />
       )}
     </div>

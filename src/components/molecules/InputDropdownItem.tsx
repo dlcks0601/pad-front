@@ -1,35 +1,30 @@
-import { tagItem } from '@/constants/tagItem';
+import { tagItem, tagColors } from '@/constants/tagItem';
 
-interface InputDropdownProps {
+interface InputDropdownItemProps {
   selectedTag: tagItem[];
-  setSelectedTag: React.Dispatch<React.SetStateAction<tagItem[]>>;
+  setSelectedTag: (tags: tagItem[]) => void;
 }
 
 const InputDropdownItem = ({
   selectedTag,
   setSelectedTag,
-}: InputDropdownProps) => {
+}: InputDropdownItemProps) => {
   const selectTag = (tag: tagItem) => {
-    setSelectedTag((prev) => (prev.includes(tag) ? prev : [...prev, tag]));
+    if (!selectedTag.includes(tag)) {
+      const updatedTags = [...selectedTag, tag];
+      setSelectedTag(updatedTags);
+    }
   };
-
-  const cancelTag = (tag: tagItem) => {
-    setSelectedTag((prev) => prev.filter((t) => t !== tag));
-  };
-
-  console.log('selectedTag: ', selectedTag);
 
   return (
-    <ul className='absolute left-4 mt-2 w-fit border bg-white shadow rounded z-50'>
+    <ul className='absolute left-0 mt-2 w-fit border bg-white shadow rounded z-50 ml-[20px]'>
       {Object.values(tagItem).map((tag) => (
         <li key={tag} className='px-2 py-1'>
-          <div className='flex cursor-pointer hover:bg-slate-200 px-2 py-1 rounded-[3px]'>
-            <p className='w-[90px]' onClick={() => selectTag(tag)}>
-              {tag}
-            </p>
-            {selectedTag.includes(tag) && (
-              <p onClick={() => cancelTag(tag)}>x</p>
-            )}
+          <div
+            className={`flex cursor-pointer hover:bg-slate-200 px-2 py-1 rounded-[3px] ${tagColors[tag]}`}
+            onClick={() => selectTag(tag)}
+          >
+            {tag}
           </div>
         </li>
       ))}

@@ -1,11 +1,14 @@
 import { ReactNode } from 'react';
 
-interface ModalTitleProps {
+interface TitleProps {
   children: ReactNode;
+  className?: string;
 }
 
-const ModalTitle = ({ children }: ModalTitleProps) => {
-  return <h1 className='text-[22px] font-medium mb-3'>{children}</h1>;
+const Title = ({ children }: TitleProps) => {
+  return (
+    <h1 className='flex text-heading2 mt-[10px] justify-center'>{children}</h1>
+  );
 };
 
-export default ModalTitle;
+export default Title;

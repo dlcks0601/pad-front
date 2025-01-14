@@ -4,20 +4,16 @@ import { useEffect, PropsWithChildren } from 'react';
 interface ModalProps {
   width?: string;
   height?: string;
-  hasCloseButton?: boolean;
   onClose: () => void;
   className?: string;
-  portalTarget?: HTMLElement;
 }
 
 const ModalRoot = ({
   width = '818px',
   height = '500px',
-  hasCloseButton = true,
   onClose,
   children,
   className = '',
-  portalTarget = document.body,
 }: PropsWithChildren<ModalProps>) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -32,14 +28,14 @@ const ModalRoot = ({
       onClick={onClose}
     >
       <div
-        className='absolute top-50% left-50% -translate-x-50% -translate-y-50% cursor-default z-50'
+        className='absolute top-50% left-50% -translate-x-50% -translate-y-50% cursor-default z-50 bg-background flex flex-col gap-[20px] px-[30px]'
         onClick={(e) => e.stopPropagation()}
         style={{ width, height }}
       >
         {children}
       </div>
     </div>,
-    portalTarget
+    document.body
   );
 };
 

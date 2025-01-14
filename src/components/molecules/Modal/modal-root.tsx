@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom';
+import { XMarkIcon } from '@heroicons/react/20/solid'; // Heroicons 아이콘 사용
 import { useEffect, PropsWithChildren } from 'react';
 
 interface ModalProps {
@@ -28,10 +29,17 @@ const ModalRoot = ({
       onClick={onClose}
     >
       <div
-        className='absolute top-50% left-50% -translate-x-50% -translate-y-50% cursor-default z-50 bg-background flex flex-col gap-[20px] px-[30px]'
+        className='relative bg-background flex flex-col gap-[20px] px-[30px] rounded-[10px] cursor-default z-50'
         onClick={(e) => e.stopPropagation()}
         style={{ width, height }}
       >
+        <button
+          className='absolute top-[-30px] right-[-5px] text-gray-400 hover:text-gray-600 text-white'
+          onClick={onClose}
+          aria-label='Close'
+        >
+          <XMarkIcon width={24} height={24} />
+        </button>
         {children}
       </div>
     </div>,

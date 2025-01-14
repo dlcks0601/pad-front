@@ -9,6 +9,7 @@ const PostFeedModal = () => {
   const content = useFeedStore((state) => state.content);
   const tags = useFeedStore((state) => state.tag);
   const setContent = useFeedStore((state) => state.setContent);
+  const resetFeed = useFeedStore((state) => state.resetFeed);
 
   const [errors, setErrors] = useState({
     title: false,
@@ -38,6 +39,7 @@ const PostFeedModal = () => {
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
       console.log('폼 제출 성공:', { title, tags, content });
+      resetFeed();
     } else {
       console.log('폼 제출 실패:', hasError);
     }
@@ -61,7 +63,7 @@ const PostFeedModal = () => {
           </p>
         )}
       </Modal2.ModalSubContent>
-      <Modal2.ModalContent px='40px' py='0px' className='bg-green-800'>
+      <Modal2.ModalContent px='40px' py='0px' className='bg-background'>
         <TiptapEditor content={content} setContent={setContent} />
         {errors.content && (
           <p className='text-red-600 text-caption2 absolute'>

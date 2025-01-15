@@ -5,7 +5,7 @@ import useFeedStore from '@/store/postFeedStore';
 import { useState } from 'react';
 
 interface PostFeedModalProps {
-  onClose: () => void; // onClose prop 추가
+  onClose: () => void;
 }
 
 const PostFeedModal = ({ onClose }: PostFeedModalProps) => {

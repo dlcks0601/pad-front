@@ -1,30 +1,25 @@
-import { channelIds } from '@/mock/channel.mock';
-import { createUser } from '@/mock/user.mock';
-import { ReceiveMessage, SendMessage } from '@/types/message.type';
+import { users } from '@/mocks/mock-data/user.mock';
+import { Channel } from '@/types/channel.type';
+import { ReceiveMessage } from '@/types/message.type';
 import { fakerKO as faker } from '@faker-js/faker';
 
-const createMessage = (id: string): SendMessage => {
+export const createMessage = (
+  channelId: Channel['channelId']
+): ReceiveMessage => {
   return {
-    channelId: id,
+    channelId: channelId,
     content: faker.lorem.paragraph(),
-    user: faker.internet.jwt({ payload: { user: createUser() } }),
+    user: faker.helpers.arrayElement(users),
     type: faker.helpers.arrayElement(['text']),
+    date: faker.date
+      .between({ from: '2025-01-01', to: Date.now() })
+      .toISOString(),
   };
 };
 
-const createMessages = (id: string): ReceiveMessage[] => {
-  return Array.from(
-    {
-      length: faker.helpers.rangeToNumber({ min: 0, max: 10 }),
-    },
-    () => ({ ...createMessage(id), date: new Date().toISOString() })
-  );
+export const createMessages = (
+  length: number,
+  channelId: Channel['channelId']
+): ReceiveMessage[] => {
+  return Array.from({ length }, () => createMessage(channelId));
 };
-
-export const messages: Record<string, ReceiveMessage[]> = channelIds.reduce(
-  (acc, cur) => {
-    acc[cur] = createMessages(cur);
-    return acc;
-  },
-  {} as Record<string, ReceiveMessage[]>
-);

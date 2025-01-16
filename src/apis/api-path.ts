@@ -8,4 +8,5 @@ export const API_PATH = {
   createGroup: '/channel/group',
   feed: '/feeds',
   feedDetail: '/feed/:id',
+  feedChat: '/feed/:id/comments',
 };

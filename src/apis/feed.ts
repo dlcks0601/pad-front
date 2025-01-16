@@ -18,7 +18,7 @@ export interface Post {
   isLiked: number;
 }
 
-interface Comment {
+export interface Comment {
   commentId: number;
   userId: number;
   userName: string;
@@ -34,7 +34,7 @@ interface FeedResponse {
   post: Post;
 }
 
-interface FeedChatResponse {
+export interface FeedChatResponse {
   comments: Comment[];
 }
 

@@ -1,3 +1,4 @@
+import { fetchFeed } from '@/apis/feed';
 import FeedDetailModal from '@/components/organisms/modals/FeedDetailModal';
 
 const TestPage = () => {

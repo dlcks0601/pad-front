@@ -10,4 +10,7 @@ export const feedHandler = [
     await delayForDevelopment();
     return HttpResponse.json(feedMockData);
   }),
+  http.get(API_PATH.feedDetail, async () => {
+    await delayForDevelopment();
+  }),
 ];

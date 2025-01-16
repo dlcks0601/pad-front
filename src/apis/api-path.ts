@@ -7,5 +7,5 @@ export const API_PATH = {
   channelMessages: '/channel/:channelId/messages',
   createGroup: '/channel/group',
   feed: '/feeds',
-  feedDetail: '/feed/:feedId',
+  feedDetail: '/feed/:id',
 };

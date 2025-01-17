@@ -5,7 +5,7 @@ import { useMessagesInfinite } from '@/hooks/useMessages';
 import useAuthStore from '@/store/authStore';
 import { ChatState } from '@/store/chatStore';
 import { formatDateMessages } from '@/utils/format';
-import { useEffect, useRef } from 'react';
+import { UIEvent, useEffect, useRef } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
 interface MessagesProps {
@@ -15,8 +15,8 @@ interface MessagesProps {
 const Messages = ({ currentChannelId }: MessagesProps) => {
   const { messages, hasNextPage, isFetching, fetchNextPage, currentPage } =
     useMessagesInfinite(currentChannelId);
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const previousHeightRef = useRef<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const dateMessages = formatDateMessages(messages);
   const user = useAuthStore.getState().userInfo!;
   const myUserId = user.userId;
@@ -24,6 +24,14 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
   const loadMore = () => {
     if (!hasNextPage) return;
     fetchNextPage();
+  };
+
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const scrollContainer = e.currentTarget;
+    if (scrollContainer.scrollTop === 0) {
+      loadMore();
+    }
   };
 
   useEffect(() => {
@@ -38,17 +46,7 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
       scrollContainer.scrollTop =
         scrollContainer.scrollTop + (newHeight - previousHeightRef.current);
     }
-
     previousHeightRef.current = scrollContainer.scrollHeight;
-
-    const handleScroll = () => {
-      if (scrollContainer.scrollTop === 0) {
-        loadMore();
-      }
-    };
-    scrollContainer.addEventListener('scroll', handleScroll);
-
-    return () => scrollContainer.removeEventListener('scroll', handleScroll);
   }, [messages]);
 
   if (isFetching) {
@@ -58,6 +56,7 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
   return (
     <div
       ref={scrollContainerRef}
+      onScroll={handleScroll}
       className='grow pl-[56px] pr-[46px] flex flex-col overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'
     >
       {messages?.length ? (

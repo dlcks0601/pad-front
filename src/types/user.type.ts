@@ -8,7 +8,7 @@ export interface User {
   email: string;
   name: string;
   nickname: string;
-  profile_url: string;
-  auth_provider: AuthProvider;
-  role_id: RoleId;
+  profileUrl: string;
+  authProvider: AuthProvider;
+  roleId: RoleId;
 }

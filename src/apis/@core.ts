@@ -14,10 +14,10 @@ interface Message {
 
 interface RefreshResopnse {
   message: Message;
-  access_token: string;
+  accessToken: string;
 }
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+axios.defaults.baseURL = import.meta.env.VITE_LOCAL_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -44,22 +44,22 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       try {
         console.log('updateToken 패칭 요청됨.');
-        const user_id = getUserId();
-        if (!user_id) {
+        const userId = getUserId();
+        if (!userId) {
           console.error('User ID가 존재하지 않습니다. 로그아웃 처리 중...');
           window.location.href = '/login';
-          return Promise.reject('User ID가 없습니다.');
+          return await Promise.reject('User ID가 없습니다.');
         }
-        const refreshResponse = await axios.post<
-          RefreshRequest,
-          AxiosResponse<RefreshResopnse>
-        >(axios.defaults.baseURL + API_PATH.updateToken, { user_id });
-        const { access_token } = refreshResponse.data;
-        useAuthStore.getState().setAccessToken(access_token);
+        const refreshResponse = await axios.post<RefreshResopnse>(
+          axios.defaults.baseURL + API_PATH.updateToken,
+          { userId }
+        );
+        const { accessToken } = refreshResponse.data;
+        useAuthStore.getState().setAccessToken(accessToken);
         console.log('zustand에 업데이트');
-        error.config.headers.Authorization = `Bearer ${access_token}`;
+        error.config.headers.Authorization = `Bearer ${accessToken}`;
         console.log('원래 요청 다시 실행됨.');
-        return axiosInstance.request(error.config);
+        return await axiosInstance.request(error.config);
       } catch (refreshError) {
         console.error('Refresh Token 만료:', refreshError);
         window.location.href = '/login';

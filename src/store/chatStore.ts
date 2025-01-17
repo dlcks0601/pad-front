@@ -20,7 +20,10 @@ export interface ChatAction {
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
   // joinGroup: (userIds: number[]) => void;
-  setChannel: (channelId: Channel['channelId']) => void;
+  setMessages: (
+    messages: ReceiveMessage[],
+    currentChannelId: NonNullable<ChatState['currentChannelId']>
+  ) => void;
 }
 
 export interface Handlers {
@@ -35,7 +38,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
   immer((set, get) => {
     return {
       socket: null,
-      messages: {}, //messages
+      messages: {},
       currentChannelId: null,
       channels: {},
       connectSocket: () => {
@@ -104,12 +107,13 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
       },
-      setChannel: (channelId) => {
-        const { joinChannel } = get();
-        const user = useAuthStore.getState().userInfo;
-        if (!user) return alert('로그인을 해주세요 (setChannel)');
-        joinChannel(user.userId, channelId);
-        set(() => ({ currentChannelId: channelId }));
+      setMessages: (messages, currentChannelId) => {
+        set((state) => {
+          if (!state.messages[currentChannelId]) {
+            state.messages[currentChannelId] = [];
+          }
+          state.messages[currentChannelId].unshift(...messages);
+        });
       },
       handleMessage: (message) => {
         set((state) => {

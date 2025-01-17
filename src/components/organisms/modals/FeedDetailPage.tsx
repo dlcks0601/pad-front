@@ -1,3 +1,4 @@
+import Icon from '@/components/atoms/Icon';
 import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
 import FeedDetailChat from '@/components/organisms/FeedDetailChat';
@@ -33,6 +34,26 @@ const FeedDetailPage = () => {
           content={mockData.content}
         />
         <FeedDetailChat />
+      </div>
+      <div className='fixed bottom-[10px] bg-[#4B4B4B] w-[55%] h-[40px] rounded-[10px] py-[10px] px-[200px] flex justify-between text-white text-heading2'>
+        <div className='flex'>
+          <Icon
+            type='chatBubbleOvalLeftEllipsis'
+            className='w-[24px] h-[24px] text-white'
+          />
+          &nbsp;
+          {mockData.commentCount}
+        </div>
+        <div className='flex'>
+          <Icon type='like' className='w-[24px] h-[24px] text-white' />
+          &nbsp;
+          {mockData.likeCount}
+        </div>
+        <div className='flex'>
+          <Icon type='eye' className='w-[24px] h-[24px] text-white' />
+          &nbsp;
+          {mockData.viewCount}
+        </div>
       </div>
     </div>
   );

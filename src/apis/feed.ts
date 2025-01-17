@@ -15,7 +15,7 @@ export interface Post {
   commentCount: number;
   likeCount: number;
   viewCount: number;
-  isLiked: number;
+  isLiked: boolean;
 }
 
 export interface Comment {
@@ -39,12 +39,12 @@ export interface FeedChatResponse {
 }
 
 export const fetchFeed = async (id: number) => {
-  const apiPath = API_PATH.feedDetail.replace(':id', id.toString());
+  const apiPath = API_PATH.feed.replace(':id', id.toString());
   const response = await fetcher<FeedResponse>({
     url: apiPath,
     method: 'GET',
   });
-  console.log('fetchfeed response: ' + response.data);
+  console.log('피드 상세 데이터 조회: ' + response.data);
   return response.data;
 };
 

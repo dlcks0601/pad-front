@@ -5,7 +5,6 @@ import useAuthStore from '@/store/authStore';
 import { AuthResponse } from '@/types/auth.type';
 import { RoleResponse } from '@/types/role.type';
 
-// Auth 관련 Mutation
 export const useAuthMutation = (): UseMutationResult<
   AuthResponse,
   unknown,
@@ -17,9 +16,11 @@ export const useAuthMutation = (): UseMutationResult<
   return useMutation({
     mutationFn: ({ authorizationCode, provider }) =>
       postAuthorizationCode({ authorizationCode, provider }),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { accessToken, user, isExistingUser } = data;
-      login(user, accessToken);
+      await login(user, accessToken);
+      const userId = useAuthStore((state) => state.userInfo?.userId);
+      console.log('userId: ' + userId);
       if (isExistingUser) {
         navigate('/');
       } else {
@@ -34,7 +35,6 @@ export const useAuthMutation = (): UseMutationResult<
   });
 };
 
-// Role 변경 Mutation
 export const useRoleMutation = (): UseMutationResult<
   RoleResponse,
   unknown,

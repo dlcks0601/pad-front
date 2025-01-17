@@ -18,7 +18,7 @@ export const useAuthMutation = (): UseMutationResult<
       postAuthorizationCode({ authorizationCode, provider }),
     {
       onSuccess: (data) => {
-        const { accessToken, user, isExistingUser, message } = data;
+        const { accessToken, user, isExistingUser } = data;
         login(user, accessToken);
         if (isExistingUser) {
           navigate('/');

@@ -25,7 +25,7 @@ const useAuthStore = create(
               userInfo: user,
             });
             console.log(
-              'user_id in store: ' + useAuthStore.getState().userInfo?.user_id
+              'user_id in store: ' + useAuthStore.getState().userInfo?.userId
             );
             localStorage.setItem('@token', token);
             // sessionStorage.setItem('@token', token); // 테스트 하기 위해 sessionStorage로 변경함

@@ -4,7 +4,7 @@ import { User } from '@/types/user.type';
 import axios, { AxiosResponse } from 'axios';
 
 interface RefreshRequest {
-  user_id: Pick<User, 'user_id'>;
+  user_id: Pick<User, 'userId'>;
 }
 
 interface Message {
@@ -25,7 +25,7 @@ export const axiosInstance = axios.create({
 
 const getUserId = (): number | null => {
   const userInfo = useAuthStore.getState().userInfo;
-  return userInfo?.user_id || null;
+  return userInfo?.userId || null;
 };
 
 axiosInstance.interceptors.request.use((config) => {

@@ -6,43 +6,20 @@ import clsx from 'clsx';
 const FeedDetailChat = () => {
   const userId = useAuthStore((state) => state.userInfo?.userId);
   console.log('userId: ' + userId);
-  const comments: Comment[] = [
-    {
-      commentId: 1,
-      userId: 7,
-      userName: 'John Doe',
-      userRole: 'Admin',
-      userProfileUrl:
-        'data:image/jpeg;base64,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',
-      comment:
-        '이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요! 이 토론 정말 흥미롭네요!',
-      createdAt: new Date('2025-01-01T10:30:00'),
-      likeCount: 5,
-      isLiked: true,
-    },
-    {
-      commentId: 2,
-      userId: 7,
-      userName: 'Jane Smith',
-      userRole: 'User',
-      userProfileUrl: '/images/user2.jpg',
-      comment: '저도 동의합니다. 정말 흥미로운 주제예요!',
-      createdAt: new Date('2025-01-01T11:00:00'),
-      likeCount: 2,
-      isLiked: false,
-    },
-    {
-      commentId: 3,
-      userId: 103,
-      userName: 'Alice Lee',
-      userRole: 'Moderator',
-      userProfileUrl: '/images/user3.jpg',
-      comment: '더 많은 의견을 들어보고 싶습니다.',
-      createdAt: new Date('2025-01-02T11:15:00'),
-      likeCount: 3,
-      isLiked: false,
-    },
-  ];
+  const comments: Comment[] = Array.from({ length: 20 }, (_, index) => ({
+    commentId: index + 1,
+    userId: (index % 7) + 1,
+    userName: `User ${index + 1}`,
+    userRole: ['Admin', 'User', 'Moderator', 'Guest', 'Viewer'][index % 5],
+    userProfileUrl: `data:image/jpeg;base64,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`,
+    comment: `이 토론 정말 흥미롭네요! (댓글 ${index + 1})`,
+    createdAt: new Date(),
+    likeCount: Math.floor(Math.random() * 10),
+    isLiked: index % 2 === 0,
+  }));
+
+  console.log(comments);
+
   const groupCommentsByDate = (comments: Comment[]) => {
     const grouped = comments.reduce(
       (acc, comment) => {

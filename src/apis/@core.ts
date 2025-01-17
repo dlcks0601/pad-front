@@ -4,7 +4,7 @@ import { User } from '@/types/user.type';
 import axios, { AxiosResponse } from 'axios';
 
 interface RefreshRequest {
-  user_id: Pick<User, 'userId'>;
+  userId: User['userId'];
 }
 
 interface Message {

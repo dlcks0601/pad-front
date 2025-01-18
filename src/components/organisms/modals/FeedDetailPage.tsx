@@ -2,59 +2,81 @@ import Icon from '@/components/atoms/Icon';
 import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
 import FeedDetailChat from '@/components/organisms/FeedDetailChat';
-import feedDetailMock from '@/mocks/mock-data/feedDetail.mock';
+import { useFetchFeed, useFetchFeedChat } from '@/hooks/queries/feed.query';
 import useAuthStore from '@/store/authStore';
+import { Suspense } from 'react';
+import { useParams } from 'react-router-dom';
 
 const FeedDetailPage = () => {
-  const mockData = feedDetailMock;
+  const { id } = useParams<{ id: string }>();
+  const {
+    data: FeedData,
+    isLoading: FeedLoading,
+    error: FeedError,
+  } = useFetchFeed(Number(id));
+  const {
+    data: ChatData,
+    isLoading: ChatLoading,
+    error: ChatError,
+  } = useFetchFeedChat(Number(id));
+
+  const post = FeedData?.post;
+  const comments = ChatData?.comments;
+  console.log('comments: ', comments);
   const userId = useAuthStore((state) => state.userInfo?.userId);
 
   return (
     <div className='flex flex-col gap-3'>
-      <FeedDetailUserInfo
-        userNickname={mockData.userName}
-        userProfileUrl={mockData.userProfileUrl}
-        userRole={mockData.userRole}
-        title={mockData.title}
-        createdAt={mockData.createdAt}
-        userId={mockData.userId}
-        isWriter={userId === mockData.userId}
-      />
-      <div
-        className='relative bg-white w-full flex flex-col overflow-y-scroll [&::-webkit-scrollbar]:hidden py-[10px]'
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        }}
-      >
-        <FeedDetail
-          tags={mockData.tags}
-          date={mockData.createdAt}
-          title={mockData.title}
-          content={mockData.content}
-        />
-        <FeedDetailChat />
-      </div>
-      <div className='fixed bottom-[10px] bg-[#4B4B4B] w-[55%] h-[40px] rounded-[10px] py-[10px] px-[200px] flex justify-between text-white text-heading2'>
-        <div className='flex'>
-          <Icon
-            type='chatBubbleOvalLeftEllipsis'
-            className='w-[24px] h-[24px] text-white'
+      {post && (
+        <>
+          <FeedDetailUserInfo
+            userNickname={post.userName}
+            userProfileUrl={post.userProfileUrl}
+            userRole={post.userRole}
+            title={post.title}
+            createdAt={post.createdAt}
+            userId={post.userId}
+            isWriter={userId === post.userId}
           />
-          &nbsp;
-          {mockData.commentCount}
-        </div>
-        <div className='flex'>
-          <Icon type='like' className='w-[24px] h-[24px] text-white' />
-          &nbsp;
-          {mockData.likeCount}
-        </div>
-        <div className='flex'>
-          <Icon type='eye' className='w-[24px] h-[24px] text-white' />
-          &nbsp;
-          {mockData.viewCount}
-        </div>
-      </div>
+          <div
+            className='relative bg-white w-full flex flex-col overflow-y-scroll [&::-webkit-scrollbar]:hidden py-[10px]'
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            <FeedDetail
+              tags={post.tags}
+              date={post.createdAt}
+              title={post.title}
+              content={post.content}
+            />
+            <Suspense fallback={<div>패칭중</div>}>
+              <FeedDetailChat comments={comments || []} />
+            </Suspense>
+          </div>
+          <div className='fixed bottom-[10px] bg-[#4B4B4B] w-[55%] h-[40px] rounded-[10px] py-[10px] px-[200px] flex justify-between text-white text-heading2'>
+            <div className='flex'>
+              <Icon
+                type='chatBubbleOvalLeftEllipsis'
+                className='w-[24px] h-[24px] text-white'
+              />
+              &nbsp;
+              {post.commentCount}
+            </div>
+            <div className='flex'>
+              <Icon type='like' className='w-[24px] h-[24px] text-white' />
+              &nbsp;
+              {post.likeCount}
+            </div>
+            <div className='flex'>
+              <Icon type='eye' className='w-[24px] h-[24px] text-white' />
+              &nbsp;
+              {post.viewCount}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

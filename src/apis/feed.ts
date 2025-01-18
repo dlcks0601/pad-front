@@ -5,17 +5,19 @@ import fetcher from '@/utils/fetcher';
 export interface Post {
   userId: number;
   userName: string;
+  userNickname: string;
   userRole: string;
   userProfileUrl: string;
   postId: number;
-  title: string;
+  thumbnailUrl: string;
   content: string;
+  title: string;
   tags: (keyof typeof tagItem)[];
-  createdAt: Date;
   commentCount: number;
   likeCount: number;
   viewCount: number;
   isLiked: boolean;
+  createdAt: string;
 }
 
 export interface Comment {
@@ -25,12 +27,16 @@ export interface Comment {
   userRole: string;
   userProfileUrl: string;
   comment: string;
-  createdAt: Date;
+  createdAt: string;
   likeCount: number;
   isLiked: boolean;
 }
 
-interface FeedResponse {
+export interface FeedsResponse {
+  posts: Post[];
+}
+
+export interface FeedResponse {
   post: Post;
 }
 
@@ -38,22 +44,31 @@ export interface FeedChatResponse {
   comments: Comment[];
 }
 
+export const fetchFeeds = async () => {
+  const apiPath = API_PATH.feed;
+  const response = await fetcher<FeedsResponse>({
+    url: apiPath,
+    method: 'GET',
+  });
+  console.log('피드 메인페이지 데이터 조회');
+  return response.data;
+};
+
 export const fetchFeed = async (id: number) => {
-  const apiPath = API_PATH.feed.replace(':id', id.toString());
+  const apiPath = API_PATH.feedDetail.replace(':id', id.toString());
   const response = await fetcher<FeedResponse>({
     url: apiPath,
     method: 'GET',
   });
-  console.log('피드 상세 데이터 조회: ' + response.data);
   return response.data;
 };
 
 export const fetchFeedChat = async (id: number) => {
+  console.log('fetchFeedChat요청됨');
   const apiPath = API_PATH.feedChat.replace(':id', id.toString());
   const response = await fetcher<FeedChatResponse>({
     url: apiPath,
     method: 'GET',
   });
-  console.log('피드 상세 채팅 응답', +response.data);
   return response.data;
 };

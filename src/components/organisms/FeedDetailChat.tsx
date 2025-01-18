@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import feedDetailComments from '@/mocks/mock-data/feedDetailComments.mock';
 import useAuthStore from '@/store/authStore';
 import groupCommentsByDate from '@/utils/groupCommentsByDate';
 import Icon from '@/components/atoms/Icon';
 import ChatItem from '@/components/molecules/ChatItem';
+import { Comment } from '@/apis/feed';
 
-const FeedDetailChat = () => {
+interface FeedDetailChatProps {
+  comments: Comment[];
+}
+
+const FeedDetailChat = ({ comments }: FeedDetailChatProps) => {
   const userId = useAuthStore((state) => state.userInfo?.userId);
   const userImage = useAuthStore((state) => state.userInfo?.profileUrl);
-  const groupedComments = groupCommentsByDate(feedDetailComments);
+  const groupedComments = groupCommentsByDate(comments);
   const [hovered, setHovered] = useState(false);
 
   return (

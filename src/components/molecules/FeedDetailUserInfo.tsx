@@ -1,4 +1,5 @@
 import Icon from '@/components/atoms/Icon';
+import { formatDate } from '@/utils/format';
 import { useState } from 'react';
 
 interface FeedDetailUserInfoProps {
@@ -7,7 +8,7 @@ interface FeedDetailUserInfoProps {
   userProfileUrl: string;
   userRole: string;
   title: string;
-  createdAt: Date;
+  createdAt: string;
   isWriter: boolean;
 }
 
@@ -39,7 +40,7 @@ const FeedDetailUserInfo = ({
             <p className='font-semibold'>{userRole}&nbsp;&nbsp;</p>
             <span>&#183;</span>
             <p className='font-semibold'>
-              &nbsp;&nbsp;{createdAt.getDate()}일전
+              &nbsp;&nbsp;{formatDate(createdAt)}일전
             </p>
           </div>
         </div>

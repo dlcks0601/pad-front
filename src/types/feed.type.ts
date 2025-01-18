@@ -42,7 +42,7 @@ export interface Post {
   title: string;
   content: string;
   tags: (keyof typeof tagItem)[];
-  createdAt: Date;
+  createdAt: string;
   commentCount: number;
   likeCount: number;
   viewCount: number;

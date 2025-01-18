@@ -12,7 +12,6 @@ interface PostFeedModalProps {
 const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
   const title = useFeedStore((state) => state.title);
   const content = useFeedStore((state) => state.content);
-  console.log('content: ' + content);
   const tags = useFeedStore((state) => state.tag);
   const setContent = useFeedStore((state) => state.setContent);
   const resetFeed = useFeedStore((state) => state.resetFeed);

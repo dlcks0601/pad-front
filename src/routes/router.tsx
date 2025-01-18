@@ -56,7 +56,7 @@ const router = [
         element: <SearchPage />,
       },
       {
-        path: '/feed',
+        path: '/feed/:id',
         element: <FeedDetailPage />,
       },
     ],

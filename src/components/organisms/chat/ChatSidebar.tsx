@@ -1,7 +1,8 @@
 import SearchInput from '@/components/molecules/chat/SearchInput';
 import ChannelList from '@/components/organisms/chat/ChannelList';
 import useDebounce from '@/hooks/useDebounce';
-import { ChatState, useChatStore } from '@/store/chatStore';
+import { useChatStore } from '@/store/chatStore';
+import { filterChannels } from '@/utils/filter';
 import { useState } from 'react';
 
 const ChatSidebar = () => {
@@ -21,13 +22,5 @@ const ChatSidebar = () => {
     </div>
   );
 };
-
-function filterChannels(keyword: string, channels: ChatState['channels']) {
-  return Object.fromEntries(
-    Object.entries(channels).filter(([_, channel]) =>
-      channel.title.includes(keyword)
-    )
-  );
-}
 
 export default ChatSidebar;

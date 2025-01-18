@@ -2,12 +2,12 @@ import { fetchChannelMessages } from '@/apis/channel.api';
 import { LIMIT } from '@/constants/limit';
 import { ChatState, useChatStore } from '@/store/chatStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export const useMessagesInfinite = (
   currentChannelId: NonNullable<ChatState['currentChannelId']>
 ) => {
-  const socketMessages = useChatStore((state) => state.messages);
-  const channelMessages = socketMessages[currentChannelId] || [];
+  const setHttpMessages = useChatStore((state) => state.setHttpMessages);
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ['messages', currentChannelId],
@@ -24,13 +24,23 @@ export const useMessagesInfinite = (
     },
   });
 
+  const currentPage = data?.pageParams[data.pageParams.length - 1];
   const httpMessages = data?.pages
     .flatMap((page) => page.messages)
-    .sort((a, b) => a.messageId - b.messageId);
-  const currentPage = data?.pageParams[data.pageParams.length - 1];
+    .toReversed();
+
+  useEffect(() => {
+    if (data && currentPage) {
+      console.log(data.pages[(currentPage as number) - 1].messages);
+      setHttpMessages(
+        data.pages[(currentPage as number) - 1].messages,
+        currentChannelId
+      );
+    }
+  }, [data, currentPage, currentChannelId]);
 
   return {
-    messages: [...(httpMessages ? httpMessages : []), ...channelMessages],
+    messages: httpMessages,
     fetchNextPage,
     hasNextPage,
     isFetching,

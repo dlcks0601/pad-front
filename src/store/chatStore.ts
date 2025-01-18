@@ -20,14 +20,14 @@ export interface ChatAction {
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
   // joinGroup: (userIds: number[]) => void;
-  setMessages: (
+  setHttpMessages: (
     messages: ReceiveMessage[],
     currentChannelId: NonNullable<ChatState['currentChannelId']>
   ) => void;
 }
 
 export interface Handlers {
-  handleMessage: (message: ReceiveMessage) => void;
+  handleSocketMessage: (message: ReceiveMessage) => void;
   handleChannelJoined: (channel: Channel) => void;
   handleFetchChannels: (channels: Channel[]) => void;
   handleChannelAdded: (channel: Channel) => void;
@@ -45,7 +45,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         const protocol = window.location.protocol;
         const {
           handleFetchChannels,
-          handleMessage,
+          handleSocketMessage: handleMessage,
           handleChannelAdded,
           handleChannelCreated,
           handleChannelJoined,
@@ -67,7 +67,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       disconnectSocket: () => {
         const {
           socket,
-          handleMessage,
+          handleSocketMessage: handleMessage,
           handleFetchChannels,
           handleChannelAdded,
           handleChannelJoined,
@@ -107,7 +107,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
       },
-      setMessages: (messages, currentChannelId) => {
+      setHttpMessages: (messages, currentChannelId) => {
         set((state) => {
           if (!state.messages[currentChannelId]) {
             state.messages[currentChannelId] = [];
@@ -115,7 +115,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           state.messages[currentChannelId].unshift(...messages);
         });
       },
-      handleMessage: (message) => {
+      handleSocketMessage: (message) => {
         set((state) => {
           if (!state.messages[message.channelId]) {
             state.messages[message.channelId] = [];

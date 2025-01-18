@@ -15,7 +15,7 @@ interface MessagesProps {
 const Messages = ({ currentChannelId }: MessagesProps) => {
   const { messages, hasNextPage, isFetching, fetchNextPage, currentPage } =
     useMessagesInfinite(currentChannelId);
-  const previousHeightRef = useRef<number>(0);
+  const previousHeightRef = useRef(0);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const dateMessages = formatDateMessages(messages);
   const user = useAuthStore.getState().userInfo!;
@@ -34,6 +34,7 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
     }
   };
 
+  // 스크롤 위치 조정
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
@@ -60,9 +61,9 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
       className='grow pl-[56px] pr-[46px] flex flex-col overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'
     >
       {messages?.length ? (
-        Object.entries(dateMessages).map(([date, messages], i) => {
+        Object.entries(dateMessages).map(([date, messages]) => {
           return (
-            <Fragment key={i}>
+            <Fragment key={date}>
               <Date className='text-gray text-caption2 text-center mt-[20px]'>
                 {date}
               </Date>
@@ -76,7 +77,6 @@ const Messages = ({ currentChannelId }: MessagesProps) => {
                     message={message}
                     sameBefore={sameBefore}
                     isMyMessage={isMyMessage}
-                    className={sameBefore ? 'mt-[10px]' : 'mt-[24px]'}
                   />
                 );
               })}

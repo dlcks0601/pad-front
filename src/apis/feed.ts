@@ -44,6 +44,12 @@ export interface FeedChatResponse {
   comments: Comment[];
 }
 
+export interface FeedRequest {
+  title: string;
+  tags: string[];
+  content: string;
+}
+
 export const fetchFeeds = async () => {
   const apiPath = API_PATH.feed;
   const response = await fetcher<FeedsResponse>({
@@ -64,11 +70,40 @@ export const fetchFeed = async (id: number) => {
 };
 
 export const fetchFeedChat = async (id: number) => {
-  console.log('fetchFeedChat요청됨');
-  const apiPath = API_PATH.feedChat.replace(':id', id.toString());
+  const apiPath = API_PATH.feedChats.replace(':id', id.toString());
   const response = await fetcher<FeedChatResponse>({
     url: apiPath,
     method: 'GET',
+  });
+  return response.data;
+};
+
+export const postFeedChat = async (id: number, content: string) => {
+  console.log('댓글 등록 요청됨');
+  const apiPath = API_PATH.feedChat.replace(':id', id.toString());
+  const response = await fetcher({
+    url: apiPath,
+    method: 'POST',
+    data: content,
+  });
+  return response.data;
+};
+
+export const postFeed = async (
+  title: string,
+  tags: string[],
+  content: string
+) => {
+  console.log('피드 작성 요청됨');
+  const apiPath = API_PATH.feed;
+  const response = await fetcher({
+    url: apiPath,
+    method: 'POST',
+    data: {
+      title,
+      tags,
+      content,
+    } as FeedRequest,
   });
   return response.data;
 };

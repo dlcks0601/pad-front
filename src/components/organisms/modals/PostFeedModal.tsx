@@ -2,6 +2,7 @@ import InputDropdown from '@/components/molecules/InputDropdown';
 import Modal2 from '@/components/molecules/Modal';
 import TiptapEditor from '@/components/organisms/TiptapEditor';
 import useFeedStore from '@/store/postFeedStore';
+import { usePostFeed } from '@/hooks/queries/feed.query';
 import { date } from '@/utils/date';
 import { useState } from 'react';
 
@@ -22,6 +23,8 @@ const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
     content: false,
   });
 
+  const { mutate: postFeed, isPending } = usePostFeed();
+
   const onSubmit = () => {
     const isContentEmpty = (html: string) => {
       const parser = new DOMParser();
@@ -39,11 +42,21 @@ const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
     setErrors(hasError);
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
-      console.log('폼 제출 성공:', { title, tags, content });
-      resetFeed();
-      onClose();
+      postFeed(
+        { title, tags, content },
+        {
+          onSuccess: () => {
+            console.log('폼 제출 성공:', { title, tags, content });
+            resetFeed();
+            onClose();
+          },
+          onError: (error) => {
+            console.error('폼 제출 실패:', error);
+          },
+        }
+      );
     } else {
-      console.log('폼 제출 실패:', hasError);
+      console.log('폼 검증 실패:', hasError);
     }
   };
 
@@ -74,8 +87,9 @@ const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
         <button
           className='bg-close px-1 py-1.5 rounded-[3px] w-fit h-fit text-caption1 text-white'
           onClick={onSubmit}
+          disabled={isPending}
         >
-          작성하기
+          {isPending ? '작성 중...' : '작성하기'}
         </button>
       </div>
     </Modal2>

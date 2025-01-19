@@ -12,16 +12,22 @@ export const filterChannels = (
   );
 };
 
-export const searchMessage = (messages: ReceiveMessage[], keyword: string) => {
-  for (let i = messages.length - 1; i >= 0; i--) {
-    if (messages[i].content.includes(keyword.trim())) {
+export const searchMessage = (
+  messages: ReceiveMessage[],
+  keyword: string,
+  start: number
+) => {
+  const lowerKeyword = keyword.toLowerCase().trim();
+  console.log({ start, keyword });
+  for (let i = start; i < messages.length; i++) {
+    if (messages[i].content.toLowerCase().includes(lowerKeyword)) {
       const messageElem = document.querySelector(
         `#message-${messages[i].messageId}`
       );
       if (messageElem) {
         messageElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      return i;
+      return i + 1;
     }
   }
   return -1; // 못 찾았을 경우

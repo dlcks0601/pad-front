@@ -17,9 +17,9 @@ export interface ChatAction {
   connectSocket: () => void;
   disconnectSocket: () => void;
   createChannel: (userId1: number, userId2: number) => void;
+  createGroup: (userIds: number[]) => void;
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
-  // joinGroup: (userIds: number[]) => void;
   setMessages: (
     messages: ReceiveMessage[],
     channelId: NonNullable<ChatState['currentChannelId']>
@@ -60,8 +60,9 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         socket.on('message', handleMessage);
         socket.on('fetchChannels', handleFetchChannels);
         socket.on('channelAdded', handleChannelAdded);
-        socket.on('channelCreated', handleChannelCreated);
         socket.on('channelJoined', handleChannelJoined);
+        socket.on('channelCreated', handleChannelCreated);
+        socket.on('groupCreated', handleChannelCreated);
         set(() => ({ socket }));
       },
       disconnectSocket: () => {
@@ -79,6 +80,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         socket.off('channelAdded', handleChannelAdded);
         socket.off('channelJoined', handleChannelJoined);
         socket.off('channelCreated', handleChannelCreated);
+        socket.off('groupCreated', handleChannelCreated);
         socket.disconnect();
         set(() => ({
           socket: null,
@@ -94,6 +96,12 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           userId1,
           userId2,
         });
+      },
+      createGroup: (userIds) => {
+        const { socket } = get();
+        if (!socket)
+          return alert('소켓에 연결되어있지 않습니다. (createGroup)');
+        socket.emit('createGroup', userIds);
       },
       sendMessage: (message) => {
         const { socket } = get();
@@ -112,7 +120,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           if (!state.messages[channelId]) {
             state.messages[channelId] = [];
           }
-          state.messages[channelId].unshift(...messages);
+          state.messages[channelId].push(...messages);
         });
       },
       handleMessage: (message) => {
@@ -120,7 +128,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           if (!state.messages[message.channelId]) {
             state.messages[message.channelId] = [];
           }
-          state.messages[message.channelId].push(message);
+          state.messages[message.channelId].unshift(message);
         });
       },
       handleChannelJoined: (channel) => {

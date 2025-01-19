@@ -24,8 +24,7 @@ export const useInfiniteMessages = (
   });
 
   const currentPage = data?.pageParams[data.pageParams.length - 1];
-  const messages =
-    data?.pages[(currentPage as number) - 1]?.messages.toReversed();
+  const messages = data?.pages[(currentPage as number) - 1]?.messages;
 
   useEffect(() => {
     if (currentPage && messages) {

@@ -60,9 +60,7 @@ const FeedDetailChat = ({ comments }: FeedDetailChatProps) => {
           ))}
         </div>
       </div>
-
-      {/* Input Section */}
-      <div className='w-full h-[40px] flex gap-[10px] mb-3'>
+      <div className='w-full h-[40px] flex gap-[10px]'>
         <img
           src={userImage}
           alt='User Avatar'

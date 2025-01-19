@@ -1,30 +1,27 @@
 import Icon from '@/components/atoms/Icon';
 import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
-import FeedDetailChat from '@/components/organisms/FeedDetailChat';
 import { useFetchFeed, useFetchFeedChat } from '@/hooks/queries/feed.query';
 import useAuthStore from '@/store/authStore';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
+import FeedDetailSkeleton from '@/components/molecules/\bskeletons/FeedDetailSkeleton';
+const FeedDetailChat = lazy(() => {
+  return import('@/components/organisms/FeedDetailChat');
+});
 
 const FeedDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const {
-    data: FeedData,
-    isLoading: FeedLoading,
-    error: FeedError,
-  } = useFetchFeed(Number(id));
-  const {
-    data: ChatData,
-    isLoading: ChatLoading,
-    error: ChatError,
-  } = useFetchFeedChat(Number(id));
-
+  const { data: FeedData, isLoading: FeedLoading } = useFetchFeed(Number(id));
+  const { data: ChatData, isLoading: ChatLoading } = useFetchFeedChat(
+    Number(id)
+  );
   const post = FeedData?.post;
   const comments = ChatData?.comments;
-  console.log('comments: ', comments);
   const userId = useAuthStore((state) => state.userInfo?.userId);
-
+  if (FeedLoading) {
+    <div>피드 로딩중</div>;
+  }
   return (
     <div className='flex flex-col gap-3'>
       {post && (
@@ -51,8 +48,12 @@ const FeedDetailPage = () => {
               title={post.title}
               content={post.content}
             />
-            <Suspense fallback={<div>패칭중</div>}>
-              <FeedDetailChat comments={comments || []} />
+            <Suspense>
+              {ChatLoading ? (
+                <FeedDetailSkeleton />
+              ) : (
+                <FeedDetailChat comments={comments || []} />
+              )}
             </Suspense>
           </div>
           <div className='fixed bottom-[10px] bg-[#4B4B4B] w-[55%] h-[40px] rounded-[10px] py-[10px] px-[200px] flex justify-between text-white text-heading2'>

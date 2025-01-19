@@ -49,6 +49,6 @@ export const formatDateFromNow = (date: string) => {
   return dayjs(date).fromNow(true);
 };
 
-export const formatTime = (date: string, format: string = 'HH:MM') => {
+export const formatTime = (date: string, format: string = 'HH:mm') => {
   return dayjs(date).format(format);
 };

@@ -20,14 +20,14 @@ export interface ChatAction {
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
   // joinGroup: (userIds: number[]) => void;
-  setHttpMessages: (
+  setMessages: (
     messages: ReceiveMessage[],
-    currentChannelId: NonNullable<ChatState['currentChannelId']>
+    channelId: NonNullable<ChatState['currentChannelId']>
   ) => void;
 }
 
 export interface Handlers {
-  handleSocketMessage: (message: ReceiveMessage) => void;
+  handleMessage: (message: ReceiveMessage) => void;
   handleChannelJoined: (channel: Channel) => void;
   handleFetchChannels: (channels: Channel[]) => void;
   handleChannelAdded: (channel: Channel) => void;
@@ -45,7 +45,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         const protocol = window.location.protocol;
         const {
           handleFetchChannels,
-          handleSocketMessage: handleMessage,
+          handleMessage,
           handleChannelAdded,
           handleChannelCreated,
           handleChannelJoined,
@@ -67,7 +67,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       disconnectSocket: () => {
         const {
           socket,
-          handleSocketMessage: handleMessage,
+          handleMessage,
           handleFetchChannels,
           handleChannelAdded,
           handleChannelJoined,
@@ -107,15 +107,15 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
       },
-      setHttpMessages: (messages, currentChannelId) => {
+      setMessages: (messages, channelId) => {
         set((state) => {
-          if (!state.messages[currentChannelId]) {
-            state.messages[currentChannelId] = [];
+          if (!state.messages[channelId]) {
+            state.messages[channelId] = [];
           }
-          state.messages[currentChannelId].unshift(...messages);
+          state.messages[channelId].unshift(...messages);
         });
       },
-      handleSocketMessage: (message) => {
+      handleMessage: (message) => {
         set((state) => {
           if (!state.messages[message.channelId]) {
             state.messages[message.channelId] = [];
@@ -124,7 +124,12 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         });
       },
       handleChannelJoined: (channel) => {
-        set(() => ({ currentChannelId: channel.channelId }));
+        set((state) => {
+          state.currentChannelId = channel.channelId;
+          if (!state.messages[channel.channelId]) {
+            state.messages[channel.channelId] = [];
+          }
+        });
       },
       handleFetchChannels: (channels) => {
         const myUserId = useAuthStore.getState().userInfo?.userId;

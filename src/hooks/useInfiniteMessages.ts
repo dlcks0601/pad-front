@@ -4,12 +4,11 @@ import { ChatState, useChatStore } from '@/store/chatStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-export const useMessagesInfinite = (
+export const useInfiniteMessages = (
   currentChannelId: NonNullable<ChatState['currentChannelId']>
 ) => {
-  const setHttpMessages = useChatStore((state) => state.setHttpMessages);
-
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+  const setMessages = useChatStore((state) => state.setMessages);
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['messages', currentChannelId],
     queryFn: ({ pageParam }) =>
       fetchChannelMessages({
@@ -25,25 +24,19 @@ export const useMessagesInfinite = (
   });
 
   const currentPage = data?.pageParams[data.pageParams.length - 1];
-  const httpMessages = data?.pages
-    .flatMap((page) => page.messages)
-    .toReversed();
+  const messages =
+    data?.pages[(currentPage as number) - 1]?.messages.toReversed();
 
   useEffect(() => {
-    if (data && currentPage) {
-      console.log(data.pages[(currentPage as number) - 1].messages);
-      setHttpMessages(
-        data.pages[(currentPage as number) - 1].messages,
-        currentChannelId
-      );
+    if (currentPage && messages) {
+      setMessages(messages ? messages : [], currentChannelId);
     }
-  }, [data, currentPage, currentChannelId]);
+  }, [data, currentChannelId]);
 
   return {
-    messages: httpMessages,
     fetchNextPage,
     hasNextPage,
-    isFetching,
+    isLoading,
     currentPage,
   };
 };

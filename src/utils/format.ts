@@ -29,19 +29,27 @@ export const formatDateMessages = (channelMessages: ReceiveMessage[] = []) => {
 
 export const formatChannelData = (channel: Channel, myUserId: number = -1) => {
   let title: string;
+  let thumbnailURL: string | undefined;
   switch (channel.type) {
     case 'group':
       title = channel.users.map((user) => user.nickname).join(', ');
+      thumbnailURL = channel.users.find(
+        (user) => user.userId !== myUserId
+      )?.profileUrl;
       break;
     case 'private':
       title =
         channel.users.find((user) => user.userId !== myUserId)?.nickname ||
         '채팅방 제목';
+      thumbnailURL = channel.users.find(
+        (user) => user.userId !== myUserId
+      )?.profileUrl;
       break;
   }
   return {
     ...channel,
     title,
+    thumbnailURL,
   };
 };
 

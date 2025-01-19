@@ -38,7 +38,7 @@ const ChannelList = ({ channels }: ChannelListProps) => {
               ])}
             >
               <ListItem.Col className='w-[40px] h-[40px] shrink-0'>
-                <Avatar src={channel.thunmbnailURL} size='xs' />
+                <Avatar src={channel.thumbnailURL || undefined} size='xs' />
               </ListItem.Col>
               <ListItem.Col className='w-[calc(100% - 40px)] flex-auto p'>
                 <div className='flex justify-between'>

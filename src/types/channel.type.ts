@@ -7,7 +7,7 @@ export interface Channel {
   channelId: number;
   title: string;
   type: ChannelTypes;
-  thunmbnailURL?: string; // 기본 이미지 필요
+  thumbnailURL?: string; // 기본 이미지 필요
   users: User[];
   lastMessage: LastMessage;
 }

@@ -17,7 +17,7 @@ export interface ChatAction {
   connectSocket: () => void;
   disconnectSocket: () => void;
   createChannel: (userId1: number, userId2: number) => void;
-  createGroup: (userIds: number[]) => void;
+  createGroup: (userIds: number[], title: Channel['title']) => void;
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
   setMessages: (
@@ -97,11 +97,16 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           userId2,
         });
       },
-      createGroup: (userIds) => {
+      createGroup: (userIds, title) => {
         const { socket } = get();
+        const user = useAuthStore.getState().userInfo;
         if (!socket)
           return alert('소켓에 연결되어있지 않습니다. (createGroup)');
-        socket.emit('createGroup', userIds);
+        socket.emit('createGroup', {
+          userIds,
+          title,
+          thumbnailURL: user?.profileUrl,
+        });
       },
       sendMessage: (message) => {
         const { socket } = get();
@@ -109,12 +114,14 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           return alert('소켓에 연결되어있지 않습니다. (sendMessage)');
         socket.emit('sendMessage', message);
       },
+      // 채널 참가
       joinChannel: (userId, channelId) => {
         const { socket } = get();
         if (!socket)
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
       },
+      // http 로 받아온 메시지를 이용해 messages 상태 업데이트
       setMessages: (messages, channelId) => {
         set((state) => {
           if (!state.messages[channelId]) {
@@ -123,6 +130,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           state.messages[channelId].push(...messages);
         });
       },
+      // 메시지 받았을 때 messages 상태 업데이트
       handleMessage: (message) => {
         set((state) => {
           if (!state.messages[message.channelId]) {
@@ -131,14 +139,21 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           state.messages[message.channelId].unshift(message);
         });
       },
+      // 채널에 참가 했을 때 channels 상태 업데이트
       handleChannelJoined: (channel) => {
+        const myUserId = useAuthStore.getState().userInfo?.userId;
         set((state) => {
           state.currentChannelId = channel.channelId;
           if (!state.messages[channel.channelId]) {
             state.messages[channel.channelId] = [];
           }
+          state.channels[channel.channelId] = formatChannelData(
+            channel,
+            myUserId
+          );
         });
       },
+      // 채팅 페이지 입장시 채널 리스트 조회
       handleFetchChannels: (channels) => {
         const myUserId = useAuthStore.getState().userInfo?.userId;
         set((state) => {
@@ -150,6 +165,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           });
         });
       },
+      // 채널이 추가되었을 때 실시간으로 채널 리스트에 추가
       handleChannelAdded: (channel) => {
         const myUserId = useAuthStore.getState().userInfo?.userId;
         set((state) => {
@@ -159,6 +175,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           );
         });
       },
+      // 채널 생성시 해당 채널 참가
       handleChannelCreated: (channel) => {
         const { joinChannel } = get();
         const user = useAuthStore.getState().userInfo;

@@ -28,14 +28,10 @@ export const formatDateMessages = (channelMessages: ReceiveMessage[] = []) => {
 };
 
 export const formatChannelData = (channel: Channel, myUserId: number = -1) => {
-  let title: string;
-  let thumbnailURL: string | undefined;
+  let title = channel.title;
+  let thumbnailURL = channel.thumbnailURL;
   switch (channel.type) {
     case 'group':
-      title = channel.users.map((user) => user.nickname).join(', ');
-      thumbnailURL = channel.users.find(
-        (user) => user.userId !== myUserId
-      )?.profileUrl;
       break;
     case 'private':
       title =

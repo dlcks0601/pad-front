@@ -12,7 +12,9 @@ interface MessagesProps {
 
 const Messages = ({ currentChannelId }: MessagesProps) => {
   const messages = useChatStore((state) => state.messages[currentChannelId]);
-  const dateMessages = Object.entries(formatDateMessages(messages)).reverse();
+  const dateMessages = Object.entries(
+    formatDateMessages(messages.toReversed())
+  );
   // 유저 정보 관련 로직
   const user = useAuthStore.getState().userInfo!;
   const myUserId = user.userId;

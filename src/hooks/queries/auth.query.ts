@@ -19,8 +19,7 @@ export const useAuthMutation = (): UseMutationResult<
     onSuccess: async (data) => {
       const { accessToken, user, isExistingUser } = data;
       await login(user, accessToken);
-      const userId = useAuthStore((state) => state.userInfo?.userId);
-      console.log('userId: ' + userId);
+      console.log('login zustand Action 성공');
       if (isExistingUser) {
         navigate('/');
       } else {

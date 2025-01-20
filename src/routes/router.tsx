@@ -12,7 +12,7 @@ import SearchPage from '@/components/pages/SearchPage';
 import PadLoginPage from '@/components/pages/PadLoginPage';
 import PadSignupPage from '@/components/pages/PadSignupPage';
 import ConnetcionHubDetailPage from '@/components/pages/ConnetcionHubDetailPage';
-import FeedDetailPage from '@/components/organisms/modals/FeedDetailPage';
+import FeedDetailPage from '@/components/pages/FeedDetailPage';
 
 const router = [
   {

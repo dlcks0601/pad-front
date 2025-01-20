@@ -80,15 +80,11 @@ export const fetchFeedChats = async (id: number) => {
 
 export const postFeedChat = async (id: number, content: string) => {
   const apiPath = API_PATH.feedChat.replace(':id', id.toString());
-  console.log('feedId: ', id);
-  console.log('contet: ', content);
-  console.log('apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'POST',
     data: { content },
   });
-  console.log('response: ', response);
   return response.data;
 };
 
@@ -107,6 +103,21 @@ export const postFeed = async (
       tags,
       content,
     } as FeedRequest,
+  });
+  return response.data;
+};
+
+export const deleteFeedChat = async (
+  postId: Post['postId'],
+  commentId: Comment['commentId']
+) => {
+  const apiPath = API_PATH.feedChatDelete
+    .replace(':id', postId.toString())
+    .replace(':commentId', commentId.toString());
+  console.log('apiPath: ', apiPath);
+  const response = await fetcher({
+    url: apiPath,
+    method: 'DELETE',
   });
   return response.data;
 };

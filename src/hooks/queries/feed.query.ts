@@ -2,6 +2,8 @@ import {
   FeedChatResponse,
   FeedRequest,
   FeedResponse,
+  Post,
+  deleteFeedChat,
   fetchFeed,
   fetchFeedChats,
   postFeed,
@@ -58,6 +60,29 @@ export const usePostFeedChat = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({
         queryKey: ['feedChats', id] as [string, number],
+      });
+      console.log('댓글 작성 성공');
+    },
+    onError: (error) => {
+      console.error('댓글 작성 중 오류 발생:', error);
+    },
+  });
+};
+
+export const useDeleteFeedChat = () => {
+  return useMutation({
+    mutationFn: async ({
+      postId,
+      commentId,
+    }: {
+      postId: Post['postId'];
+      commentId: number;
+    }) => {
+      return await deleteFeedChat(postId, commentId);
+    },
+    onSuccess: (_, { postId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['feedChats', postId] as [string, number],
       });
       console.log('댓글 작성 성공');
     },

@@ -13,9 +13,10 @@ interface ChatItemProps {
     userId: number;
   };
   isCurrentUser: boolean;
+  onDelete: (commentId: number) => void;
 }
 
-const ChatItem = ({ chat, isCurrentUser }: ChatItemProps) => {
+const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
   return (
     <div
       className={clsx('flex gap-2', {
@@ -28,7 +29,7 @@ const ChatItem = ({ chat, isCurrentUser }: ChatItemProps) => {
         className='w-[40px] h-[40px] rounded-full'
       />
       <div
-        className={clsx('flex flex-col', {
+        className={clsx('flex flex-col gap-1', {
           'items-end': isCurrentUser,
         })}
       >
@@ -36,7 +37,7 @@ const ChatItem = ({ chat, isCurrentUser }: ChatItemProps) => {
           <p className='text-body font-semibold'>{chat.userName}</p>
           <p className='text-caption2 text-gray'>{chat.userRole}</p>
         </div>
-        <div className='px-2 py-2 rounded-[5px] max-w-96 flex-wrap bg-[#EAFBFF]'>
+        <div className='px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#EAFBFF]'>
           {chat.comment}
         </div>
       </div>
@@ -46,7 +47,12 @@ const ChatItem = ({ chat, isCurrentUser }: ChatItemProps) => {
           {isCurrentUser && (
             <div className='flex gap-2 text-gray bg-white h-[16px] px-1 rounded-[5px]'>
               <button className='hover:underline text-caption2'>수정</button>
-              <button className='hover:underline text-caption2'>삭제</button>
+              <button
+                className='hover:underline text-caption2'
+                onClick={() => onDelete(chat.commentId)}
+              >
+                삭제
+              </button>
             </div>
           )}
           <HandThumbUpIcon

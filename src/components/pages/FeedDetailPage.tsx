@@ -12,7 +12,11 @@ const FeedDetailChat = lazy(() => {
 
 const FeedDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: FeedData, isLoading: FeedLoading } = useFetchFeed(Number(id));
+  const {
+    data: FeedData,
+    isLoading: FeedLoading,
+    isError: FeedError,
+  } = useFetchFeed(Number(id));
   const { data: ChatData, isLoading: ChatLoading } = useFetchFeedChat(
     Number(id)
   );
@@ -52,7 +56,10 @@ const FeedDetailPage = () => {
               {ChatLoading ? (
                 <FeedDetailSkeleton />
               ) : (
-                <FeedDetailChat comments={comments || []} />
+                <FeedDetailChat
+                  comments={comments || []}
+                  feedId={post.postId}
+                />
               )}
             </Suspense>
           </div>

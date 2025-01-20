@@ -69,7 +69,7 @@ export const fetchFeed = async (id: number) => {
   return response.data;
 };
 
-export const fetchFeedChat = async (id: number) => {
+export const fetchFeedChats = async (id: number) => {
   const apiPath = API_PATH.feedChats.replace(':id', id.toString());
   const response = await fetcher<FeedChatResponse>({
     url: apiPath,

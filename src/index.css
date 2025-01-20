@@ -217,11 +217,11 @@ body {
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  color: bg-background;
   content: attr(data-placeholder);
   float: left;
   height: 0;
   pointer-events: none;
+  cursor: pointer;
 }
 
 @keyframes fullView {

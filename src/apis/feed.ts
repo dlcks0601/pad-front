@@ -79,13 +79,16 @@ export const fetchFeedChats = async (id: number) => {
 };
 
 export const postFeedChat = async (id: number, content: string) => {
-  console.log('댓글 등록 요청됨');
   const apiPath = API_PATH.feedChat.replace(':id', id.toString());
+  console.log('feedId: ', id);
+  console.log('contet: ', content);
+  console.log('apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'POST',
-    data: content,
+    data: { content },
   });
+  console.log('response: ', response);
   return response.data;
 };
 

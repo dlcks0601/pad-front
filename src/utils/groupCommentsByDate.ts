@@ -1,6 +1,9 @@
 import { Comment } from '@/apis/feed';
 
 const groupCommentsByDate = (comments: Comment[] = []) => {
+  if (comments.length === 0) {
+    return null;
+  }
   const grouped = comments.reduce(
     (acc, comment) => {
       const dateKey = new Date(comment.createdAt).toISOString().split('T')[0];

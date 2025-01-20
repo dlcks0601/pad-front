@@ -8,7 +8,7 @@ export interface User {
   email: string;
   name: string;
   nickname: string;
-  profileUrl: string;
+  userImage: string;
   roleId: number;
   userId: number;
 }

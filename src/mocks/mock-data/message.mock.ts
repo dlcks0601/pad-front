@@ -3,11 +3,14 @@ import { Channel } from '@/types/channel.type';
 import { ReceiveMessage } from '@/types/message.type';
 import { fakerKO as faker } from '@faker-js/faker';
 
+let messageCount = 0;
+
 export const createMessage = (
   channelId: Channel['channelId']
 ): ReceiveMessage => {
   return {
     channelId: channelId,
+    messageId: ++messageCount,
     content: faker.lorem.paragraph(),
     user: faker.helpers.arrayElement(users),
     type: faker.helpers.arrayElement(['text']),

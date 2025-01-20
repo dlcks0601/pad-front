@@ -15,25 +15,32 @@ export const fetchChannel = async (channelId: Channel['channelId']) => {
 export interface FetchChannelMessagesRequest {
   channelId: Channel['channelId'];
   limit: number;
-  currentPage: number;
+  cursor: number;
+  keyword: string;
+  direction: 'forward' | 'backward';
 }
 
 export interface FetchChannelMessagesResponse {
   messages: ReceiveMessage[];
+  cursor: number;
 }
 
 export const fetchChannelMessages = async ({
   channelId,
-  currentPage,
-  limit,
+  cursor,
+  limit = 30,
+  keyword = '',
+  direction = 'forward',
 }: FetchChannelMessagesRequest) => {
   const apiPath = API_PATH.channelMessages.replace(':id', channelId.toString());
   const response = await fetcher<FetchChannelMessagesResponse>({
     url: apiPath,
     method: 'GET',
     params: {
-      currentPage,
+      keyword,
+      cursor,
       limit,
+      direction,
     },
   });
   return response.data;

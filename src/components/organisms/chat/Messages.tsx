@@ -2,16 +2,15 @@ import Date from '@/components/atoms/Date';
 import WelcomeMessage from '@/components/molecules/chat/WelcomeMessage';
 import Message from '@/components/organisms/chat/Message';
 import useAuthStore from '@/store/authStore';
-import { ChatState, useChatStore } from '@/store/chatStore';
+import { ReceiveMessage } from '@/types/message.type';
 import { formatDateMessages } from '@/utils/format';
 import { Fragment } from 'react/jsx-runtime';
 
 interface MessagesProps {
-  currentChannelId: NonNullable<ChatState['currentChannelId']>;
+  messages: ReceiveMessage[];
 }
 
-const Messages = ({ currentChannelId }: MessagesProps) => {
-  const messages = useChatStore((state) => state.messages[currentChannelId]);
+const Messages = ({ messages }: MessagesProps) => {
   const dateMessages = Object.entries(
     formatDateMessages(messages.toReversed())
   );

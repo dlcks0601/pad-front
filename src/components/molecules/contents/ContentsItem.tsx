@@ -1,4 +1,3 @@
-// 최종 컨텐츠
 import FeedItem from '@/components/molecules/contents/FeedItem';
 import {
   FeedFooter,
@@ -12,7 +11,6 @@ import { RoleTagProps } from '@/types/tags/roleTag.type';
 import { ProjectTagProps } from '@/types/tags/projectTag.type';
 import HubItem from '@/components/molecules/contents/HubItem';
 
-// 피드 컨텐츠
 interface FeedContentsProps {
   title: string;
   body: string;
@@ -26,7 +24,6 @@ interface FeedContentsProps {
     name: string;
     job: string;
     time: string;
-    userId: number;
   };
 }
 
@@ -69,7 +66,6 @@ export const FeedContents = ({
         name={user.name}
         job={user.job}
         time={user.time}
-        userId={user.userId}
       />
 
       <div className='w-full'>

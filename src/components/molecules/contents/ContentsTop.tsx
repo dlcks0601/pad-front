@@ -7,11 +7,12 @@ import {
 import { ContentsToggle } from '@/components/atoms/contents/ContentsToggle';
 import { Plus } from 'lucide-react';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
-import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import useFeedStore from '@/store/postFeedStore';
+import PostHubModal from '@/components/organisms/modals/PostHubModal';
 
 export const FeedContentsTop = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const resetFeed = useFeedStore((state) => state.resetFeed);
 
   const openPostModal = () => {
@@ -19,13 +20,17 @@ export const FeedContentsTop = () => {
   };
 
   const closePostModal = () => {
-    const answer = window.confirm(
-      '작성중인 피드가 사라집니다. 정말 나가시겠습니까?'
-    );
-    if (answer) {
-      resetFeed();
+    if (!isSubmitted) {
+      const answer = window.confirm(
+        '작성중인 피드가 사라집니다. 정말 나가시겠습니까?'
+      );
+      if (answer) {
+        resetFeed();
+      }
+      setIsModalOpen(!answer);
+    } else {
+      setIsModalOpen(false);
     }
-    setIsModalOpen(!answer);
   };
 
   return (
@@ -46,7 +51,12 @@ export const FeedContentsTop = () => {
         </div>
         <FeedSelect />
       </div>
-      {isModalOpen && <PostFeedModal onClose={closePostModal} />}
+      {isModalOpen && (
+        <PostFeedModal
+          onClose={closePostModal}
+          onSubmit={() => setIsSubmitted(true)}
+        />
+      )}
     </>
   );
 };

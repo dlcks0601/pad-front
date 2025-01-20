@@ -1,5 +1,7 @@
 import { tagItem } from '@/constants/tagItem';
 
+import { tagItem } from '@/constants/tagItem';
+
 export type TagVariant =
   | '정보공유'
   | '질문'

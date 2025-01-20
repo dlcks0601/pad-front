@@ -83,6 +83,10 @@ const router = [
     path: '/login',
     element: <LoginPage />,
   },
+  {
+    path: 'test',
+    element: <TestPage />,
+  },
 ];
 
 export default router;

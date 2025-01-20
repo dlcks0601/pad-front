@@ -5,6 +5,7 @@ import useAuthStore from '@/store/authStore';
 import { AuthResponse } from '@/types/auth.type';
 import { RoleResponse } from '@/types/role.type';
 
+// Auth 관련 Mutation
 export const useAuthMutation = (): UseMutationResult<
   AuthResponse,
   unknown,
@@ -34,6 +35,7 @@ export const useAuthMutation = (): UseMutationResult<
   });
 };
 
+// Role 변경 Mutation
 export const useRoleMutation = (): UseMutationResult<
   RoleResponse,
   unknown,

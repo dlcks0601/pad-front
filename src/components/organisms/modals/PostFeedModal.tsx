@@ -13,6 +13,7 @@ interface PostFeedModalProps {
 const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
   const title = useFeedStore((state) => state.title);
   const content = useFeedStore((state) => state.content);
+  console.log('content: ' + content);
   const tags = useFeedStore((state) => state.tag);
   const setContent = useFeedStore((state) => state.setContent);
   const resetFeed = useFeedStore((state) => state.resetFeed);
@@ -75,7 +76,7 @@ const PostFeedModal = ({ onClose }: PostFeedModalProps) => {
           </p>
         )}
       </Modal2.ModalSubContent>
-      <Modal2.ModalContent px='40px' py='5px' className='bg-background'>
+      <Modal2.ModalContent px='40px' py='5px' className='bg-white'>
         <TiptapEditor content={content} setContent={setContent} />
         {errors.content && (
           <p className='text-red-600 text-caption2 absolute'>

@@ -9,6 +9,7 @@ import {
   fetchFeedChats,
   postFeed,
   postFeedChat,
+  putChatLike,
   putFeed,
 } from '@/apis/feed';
 import queryClient from '@/utils/queryClient';
@@ -134,6 +135,20 @@ export const usePutFeed = () => {
     },
     onError: (error) => {
       console.error('피드 수정 중 오류 발생:', error);
+    },
+  });
+};
+
+export const usePutChat = () => {
+  return useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      return await putChatLike(id);
+    },
+    onSuccess: () => {
+      console.log('댓글에 대한 좋아요 변경 성공');
+    },
+    onError: (error) => {
+      console.error('댓글 좋아요 처리중 오류 발생:', error);
     },
   });
 };

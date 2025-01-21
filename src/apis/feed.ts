@@ -121,6 +121,7 @@ export const deleteFeedChat = async (
   postId: Post['postId'],
   commentId: Comment['commentId']
 ) => {
+  console.log('deleteFeedChat 요청됨');
   const apiPath = API_PATH.feedChatDelete
     .replace(':id', postId.toString())
     .replace(':commentId', commentId.toString());
@@ -132,7 +133,7 @@ export const deleteFeedChat = async (
   return response.data;
 };
 
-// 피드 좋아요
+// 구현 필요
 export const fetchFeedLike = async (id: Post['postId']) => {
   const apiPath = API_PATH.feedLike.replace(':id', id.toString());
   const response = await fetcher({
@@ -143,6 +144,7 @@ export const fetchFeedLike = async (id: Post['postId']) => {
   return response.data;
 };
 
+// 구현 완료 -> 리팩 필요
 export const putFeed = async (
   id: Post['postId'],
   title: string,
@@ -159,6 +161,15 @@ export const putFeed = async (
       tags,
       content,
     } as FeedRequest,
+  });
+  return response.data;
+};
+
+export const putChatLike = async (id: Comment['commentId']) => {
+  const apiPath = `/feed/comment/${id}`;
+  const response = await fetcher({
+    url: apiPath,
+    method: 'POST',
   });
   return response.data;
 };

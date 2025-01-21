@@ -65,13 +65,6 @@ const FeedDetailUserInfo = ({
       });
     }
   };
-
-  // const handlePut = () => {
-  //   const confirmPut = window.confirm('피들르 수정하시겠습니까?');
-  //   if (confirmPut) {
-  //   }
-  // };
-
   return (
     <div className='w-full flex justify-between'>
       <div className='w-fit h-[40px] flex gap-[10px]'>

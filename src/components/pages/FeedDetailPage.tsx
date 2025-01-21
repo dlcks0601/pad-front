@@ -38,6 +38,7 @@ const FeedDetailPage = () => {
             createdAt={post.createdAt}
             userId={post.userId}
             isWriter={userId === post.userId}
+            postId={post.postId}
           />
           <div
             className='relative bg-white w-full flex flex-col overflow-y-scroll [&::-webkit-scrollbar]:hidden py-[10px]'

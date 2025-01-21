@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/hooks/useModal';
 import SearchModal from '@/components/organisms/modals/SearchModal';
 import Icon from '@/components/atoms/Icon';
+import useAuthStore from '@/store/authStore';
 
 const SideMenu = () => {
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
+  const { logout, isLoggedIn } = useAuthStore((state) => state);
 
-  // const [isLoggedIn] = useAuth(useShallow((state) => [state.isLoggedIn]));
-  const isLoggedIn = true;
-
+  const HasLogined = isLoggedIn;
   const {
     isOpen: isSearchModalOpen,
     openModal: openSearchModal,
@@ -59,8 +59,9 @@ const SideMenu = () => {
   ];
 
   const handleAvatarClick = () => {
-    if (isLoggedIn) {
-      navigate('@닉네임');
+    if (HasLogined) {
+      console.log('마이페이지로 이동구현해야됨');
+      // navigate('@닉네임');
     } else {
       setShowLogin((prev) => !prev);
     }

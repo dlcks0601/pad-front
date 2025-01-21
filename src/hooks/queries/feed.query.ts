@@ -3,11 +3,13 @@ import {
   FeedRequest,
   FeedResponse,
   Post,
+  deleteFeed,
   deleteFeedChat,
   fetchFeed,
   fetchFeedChats,
   postFeed,
   postFeedChat,
+  putFeed,
 } from '@/apis/feed';
 import queryClient from '@/utils/queryClient';
 import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
@@ -88,6 +90,50 @@ export const useDeleteFeedChat = () => {
     },
     onError: (error) => {
       console.error('댓글 작성 중 오류 발생:', error);
+    },
+  });
+};
+
+export const useDeleteFeed = () => {
+  return useMutation({
+    mutationFn: async (postId: Post['postId']) => {
+      return await deleteFeed(postId);
+    },
+    onSuccess: (_, postId) => {
+      queryClient.invalidateQueries({
+        queryKey: ['feed'],
+      });
+      console.log(`피드 ${postId} 삭제 성공`);
+    },
+    onError: (error) => {
+      console.error('피드 삭제 중 오류 발생:', error);
+    },
+  });
+};
+
+export const usePutFeed = () => {
+  return useMutation({
+    mutationFn: async ({
+      id,
+      title,
+      tags,
+      content,
+    }: {
+      id: Post['postId'];
+      title: string;
+      tags: string[];
+      content: string;
+    }) => {
+      return await putFeed(id, title, tags, content);
+    },
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['feed', id],
+      });
+      console.log(`피드 ${id} 수정 성공`);
+    },
+    onError: (error) => {
+      console.error('피드 수정 중 오류 발생:', error);
     },
   });
 };

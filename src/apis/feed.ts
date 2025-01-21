@@ -45,6 +45,7 @@ export interface FeedChatResponse {
 }
 
 export interface FeedRequest {
+  id?: Post['postId'];
   title: string;
   tags: string[];
   content: string;
@@ -65,6 +66,15 @@ export const fetchFeed = async (id: number) => {
   const response = await fetcher<FeedResponse>({
     url: apiPath,
     method: 'GET',
+  });
+  return response.data;
+};
+
+export const deleteFeed = async (id: Post['postId']) => {
+  const apiPath = API_PATH.feedDetail.replace(':id', id.toString());
+  const response = await fetcher<FeedResponse>({
+    url: apiPath,
+    method: 'DELETE',
   });
   return response.data;
 };
@@ -118,6 +128,37 @@ export const deleteFeedChat = async (
   const response = await fetcher({
     url: apiPath,
     method: 'DELETE',
+  });
+  return response.data;
+};
+
+// 피드 좋아요
+export const fetchFeedLike = async (id: Post['postId']) => {
+  const apiPath = API_PATH.feedLike.replace(':id', id.toString());
+  const response = await fetcher({
+    url: apiPath,
+    method: 'POST',
+  });
+  console.log(response.data.message); // { code: 200, message: "좋아요가 취소되었습니다." }
+  return response.data;
+};
+
+export const putFeed = async (
+  id: Post['postId'],
+  title: string,
+  tags: string[],
+  content: string
+) => {
+  const apiPath = `${API_PATH.feed}/${id}`;
+  console.log('피드 수정 apiPath: ', apiPath);
+  const response = await fetcher({
+    url: apiPath,
+    method: 'PUT',
+    data: {
+      title,
+      tags,
+      content,
+    } as FeedRequest,
   });
   return response.data;
 };

@@ -267,7 +267,7 @@ export function SkillSelect({ onSkillSelect }: SkillSelectProps) {
 }
 
 export function SetWork() {
-  const [workMethod, setWorkMethod] = useState<string>('');
+  const [_, setWorkMethod] = useState<string>('');
   return (
     <Select onValueChange={setWorkMethod}>
       <SelectTrigger className='w-[120px] border-black h-[44px]'>

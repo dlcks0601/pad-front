@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from '@/hooks/queries/feed.query';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
-import useFeedStore from '@/store/postFeedStore';
+import usePostModal from '@/hooks/usePostModal';
 
 interface FeedDetailUserInfoProps {
   userId: number;
@@ -26,30 +26,11 @@ const FeedDetailUserInfo = ({
   isWriter,
   postId,
 }: FeedDetailUserInfoProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const resetFeed = useFeedStore((state) => state.resetFeed);
-  const openPostModal = () => {
-    setIsModalOpen(true);
-  };
+  const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
+    usePostModal();
   const [clicked, setClicked] = useState<boolean>(false);
   const navigate = useNavigate();
   const { mutate: deleteFeed } = useDeleteFeed();
-
-  const closePostModal = () => {
-    if (!isSubmitted) {
-      const answer = window.confirm(
-        '작성중인 피드가 사라집니다. 정말 나가시겠습니까?'
-      );
-      if (answer) {
-        resetFeed();
-      }
-      setIsModalOpen(!answer);
-    } else {
-      setIsModalOpen(false);
-    }
-  };
-
   const handleDelete = () => {
     const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
     if (confirmDelete) {

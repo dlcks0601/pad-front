@@ -1,9 +1,6 @@
 import { tagItem, tagColors, TagItemKey } from '@/constants/tagItem';
-import { tagItem, tagColors, TagItemKey } from '@/constants/tagItem';
 
 interface InputDropdownItemProps {
-  selectedTag: TagItemKey[];
-  setSelectedTag: (tags: TagItemKey[]) => void;
   selectedTag: TagItemKey[];
   setSelectedTag: (tags: TagItemKey[]) => void;
 }
@@ -12,7 +9,6 @@ const InputDropdownItem = ({
   selectedTag,
   setSelectedTag,
 }: InputDropdownItemProps) => {
-  const selectTag = (tag: TagItemKey) => {
   const selectTag = (tag: TagItemKey) => {
     if (!selectedTag.includes(tag)) {
       const updatedTags = [...selectedTag, tag];

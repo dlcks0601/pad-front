@@ -7,14 +7,12 @@ import { useModal } from '@/hooks/useModal';
 import SearchModal from '@/components/organisms/modals/SearchModal';
 import Icon from '@/components/atoms/Icon';
 import useAuthStore from '@/store/authStore';
-import useAuthStore from '@/store/authStore';
-import { useShallow } from 'zustand/shallow';
 
 const SideMenu = () => {
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
-  const { logout, isLoggedIn } = useAuthStore((state) => state);
+  const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
 
   const HasLogined = isLoggedIn;
   const {

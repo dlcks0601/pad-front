@@ -65,29 +65,6 @@ const jobRoles: Record<'Programmer' | 'Artist' | 'Designer', string[]> = {
   ],
 };
 
-export function FeedSelect() {
-  return (
-    <Select>
-      <SelectTrigger className='w-[110px] bg-white'>
-        <SelectValue placeholder='🏷️ 태그' />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectItem value='all'>🏷️ 태그</SelectItem>
-          <SelectItem value='고민'>#고민</SelectItem>
-          <SelectItem value='회고'>#회고</SelectItem>
-          <SelectItem value='아이디어'>#아이디어</SelectItem>
-          <SelectItem value='계획'>#계획</SelectItem>
-          <SelectItem value='토론'>#토론</SelectItem>
-          <SelectItem value='정보공유'>#정보공유</SelectItem>
-          <SelectItem value='추천'>#추천</SelectItem>
-          <SelectItem value='질문'>#질문</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-}
-
 interface HubSelectProps {
   className?: string;
   onUnitSelect?: (unit: string) => void;
@@ -267,7 +244,7 @@ export function SkillSelect({ onSkillSelect }: SkillSelectProps) {
 }
 
 export function SetWork() {
-  const [workMethod, setWorkMethod] = useState<string>('');
+  const [_, setWorkMethod] = useState<string>('');
   return (
     <Select onValueChange={setWorkMethod}>
       <SelectTrigger className='w-[120px] border-black h-[44px]'>

@@ -7,6 +7,7 @@ import { useModal } from '@/hooks/useModal';
 import SearchModal from '@/components/organisms/modals/SearchModal';
 import Icon from '@/components/atoms/Icon';
 import useAuthStore from '@/store/authStore';
+import { useLogout } from '@/hooks/queries/auth.query';
 
 const SideMenu = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ const SideMenu = () => {
   const [showNotificationBox, setShowNotificationBox] = useState(false);
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
 
-  const HasLogined = isLoggedIn;
+  const { mutate } = useLogout();
+
   const {
     isOpen: isSearchModalOpen,
     openModal: openSearchModal,
@@ -59,12 +61,7 @@ const SideMenu = () => {
   ];
 
   const handleAvatarClick = () => {
-    if (HasLogined) {
-      console.log('마이페이지로 이동구현해야됨');
-      // navigate('@닉네임');
-    } else {
-      setShowLogin((prev) => !prev);
-    }
+    setShowLogin((prev) => !prev);
   };
 
   useEffect(() => {
@@ -256,7 +253,7 @@ const SideMenu = () => {
             size='sm'
             alt='User Avatar'
             className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
-            // onClick={handleAvatarClick}
+            onClick={handleAvatarClick}
           />
 
           {showLogin && (
@@ -301,6 +298,11 @@ const SideMenu = () => {
                     className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] cursor-pointer hover:bg-[#f3f4f6]'
                     onClick={() => {
                       if (isLoggedIn) {
+                        mutate(undefined, {
+                          onSuccess: () => {
+                            logout();
+                          },
+                        });
                       } else {
                         navigate('/signup');
                       }

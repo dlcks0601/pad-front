@@ -58,6 +58,7 @@ const Feed = () => {
             job: item.userRole,
             time: item.createdAt,
           }}
+          createdAt={item.createdAt}
         />
       ))}
       {!flattenedData.length && (

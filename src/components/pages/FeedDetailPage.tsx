@@ -1,11 +1,12 @@
 import Icon from '@/components/atoms/Icon';
 import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
+import FeedDetailSkeleton from '@/components/molecules/skeletons/FeedDetailSkeleton';
 import { useFetchFeed, useFetchFeedChat } from '@/hooks/queries/feed.query';
 import useAuthStore from '@/store/authStore';
 import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
-import FeedDetailSkeleton from '@/components/molecules/skeletons/FeedDetailSkeleton';
+
 const FeedDetailChat = lazy(() => {
   return import('@/components/organisms/FeedDetailChat');
 });

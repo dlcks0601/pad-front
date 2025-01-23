@@ -9,6 +9,7 @@ import {
   fetchFeed,
   fetchFeedChats,
   fetchFeeds,
+  patchFeedLike,
   postFeed,
   postFeedChat,
   putChatLike,
@@ -20,6 +21,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useMutation,
+  UseMutationResult,
   useQuery,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -72,7 +74,12 @@ export const useFetchFeedChat = (
   });
 };
 
-export const usePostFeed = () => {
+export const usePostFeed = (): UseMutationResult<
+  unknown, // 성공 시 반환되는 데이터 타입
+  Error, // 에러 타입
+  FeedRequest, // 변수로 전달될 데이터 타입
+  unknown // 선택적으로 쓸 수 있는 컨텍스트 타입
+> => {
   return useMutation({
     mutationFn: async ({ title, tags, content }: FeedRequest) => {
       return await postFeed(title, tags, content);
@@ -181,6 +188,20 @@ export const usePutChat = () => {
     },
     onError: (error) => {
       console.error('댓글 좋아요 처리중 오류 발생:', error);
+    },
+  });
+};
+
+export const usepatchFeedLike = () => {
+  return useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      return await patchFeedLike(id);
+    },
+    onSuccess: () => {
+      console.log('피드에 대한 좋아요 변경 성공');
+    },
+    onError: (error) => {
+      console.error('피드 좋아요 처리중 오류 발생:', error);
     },
   });
 };

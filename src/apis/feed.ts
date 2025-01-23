@@ -9,7 +9,7 @@ export interface Post {
   userRole: string;
   userProfileUrl: string;
   postId: number;
-  thumbnailUrl: string;
+  thumnailUrl: string;
   content: string;
   title: string;
   tags: (keyof typeof tagItem)[];
@@ -61,6 +61,10 @@ export interface FeedRequest {
   title: string;
   tags: string[];
   content: string;
+}
+
+export interface UploadImageResponse {
+  imageUrl: string;
 }
 
 export const fetchFeeds = async ({
@@ -161,7 +165,7 @@ export const deleteFeedChat = async (
 };
 
 // 구현 필요
-export const fetchFeedLike = async (id: Post['postId']) => {
+export const patchFeedLike = async (id: Post['postId']) => {
   const apiPath = API_PATH.feedLike.replace(':id', id.toString());
   const response = await fetcher({
     url: apiPath,
@@ -198,6 +202,18 @@ export const putChatLike = async (id: Comment['commentId']) => {
   const response = await fetcher({
     url: apiPath,
     method: 'POST',
+  });
+  return response.data;
+};
+
+export const uploadImage = async (file: FormData) => {
+  const apiPath = API_PATH.feedImage;
+  const response = await fetcher<UploadImageResponse>({
+    url: apiPath,
+    method: 'POST',
+    data: {
+      file,
+    },
   });
   return response.data;
 };

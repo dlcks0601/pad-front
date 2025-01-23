@@ -12,4 +12,5 @@ export const API_PATH = {
   feedChat: '/feed/:id/comment',
   feedChatDelete: '/feed/:id/comment/:commentId',
   feedLike: '/feed/:id/likes',
+  feedImage: '/feed/image',
 };

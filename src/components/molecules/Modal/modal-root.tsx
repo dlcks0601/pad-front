@@ -38,7 +38,7 @@ const ModalRoot = ({
           ></Icon>
         </button>
         <div
-          className={`relative bg-blue-300 flex flex-col gap-[20px] px-[30px] py-[10px] rounded-[10px] cursor-default z-50 ${className}`}
+          className={`relative bg-white flex flex-col gap-[20px] px-[30px] py-[10px] rounded-[10px] cursor-default z-50 ${className}`}
           onClick={(e) => e.stopPropagation()}
           style={{ width, height }}
         >

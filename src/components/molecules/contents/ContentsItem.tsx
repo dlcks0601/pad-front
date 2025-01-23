@@ -18,8 +18,9 @@ interface FeedContentsProps {
   commentsCount: number;
   likesCount: number;
   viewsCount: number;
-  thumbnail?: string;
+  thumnailUrl?: string;
   postId: number;
+  isLiked: boolean;
   user: {
     avatarSrc: string;
     name: string;
@@ -35,9 +36,10 @@ export const FeedContents = ({
   commentsCount,
   likesCount,
   viewsCount,
-  thumbnail,
+  thumnailUrl,
   user,
   postId,
+  isLiked,
 }: FeedContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
@@ -55,13 +57,15 @@ export const FeedContents = ({
               title={title}
               content={content}
               tags={feedTags}
-              thumbnail={thumbnail}
+              thumnailUrl={thumnailUrl}
               postId={postId}
             />
             <FeedFooter
               commentsCount={commentsCount}
               likesCount={likesCount}
               viewsCount={viewsCount}
+              isLiked={isLiked}
+              postId={postId}
             />
           </div>
         </div>

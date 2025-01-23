@@ -31,7 +31,7 @@ const SearchPage = () => {
         </div>
         <ContentsToggle />
       </div>
-      {selectedCategory === '피드' && <Feed keyword={q} />}
+      {/* {selectedCategory === '피드' && <Feed keyword={q} />} */}
       {selectedCategory === '프로젝트' && <Hub keyword={q} />}
     </div>
   );

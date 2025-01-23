@@ -10,7 +10,7 @@ import { HubSkillTagVariant } from '@/types/tags/hubSkillTag.type';
 interface RoleTagProps {
   type: 'role';
   label: string;
-  variant: RoleTagVariant;
+  variant?: RoleTagVariant;
 }
 
 interface ProjectTagProps {

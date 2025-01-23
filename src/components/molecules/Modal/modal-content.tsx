@@ -14,7 +14,7 @@ const ModalContent = ({
 }: ModalContentProps) => {
   return (
     <div
-      className={`rounded-[20px] ${className} h-[300px] overflow-y-scroll	`}
+      className={`rounded-[20px] ${className} h-[300px] overflow-y-scroll`}
       style={{
         paddingLeft: px,
         paddingRight: px,

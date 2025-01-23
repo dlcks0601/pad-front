@@ -1,22 +1,22 @@
-import { TagItemValue } from '@/constants/tagItem';
+import { TagItemValue, tagItem } from '@/constants/tagItem';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 interface FeedSearchState {
   latest: boolean;
-  tags: TagItemValue | null;
+  tags: TagItemValue | 'null';
 }
 
 interface FeedSearchAction {
   setLatest: (latest: boolean) => void;
-  setTags: (tags: TagItemValue | null) => void;
+  setTags: (tagKey: keyof typeof tagItem | null) => void;
   reset: () => void;
 }
 
 const initialState: FeedSearchState & FeedSearchAction = {
   latest: false,
-  tags: null,
+  tags: 'null',
   setLatest: () => {},
   setTags: () => {},
   reset: () => {},
@@ -31,13 +31,18 @@ const useFeedSearchStore = create<FeedSearchState & FeedSearchAction>()(
           state.latest = latest;
         });
       },
-      setTags: (tags) => {
+      setTags: (tagKey) => {
         set((state) => {
-          state.tags = tags;
+          state.tags = tagKey ? tagItem[tagKey] : 'null';
         });
       },
       reset: () => {
-        set(() => initialState);
+        set(() => ({
+          ...initialState,
+          setLatest: undefined,
+          setTags: undefined,
+          reset: undefined,
+        }));
       },
     }))
   )

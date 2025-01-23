@@ -33,8 +33,20 @@ export interface Comment {
 }
 
 export interface FeedsResponse {
+  message: {
+    code: number;
+    message: string;
+  };
+  pagination: {
+    lastCursor: number | null;
+  };
   posts: Post[];
 }
+
+export type InfiniteFeedsResponse = {
+  pages: FeedsResponse[];
+  pageParams: number[];
+};
 
 export interface FeedResponse {
   post: Post;
@@ -51,13 +63,28 @@ export interface FeedRequest {
   content: string;
 }
 
-export const fetchFeeds = async () => {
+export const fetchFeeds = async ({
+  cursor,
+  latest,
+  tags,
+}: {
+  cursor: number;
+  latest: boolean;
+  tags: string;
+}) => {
   const apiPath = API_PATH.feed;
+  const params: Record<string, unknown> = {
+    cursor,
+    latest,
+  };
+  if (tags !== 'null') {
+    params.tags = tags;
+  }
   const response = await fetcher<FeedsResponse>({
     url: apiPath,
     method: 'GET',
+    params,
   });
-  console.log('피드 메인페이지 데이터 조회');
   return response.data;
 };
 
@@ -165,6 +192,7 @@ export const putFeed = async (
   return response.data;
 };
 
+// 채팅에 대한 좋아요변경
 export const putChatLike = async (id: Comment['commentId']) => {
   const apiPath = `/feed/comment/${id}`;
   const response = await fetcher({

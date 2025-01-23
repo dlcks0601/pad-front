@@ -27,7 +27,7 @@ const ModalRoot = ({
     <div className='w-full h-full bg-black bg-opacity-80 fixed top-0 left-0 z-50 flex justify-center items-center cursor-pointer'>
       <div className='flex flex-col gap-[10px]'>
         <button
-          className='flex justify-end text-gray-400 hover:text-gray-600 text-white'
+          className='flex justify-end text-gray-400 hover:text-gray-600'
           onClick={onClose}
           aria-label='Close'
         >
@@ -38,7 +38,7 @@ const ModalRoot = ({
           ></Icon>
         </button>
         <div
-          className={`relative bg-white flex flex-col gap-[20px] px-[30px] py-[10px] rounded-[10px] cursor-default z-50 ${className}`}
+          className={`relative bg-blue-300 flex flex-col gap-[20px] px-[30px] py-[10px] rounded-[10px] cursor-default z-50 ${className}`}
           onClick={(e) => e.stopPropagation()}
           style={{ width, height }}
         >

@@ -2,18 +2,50 @@ import {
   FeedChatResponse,
   FeedRequest,
   FeedResponse,
+  FeedsResponse,
   Post,
   deleteFeed,
   deleteFeedChat,
   fetchFeed,
   fetchFeedChats,
+  fetchFeeds,
   postFeed,
   postFeedChat,
   putChatLike,
   putFeed,
 } from '@/apis/feed';
 import queryClient from '@/utils/queryClient';
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+  useMutation,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
+
+// 타입 에러 해결해야함
+export const useInfiniteFetchFeeds = (
+  latest: boolean,
+  tags: string
+): UseInfiniteQueryResult<InfiniteData<FeedsResponse>, Error> => {
+  return useInfiniteQuery<FeedsResponse>({
+    queryKey: ['feeds', latest, tags],
+    queryFn: ({ pageParam = 0 }: { pageParam: number }) =>
+      fetchFeeds({
+        cursor: pageParam,
+        latest,
+        tags,
+      }),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.pagination || lastPage.pagination.lastCursor === null) {
+        return undefined;
+      }
+      return lastPage.pagination.lastCursor;
+    },
+    initialPageParam: 0,
+  });
+};
 
 // 피드 상세 불러오기
 export const useFetchFeed = (

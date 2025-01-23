@@ -33,8 +33,8 @@ const ModalInput = ({
     <div className='flex flex-col items-start w-full'>
       <Input
         placeholder={placeholder}
-        className={`border px-[20px] text-heading1 rounded-md h-[40px] bg-white w-full ${
-          error ? 'border-red-600' : 'border-gray-300'
+        className={`border-none px-[20px] text-heading1 rounded-md h-[40px] bg-white w-full ${
+          error && 'border-red-600'
         } ${className}`}
         value={value ?? title} // 외부 값이 없으면 내부 상태를 사용
         onChange={handleChange}

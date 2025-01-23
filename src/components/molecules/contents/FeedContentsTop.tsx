@@ -1,5 +1,5 @@
 import Button from '@/components/atoms/Button';
-import { FeedSelect } from '@/components/atoms/contents/ContentsSelect';
+import { FeedSelect } from '@/components/atoms/contents/FeedContentsSelect';
 import { ContentsToggle } from '@/components/atoms/contents/ContentsToggle';
 import { Plus } from 'lucide-react';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
@@ -8,7 +8,6 @@ import usePostModal from '@/hooks/usePostModal';
 export const FeedContentsTop = () => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
     usePostModal();
-
   return (
     <>
       <div className='flex flex-col items-start gap-[20px]'>

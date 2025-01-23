@@ -12,14 +12,11 @@ const FeedDetailChat = lazy(() => {
 
 const FeedDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const {
-    data: FeedData,
-    isLoading: FeedLoading,
-    isError: FeedError,
-  } = useFetchFeed(Number(id));
+  const { data: FeedData, isLoading: FeedLoading } = useFetchFeed(Number(id));
   const { data: ChatData, isLoading: ChatLoading } = useFetchFeedChat(
     Number(id)
   );
+  console.log('ChatData: ', ChatData);
   const post = FeedData?.post;
   const comments = ChatData?.comments;
   const userId = useAuthStore((state) => state.userInfo?.userId);

@@ -8,4 +8,5 @@ export const API_PATH = {
   feed: '/feeds',
   feedDetail: '/feed/:id',
   feedChat: '/feed/:id/comments',
+  searchMessages: '/chat/channels/:id/messages/search',
 };

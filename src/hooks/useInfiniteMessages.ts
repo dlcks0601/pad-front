@@ -1,55 +1,82 @@
 import { fetchChannelMessages } from '@/apis/channel.api';
-import { LIMIT } from '@/constants/limit';
-import { isNullish } from '@/lib/utils';
 import { ChatState, useChatStore } from '@/store/chatStore';
 import { useSearchStore } from '@/store/searchStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 export const useInfiniteMessages = (
   currentChannelId: NonNullable<ChatState['currentChannelId']>
 ) => {
   const setMessages = useChatStore((state) => state.setMessages);
-  const keyword = useSearchStore((state) => state.searchKeyword);
-  const direction = useSearchStore((state) => state.direction);
+
+  const { direction, setState, cursors, mode } = useSearchStore(
+    useShallow((state) => ({
+      direction: state.direction,
+      setState: state.setState,
+      cursors: state.cursors,
+      mode: state.mode,
+    }))
+  );
 
   const {
     data,
     fetchNextPage,
     fetchPreviousPage,
+    isLoading,
+    isFetching,
     hasNextPage,
     hasPreviousPage,
-    isLoading,
   } = useInfiniteQuery({
-    queryKey: ['messages', currentChannelId, keyword, direction],
+    queryKey: ['messages', currentChannelId],
     queryFn: ({ pageParam }) =>
       fetchChannelMessages({
-        keyword,
         channelId: currentChannelId,
-        limit: LIMIT.MESSAGES,
+        limit: 30,
         cursor: pageParam,
         direction: direction,
       }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.cursor,
-    getPreviousPageParam: (firstPage) => firstPage.cursor,
+    initialPageParam: cursors.prev,
+    getNextPageParam: (lastPage) => {
+      return mode === 'search' ? cursors.next : lastPage.cursors.next;
+    }, // 최신 데이터 조회
+    getPreviousPageParam: (firstPage) => {
+      return mode === 'search' ? cursors.prev : firstPage.cursors.prev;
+    }, // 이전 데이터 조회
   });
 
-  const currentPage = data?.pageParams[data.pageParams.length - 1];
-  const messages = data?.pages[currentPage as number]?.messages;
+  useEffect(() => {
+    if (data && !isFetching) {
+      const messages = data.pages.flatMap((page) => page.messages);
+      setMessages(messages, currentChannelId);
+    }
+  }, [data]);
 
   useEffect(() => {
-    if (!isNullish(currentPage) && !isNullish(messages)) {
-      setMessages(messages ? messages : [], currentChannelId);
+    if (!data || isFetching) return;
+    switch (direction) {
+      case 'forward':
+        if (!hasNextPage) return;
+        fetchNextPage();
+        break;
+      case 'backward':
+        if (!hasPreviousPage) return;
+        fetchPreviousPage();
+        break;
     }
-  }, [data, currentChannelId, keyword, direction]);
+  }, [direction]);
 
   return {
     fetchNextPage,
     fetchPreviousPage,
+    isLoading,
+    isFetching,
+    setState,
+    cursors,
+    data,
     hasNextPage,
     hasPreviousPage,
-    isLoading,
-    currentPage,
+    direction,
+    mode,
   };
 };

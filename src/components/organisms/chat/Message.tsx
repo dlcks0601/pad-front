@@ -1,5 +1,5 @@
 import Avatar from '@/components/atoms/Avatar';
-import MessageBubble from '@/components/atoms/MessageBubble';
+import MessageBubble from '@/components/molecules/chat/MessageBubble';
 import { ReceiveMessage } from '@/types/message.type';
 import { Role } from '@/types/role.type';
 import { cn } from '@/utils/cn';
@@ -17,7 +17,6 @@ const Message = memo(({ message, sameBefore, isMyMessage }: MessageProps) => {
   const { content, user } = message;
   return (
     <div
-      id={`message-${message.messageId}`}
       className={cn(
         'flex gap-[10px]',
         isMyMessage && 'flex-row-reverse ml-auto',
@@ -47,7 +46,7 @@ const Message = memo(({ message, sameBefore, isMyMessage }: MessageProps) => {
             isMyMessage ? 'flex-row-reverse' : 'flex-row'
           )}
         >
-          <MessageBubble content={content} />
+          <MessageBubble content={content} messageId={message.messageId} />
           <div className='text-caption2 text-darkgray'>
             {formatTime(message.date)}
           </div>

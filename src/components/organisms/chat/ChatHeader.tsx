@@ -24,7 +24,9 @@ const ChatHeader = ({ currentChannelId }: ChatHeaderProps) => {
           </>
         )}
       </div>
-      <SearchMessage />
+      {currentChannelId && (
+        <SearchMessage currentChannelId={currentChannelId} />
+      )}
     </div>
   );
 };

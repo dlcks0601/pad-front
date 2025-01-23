@@ -22,6 +22,7 @@ const ChannelList = ({ channels }: ChannelListProps) => {
   const user = useAuthStore((state) => state.userInfo);
 
   const switchChannel = (channelId: Channel['channelId']) => {
+    if (channelId === currentChannelId) return;
     joinChannel(user!.userId, channelId);
   };
   return (

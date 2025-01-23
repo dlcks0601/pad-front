@@ -127,7 +127,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           if (!state.messages[channelId]) {
             state.messages[channelId] = [];
           }
-          state.messages[channelId].push(...messages);
+          state.messages[channelId] = messages;
         });
       },
       // 메시지 받았을 때 messages 상태 업데이트

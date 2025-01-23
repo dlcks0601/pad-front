@@ -14,9 +14,9 @@ export const createChannel = (
     title: faker.lorem.text(),
     type: faker.helpers.arrayElement(['group', 'private']),
     messages: createMessages(
-      faker.helpers.rangeToNumber({ min: 40, max: 150 }),
+      faker.helpers.rangeToNumber({ min: 150, max: 300 }),
       channelId
-    ).sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date))),
+    ),
   };
 };
 

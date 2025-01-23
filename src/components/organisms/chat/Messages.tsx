@@ -5,15 +5,13 @@ import useAuthStore from '@/store/authStore';
 import { ReceiveMessage } from '@/types/message.type';
 import { formatDateMessages } from '@/utils/format';
 import { Fragment } from 'react/jsx-runtime';
-
 interface MessagesProps {
   messages: ReceiveMessage[];
 }
 
 const Messages = ({ messages }: MessagesProps) => {
-  const dateMessages = Object.entries(
-    formatDateMessages(messages.toReversed())
-  );
+  const dateMessages = Object.entries(formatDateMessages(messages));
+
   // 유저 정보 관련 로직
   const user = useAuthStore.getState().userInfo!;
   const myUserId = user.userId;

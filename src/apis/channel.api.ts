@@ -1,6 +1,11 @@
 import { API_PATH } from '@/apis/api-path';
 import { Channel } from '@/types/channel.type';
-import { ReceiveMessage } from '@/types/message.type';
+import {
+  FetchChannelMessagesRequest,
+  FetchChannelMessagesResponse,
+  SearchChannelMessagesRequest,
+  SearchChannelMessagesResponse,
+} from '@/types/message.type';
 import fetcher from '@/utils/fetcher';
 
 export const fetchChannel = async (channelId: Channel['channelId']) => {
@@ -12,35 +17,41 @@ export const fetchChannel = async (channelId: Channel['channelId']) => {
   return response.data;
 };
 
-export interface FetchChannelMessagesRequest {
-  channelId: Channel['channelId'];
-  limit: number;
-  cursor: number;
-  keyword: string;
-  direction: 'forward' | 'backward';
-}
-
-export interface FetchChannelMessagesResponse {
-  messages: ReceiveMessage[];
-  cursor: number;
-}
-
 export const fetchChannelMessages = async ({
   channelId,
   cursor,
-  limit = 30,
-  keyword = '',
-  direction = 'forward',
+  limit,
+  direction,
 }: FetchChannelMessagesRequest) => {
   const apiPath = API_PATH.channelMessages.replace(':id', channelId.toString());
   const response = await fetcher<FetchChannelMessagesResponse>({
     url: apiPath,
     method: 'GET',
     params: {
-      keyword,
       cursor,
       limit,
       direction,
+    },
+  });
+  return response.data;
+};
+
+export const SearchChannelMessages = async ({
+  channelId,
+  cursor,
+  limit,
+  keyword,
+  direction,
+}: SearchChannelMessagesRequest) => {
+  const apiPath = API_PATH.searchMessages.replace(':id', channelId.toString());
+  const response = await fetcher<SearchChannelMessagesResponse>({
+    url: apiPath,
+    method: 'GET',
+    params: {
+      cursor,
+      limit,
+      direction,
+      keyword,
     },
   });
   return response.data;

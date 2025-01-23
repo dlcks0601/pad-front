@@ -13,6 +13,7 @@ import PadLoginPage from '@/components/pages/PadLoginPage';
 import PadSignupPage from '@/components/pages/PadSignupPage';
 import ConnetcionHubDetailPage from '@/components/pages/ConnetcionHubDetailPage';
 import FeedDetailPage from '@/components/pages/FeedDetailPage';
+import HubLayout from '@/layouts/HubLayout';
 
 const router = [
   {
@@ -36,20 +37,12 @@ const router = [
         element: <CallbackPage />,
       },
       {
-        path: '/mypage',
+        path: '/:nickname',
         element: <MyPage />,
       },
       {
         path: '/settings',
         element: <SettingsPage />,
-      },
-      {
-        path: '/connectionhub',
-        element: <ConnectionHubPage />,
-      },
-      {
-        path: '/connectionhubdetailpage',
-        element: <ConnetcionHubDetailPage />,
       },
       {
         path: '/search',
@@ -58,6 +51,20 @@ const router = [
       {
         path: '/feed/:id',
         element: <FeedDetailPage />,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <HubLayout />,
+    children: [
+      {
+        path: '/connectionhub',
+        element: <ConnectionHubPage />,
+      },
+      {
+        path: '/connectionhubdetailpage',
+        element: <ConnetcionHubDetailPage />,
       },
     ],
   },

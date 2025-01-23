@@ -16,10 +16,10 @@ export interface Tag {
 }
 
 export interface User {
-  avatarSrc: string;
-  name: string;
-  job: string;
-  time: string;
+  userProfileUrl: string;
+  userNickname: string;
+  userRole: string;
+  createdAt: string;
 }
 
 export interface FeedItemType {

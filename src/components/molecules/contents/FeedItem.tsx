@@ -9,6 +9,7 @@ interface FeedItemProps {
   tags: TagItemKey[];
   thumnailUrl?: string;
   postId: number;
+  sliceBody?: boolean;
 }
 
 const FeedItem = ({

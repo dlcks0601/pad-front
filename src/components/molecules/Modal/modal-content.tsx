@@ -9,7 +9,7 @@ interface ModalContentProps extends PropsWithChildren {
 const ModalContent = ({
   children,
   className = '',
-  px = '50px',
+  px = '20px',
   py = '30px',
 }: ModalContentProps) => {
   return (

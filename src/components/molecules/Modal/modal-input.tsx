@@ -30,18 +30,18 @@ const ModalInput = ({
   };
 
   return (
-    <div className='flex flex-col items-start w-full'>
+    <div className='flex flex-col flex-col w-full items-start w-full gap-[10px]'>
       <Input
+        spacing={'none'}
+        radius={'none'}
         placeholder={placeholder}
-        className={`border-none px-[20px] text-heading1 rounded-md h-[40px] bg-white w-full ${
+        className={`border-none text-heading1 rounded-md h-[40px] bg-white w-full ${
           error && 'border-red-600'
         } ${className}`}
         value={value ?? title} // 외부 값이 없으면 내부 상태를 사용
         onChange={handleChange}
       />
-      {message && (
-        <p className='text-caption2 text-red-600 px-[20px] mt-1'>{message}</p>
-      )}
+      {message && <p className='text-[14px] text-red-600 mt-1'>{message}</p>}
     </div>
   );
 };

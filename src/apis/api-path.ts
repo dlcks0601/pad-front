@@ -15,4 +15,5 @@ export const API_PATH = {
   connectionhubdetail: '/connectionhubdetail',
   feedLike: '/feed/:id/likes',
   feedImage: '/feed/image',
+  searchMessages: '/chat/channels/:id/messages/search',
 };

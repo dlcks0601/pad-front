@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/apis/@core';
 import { AxiosResponse } from 'axios';
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export interface FetcherOptions {
   url: string;
@@ -20,7 +20,6 @@ const fetcher = async <T>(
   options: FetcherOptions
 ): Promise<AxiosResponse<T & { message: FetcherMessage }, any>> => {
   const { url, method, data, params, headers } = options;
-
   try {
     const response = await axiosInstance<T & { message: FetcherMessage }>({
       url,

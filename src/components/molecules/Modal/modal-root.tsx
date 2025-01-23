@@ -1,18 +1,13 @@
 import ReactDOM from 'react-dom';
-import { XMarkIcon } from '@heroicons/react/20/solid'; // Heroicons 아이콘 사용
 import { useEffect, PropsWithChildren } from 'react';
-import clsx from 'clsx';
+import Icon from '@/components/atoms/Icon';
 
 interface ModalProps {
-  width?: string;
-  height?: string;
   onClose: () => void;
   className?: string;
 }
 
 const ModalRoot = ({
-  width = '818px',
-  height = '500px',
   onClose,
   children,
   className = '',
@@ -25,22 +20,26 @@ const ModalRoot = ({
   }, []);
 
   return ReactDOM.createPortal(
-    <div className='w-full h-full bg-black bg-opacity-80 fixed top-0 left-0 z-50 flex justify-center items-center'>
+    <div
+      className='w-full h-full bg-black bg-opacity-80 fixed top-0 left-0 z-50 flex justify-center items-center cursor-pointer'
+      onClick={onClose}
+    >
       <div
-        className={clsx(
-          `relative bg-background flex flex-col gap-[20px] px-[30px] rounded-[10px] cursor-default z-50 ${className}`
-        )}
+        className={`relative w-[800px] bg-white flex flex-col px-[30px] py-[20px] rounded-[10px] cursor-default z-50 ${className}`}
         onClick={(e) => e.stopPropagation()}
-        style={{ width, height }}
       >
         <button
-          className='absolute top-[-30px] right-[-5px] text-gray-400 hover:text-gray-600 text-white'
+          className='flex justify-end text-gray-400 hover:text-gray-600 text-white'
           onClick={onClose}
           aria-label='Close'
         >
-          <XMarkIcon width={24} height={24} />
+          <Icon
+            type={'xmark'}
+            color={'black'}
+            className='w-[24px] h-[24px]'
+          ></Icon>
         </button>
-        {children}
+        <div className='flex flex-col px-[10px]'>{children}</div>
       </div>
     </div>,
     document.body

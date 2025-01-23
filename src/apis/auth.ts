@@ -26,6 +26,7 @@ export const postAuthorizationCode = async ({
       withCredentials: true,
     }
   );
+  console.log('post authorizationtoken response: ', response.data);
   return response.data;
 };
 
@@ -72,6 +73,14 @@ export const login = async (loginBody: LoginBody) => {
     method: 'POST',
     url: '/auth/login',
     data: loginBody,
+  });
+  return response.data;
+};
+
+export const logout = async () => {
+  const response = await fetcher({
+    method: 'POST',
+    url: '/auth/logout',
   });
   return response.data;
 };

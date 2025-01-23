@@ -16,10 +16,10 @@ export interface Tag {
 }
 
 export interface User {
-  avatarSrc: string;
-  name: string;
-  job: string;
-  time: string;
+  userProfileUrl: string;
+  userNickname: string;
+  userRole: string;
+  createdAt: string;
 }
 
 export interface FeedItemType {
@@ -42,7 +42,7 @@ export interface Post {
   title: string;
   content: string;
   tags: (keyof typeof tagItem)[];
-  createdAt: Date;
+  createdAt: string;
   commentCount: number;
   likeCount: number;
   viewCount: number;

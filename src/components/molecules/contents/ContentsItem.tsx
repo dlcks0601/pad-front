@@ -6,11 +6,12 @@ import {
 } from '@/components/molecules/contents/ContentsFooter';
 import ContentsUser from '@/components/molecules/contents/ContentsUser';
 import { ContentsFeedTagProps } from '@/types/tags/contentsFeedTag.type';
-import { HubTagProps } from '@/types/tags/hubTag.type';
 import { RoleProps } from '@/components/atoms/Role';
-import { RoleTagProps } from '@/types/tags/roleTag.type';
-import { ProjectTagProps } from '@/types/tags/projectTag.type';
 import HubItem from '@/components/molecules/contents/HubItem';
+import { hubTagItemskey } from '@/constants/hub/hubTagItems';
+import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
+import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 
 // 피드 컨텐츠
 interface FeedContentsProps {
@@ -22,32 +23,37 @@ interface FeedContentsProps {
   viewsCount: number;
   thumbnail?: string;
   user: {
-    avatarSrc: string;
-    name: string;
-    job: string;
-    time: string;
+    userProfileUrl: string;
+    userNickname: string;
+    userRole: string;
+    createdAt: string;
   };
+  hideUser?: boolean;
+  sliceBody?: boolean;
 }
 
 // 허브 컨텐츠
 interface HubContentsProps {
   title: string;
-  projectTags: { label: string; variant: ProjectTagProps['variant'] }[];
-  hubTags: { label: string; variant: HubTagProps['variant'] }[];
-  roleTags: { label: string; variant: RoleTagProps['variant'] }[];
+  hubTags: hubTagItemskey;
+  meetingTags: meetingTagItemskey;
+  roleTags: roleTagItemsKey[];
+  statusTags: statusTagItemskey;
   role: RoleProps['role'];
   startDate: string;
   duration: string;
   bookmarkCount: number;
   userCount: number;
   viewsCount: number;
-  thumbnail?: string;
+  thumbnailUrl?: string;
+  // 유저
   user: {
-    avatarSrc: string;
-    name: string;
-    job: string;
-    time: string;
+    userProfileUrl: string;
+    userNickname: string;
+    userRole: string;
+    createdAt: string;
   };
+  hideUser: boolean;
 }
 
 export const FeedContents = ({
@@ -59,14 +65,16 @@ export const FeedContents = ({
   viewsCount,
   thumbnail,
   user,
+  hideUser,
+  sliceBody,
 }: FeedContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
       <ContentsUser
-        avatarSrc={user.avatarSrc}
-        name={user.name}
-        job={user.job}
-        time={user.time}
+        userProfileUrl={user.userProfileUrl}
+        userNickname={user.userNickname}
+        userRole={user.userRole}
+        createdAt={user.createdAt}
       />
 
       <div className='w-full'>
@@ -77,6 +85,7 @@ export const FeedContents = ({
               body={body}
               tags={feedTags}
               thumbnail={thumbnail}
+              sliceBody={sliceBody}
             />
             <FeedFooter
               commentsCount={commentsCount}
@@ -92,36 +101,39 @@ export const FeedContents = ({
 
 export const HubContents = ({
   title,
-  projectTags,
-  hubTags,
+  meetingTags,
+  statusTags,
   roleTags,
+  hubTags,
   role,
   bookmarkCount,
   userCount,
   viewsCount,
-  thumbnail,
+  thumbnailUrl,
   user,
   startDate,
   duration,
+  hideUser,
 }: HubContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
       <ContentsUser
-        avatarSrc={user.avatarSrc}
-        name={user.name}
-        job={user.job}
-        time={user.time}
+        userProfileUrl={user.userProfileUrl}
+        userNickname={user.userNickname}
+        userRole={user.userRole}
+        createdAt={user.createdAt}
       />
       <div className='w-full'>
         <div className='bg-white rounded-[10px] p-[20px] w-full'>
           <div className='flex flex-col gap-[20px]'>
             <HubItem
               title={title}
-              projectTags={projectTags}
               hubTags={hubTags}
+              statusTags={statusTags}
+              meetingTags={meetingTags}
               roleTags={roleTags}
               role={role}
-              thumbnail={thumbnail}
+              thumbnailUrl={thumbnailUrl}
               startDate={startDate}
               duration={duration}
             />

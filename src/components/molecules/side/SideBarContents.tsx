@@ -18,7 +18,10 @@ export const SideBarContents = ({ type }: SideBarContentsProps) => {
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {items.map((item) => (
-        <div className='flex flex-col w-full text-[12px] gap-[15px]'>
+        <div
+          key={item.id}
+          className='flex flex-col w-full text-[12px] gap-[15px]'
+        >
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-[10px]'>
               <div className='flex text-[14px]'>{item.id}</div>
@@ -30,8 +33,8 @@ export const SideBarContents = ({ type }: SideBarContentsProps) => {
               <div className='flex text-[14px] font-medium'>{item.name}</div>
               <div className='flex text-[12px] font-semibold'>{item.role}</div>
             </div>
-            <div className='flex'>
-              {item.label && (
+            {/* <div className='flex'> */}
+            {/* {item.label && (
                 <div
                   className={`flex font-medium text-white text-[10px] px-2 py-1 rounded-full ${
                     item.label === 'OUTSOURCING'
@@ -41,8 +44,8 @@ export const SideBarContents = ({ type }: SideBarContentsProps) => {
                 >
                   {item.label}
                 </div>
-              )}
-            </div>
+              )} */}
+            {/* </div> */}
           </div>
           <div className='ml-4 relative overflow-hidden h-[20px] group text-[14px] font-medium'>
             <div

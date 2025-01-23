@@ -19,14 +19,16 @@ const ModalInput = ({
   };
 
   return (
-    <div className={`bg-background flex flex-col gap-[6px]`}>
+    <div className='flex flex-col w-full items-start gap-[10px]'>
       <Input
+        spacing={'none'}
+        radius={'none'}
         placeholder={placeholder}
-        className={`border-0 px-[20px] text-heading1 rounded-0 h-[29px] bg-background ${className}`}
+        className={`border-0 text-heading1 rounded-0 h-[29px] bg-white ${className}`}
         value={title}
         onChange={handleChange}
       />
-      <p className='text-caption2 text-red-600 px-[20px]'>{message}</p>
+      <p className='text-[14px] text-red-600'>{message}</p>
     </div>
   );
 };

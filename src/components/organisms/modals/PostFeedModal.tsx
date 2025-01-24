@@ -9,6 +9,7 @@ import {
 } from '@/hooks/queries/feed.query';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import queryClient from '@/utils/queryClient';
 
 interface PostFeedModalProps {
   onClose: () => void;
@@ -98,6 +99,9 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
             onSuccess: () => {
               resetFeed();
               onClose();
+              queryClient.invalidateQueries({
+                queryKey: ['feeds', true, 'null'],
+              });
             },
             onError: (error) => {
               console.error('폼 제출 실패:', error);

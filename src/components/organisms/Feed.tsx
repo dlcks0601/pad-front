@@ -46,10 +46,10 @@ const Feed = () => {
           title={item.title}
           content={item.content}
           feedTags={item.tags}
-          commentsCount={item.commentCount}
-          likesCount={item.likeCount}
-          viewsCount={item.viewCount}
-          thumnailUrl={item.thumnailUrl}
+          commentCount={item.commentCount}
+          likeCount={item.likeCount}
+          viewCount={item.viewCount}
+          thumbnailUrl={item.thumnailUrl}
           postId={item.postId}
           isLiked={item.isLiked}
           user={{

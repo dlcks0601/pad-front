@@ -27,7 +27,6 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     setTag,
     resetFeed,
   } = useFeedStore((state) => state);
-
   const { id } = useParams<{ id: string }>();
   const { data: FeedData, isSuccess } = useFetchFeed(Number(id));
 
@@ -38,7 +37,6 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
       setTag(FeedData.post.tags ?? []);
     }
   }, [onRevise, isSuccess, FeedData, setTitle, setContent, setTag]);
-
   const { mutate: postFeed, isPending: isPostLoading } = usePostFeed();
   const { mutate: putFeed, isPending: isPutLoading } = usePutFeed();
   const [errors, setErrors] = useState({
@@ -64,12 +62,12 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
       if (onRevise && id) {
+        onSubmit();
         putFeed(
           { id: Number(id), title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onSubmit();
               onClose();
             },
             onError: (error) => {
@@ -78,12 +76,12 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
           }
         );
       } else {
+        onSubmit();
         postFeed(
           { title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onSubmit();
               onClose();
             },
             onError: (error) => {
@@ -125,7 +123,6 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
             </p>
           )}
         </div>
-
         <div className='flex w-full justify-end'>
           <button
             className='bg-close px-[15px] py-[10px] rounded-[5px] text-[12px] text-white'

@@ -30,25 +30,19 @@ export const FeedFooter = ({
       console.log('로그인이 필요합니다.');
       return;
     }
-
-    if (isLoading) return; // 요청 중일 때 클릭 방지
-
-    // 로컬 상태 즉시 반영
+    if (isLoading) return;
     setIsLiked((prev) => !prev);
     setLikesCount((prev) => (isLiked ? prev - 1 : prev + 1));
     setIsLoading(true);
-
-    // 서버 요청
     toggleLike(
       { id: postId },
       {
         onSuccess: () => {
           console.log('좋아요 상태 변경 성공');
-          setIsLoading(false); // 요청 완료 후 버튼 활성화
+          setIsLoading(false);
         },
         onError: () => {
           console.error('좋아요 상태 변경 실패');
-          // 실패 시 상태 복구
           setIsLiked((prev) => !prev);
           setLikesCount((prev) => (isLiked ? prev + 1 : prev - 1));
           setIsLoading(false);

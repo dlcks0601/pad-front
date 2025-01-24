@@ -26,7 +26,6 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 
-// 타입 에러 해결해야함
 export const useInfiniteFetchFeeds = (
   latest: boolean,
   tags: string
@@ -56,7 +55,8 @@ export const useInfiniteFetchFeeds = (
 
 // 피드 상세 불러오기
 export const useFetchFeed = (
-  id: number
+  id: number,
+  options?: { enabled: boolean }
 ): UseQueryResult<FeedResponse, Error> => {
   return useQuery<FeedResponse>({
     queryKey: ['feed', id],
@@ -64,6 +64,7 @@ export const useFetchFeed = (
     retry: 10,
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,
+    ...options,
   });
 };
 
@@ -80,10 +81,10 @@ export const useFetchFeedChat = (
 };
 
 export const usePostFeed = (): UseMutationResult<
-  unknown, // 성공 시 반환되는 데이터 타입
-  Error, // 에러 타입
-  FeedRequest, // 변수로 전달될 데이터 타입
-  unknown // 선택적으로 쓸 수 있는 컨텍스트 타입
+  unknown,
+  Error,
+  FeedRequest,
+  unknown
 > => {
   return useMutation({
     mutationFn: async ({ title, tags, content }: FeedRequest) => {

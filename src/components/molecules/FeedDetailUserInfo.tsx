@@ -1,5 +1,4 @@
 import Icon from '@/components/atoms/Icon';
-import { formatDate } from '@/utils/format';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from '@/hooks/queries/feed.query';

@@ -18,7 +18,7 @@ const FeedBody = ({ title, content, tags }: FeedBodyProps) => {
         {tags.map((tag) => (
           <div
             className={clsx(
-              'px-[5px] py-[2px] text-body rounded-[5px]',
+              'px-[5px] py-[2px] text-caption1 rounded-[5px]',
               tagColors[tag]
             )}
           >

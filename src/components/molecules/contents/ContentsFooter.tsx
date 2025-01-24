@@ -42,7 +42,7 @@ export const FeedFooter = ({
 
       <div className='flex items-center space-x-1' onClick={handleLikeClick}>
         <Icon
-          type='like'
+          type={isLiked ? 'likeSolid' : 'like'}
           color={isLiked ? 'red' : 'gray'}
           className='w-[24px] h-[24px] cursor-pointer'
         />

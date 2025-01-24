@@ -49,7 +49,7 @@ const InputDropdown = () => {
               key={tag}
               className={`flex items-center px-3 py-1 rounded-[5px] text-sm ${tagColors[tag]} gap-[5px]`}
             >
-              {tagItem[tag]}
+              {tag}
               <div className='flex items-center'>
                 <button
                   className='flex text-gray-500 hover:text-gray-700 mb-[2.5px] text-[20px] font-extralight'

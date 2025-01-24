@@ -8,7 +8,7 @@ const ChatBody = ({ currentChannelId }: ChatBodyProps) => {
   return currentChannelId ? (
     <ChatMessages currentChannelId={currentChannelId} />
   ) : (
-    <div className='grow px-[56px]'>채널을 선택해주세요</div>
+    <div className='grow' />
   );
 };
 

@@ -43,6 +43,10 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       channels: {},
       connectSocket: () => {
         const protocol = window.location.protocol;
+        const socketUrl =
+          process.env.NODE_ENV === 'development'
+            ? `${protocol}//localhost:8080/chat`
+            : `${import.meta.env.VITE_BASE_SERVER_URL}/chat`;
         const {
           handleFetchChannels,
           handleMessage,
@@ -52,7 +56,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         } = get();
         const socket =
           get().socket ||
-          io(`${protocol}//localhost:8080/chat`, {
+          io(socketUrl, {
             secure: true,
             rejectUnauthorized: false, // 로컬 자체 서명된 인증서의 경우 false 설정
             query: { userId: useAuthStore.getState().userInfo?.userId },

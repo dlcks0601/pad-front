@@ -77,7 +77,11 @@ const ChatMessages = ({ currentChannelId }: ChatMessagesProps) => {
   }, [messages]);
 
   if (isLoading) {
-    return <div>메시지 불러오는중...</div>;
+    return (
+      <div className='flex justify-center grow'>
+        <div>메시지 불러오는중...</div>
+      </div>
+    );
   }
 
   return (

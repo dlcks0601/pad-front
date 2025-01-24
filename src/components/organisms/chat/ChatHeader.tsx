@@ -16,10 +16,10 @@ const ChatHeader = ({ currentChannelId }: ChatHeaderProps) => {
         ) : (
           <>
             <Title size='md' fontWeight='bold' lineClamp={1}>
-              채널을 선택해주세요
+              환영합니다! 🎉
             </Title>
             <div className='text-caption1 text-[#838383]'>
-              선택된 채널이 없습니다
+              채팅방을 선택해주세요
             </div>
           </>
         )}

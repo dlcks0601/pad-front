@@ -4,7 +4,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -22,15 +22,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@_components/*": ["./src/components/*"],
-      "@_constants/*": ["./src/constants/*"],
-      "@_hooks/*": ["./src/hooks/*"],
-      "@_layouts/*": ["./src/layouts/*"],
-      "@_mock/*": ["./src/mock/*"],
-      "@_store/*": ["./src/store/*"],
-      "@_styles/*": ["./src/styles/*"],
-      "@_types/*": ["./src/types/*"],
-      "@_utils/*": ["./src/utils/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

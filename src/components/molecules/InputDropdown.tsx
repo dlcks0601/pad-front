@@ -1,5 +1,5 @@
 import InputDropdownItem from '@/components/molecules/InputDropdownItem';
-import { tagItem, tagColors, TagItemKey } from '@/constants/tagItem';
+import { tagColors, TagItemKey } from '@/constants/tagItem';
 import useFeedStore from '@/store/postFeedStore';
 import { useState, useRef, useEffect } from 'react';
 
@@ -8,7 +8,7 @@ const InputDropdown = () => {
   const [selectedTag, setSelectedTag] = useState<TagItemKey[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const setTag = useFeedStore((state) => state.setTag);
-
+  const { tag } = useFeedStore((state) => state);
   const onClick = () => {
     setOpen(!open);
   };
@@ -18,6 +18,12 @@ const InputDropdown = () => {
     setSelectedTag(updatedTags);
     setTag(updatedTags);
   };
+
+  useEffect(() => {
+    if (tag) {
+      setSelectedTag(tag);
+    }
+  }, [tag]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

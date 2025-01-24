@@ -1,3 +1,5 @@
+import formatTimeAgo from '@/utils/\bformatTimeAgo';
+
 interface ContentsUserTitleProps {
   userNickname: string;
   userRole: string;
@@ -15,7 +17,9 @@ const ContentsUserTitle = ({
       <div className='flex items-center gap-[2px]'>
         <span className='text-gray-500 text-sm'>{userRole}</span>
         <span className='w-[4px] h-[4px] bg-gray-500 rounded-full'></span>
-        <span className='text-gray-400 text-sm'>{createdAt}</span>
+        <span className='text-gray-400 text-sm'>
+          {formatTimeAgo(createdAt)}
+        </span>
       </div>
     </div>
   );

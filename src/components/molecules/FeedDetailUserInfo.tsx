@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from '@/hooks/queries/feed.query';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
 import usePostModal from '@/hooks/usePostModal';
+import formatTimeAgo from '@/utils/\bformatTimeAgo';
 
 interface FeedDetailUserInfoProps {
   userId: number;
@@ -64,7 +65,7 @@ const FeedDetailUserInfo = ({
             <p className='font-semibold'>{userRole}&nbsp;&nbsp;</p>
             <span>&#183;</span>
             <p className='font-semibold'>
-              &nbsp;&nbsp;{formatDate(createdAt)}일전
+              &nbsp;&nbsp;{formatTimeAgo(createdAt)}
             </p>
           </div>
         </div>

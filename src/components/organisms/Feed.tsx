@@ -1,8 +1,8 @@
-import { FeedContents } from '@/components/molecules/contents/ContentsItem';
 import { useEffect, useRef, useCallback } from 'react';
 import useFeedSearchStore from '@/store/feedSearchStore';
 import { useInfiniteFetchFeeds } from '@/hooks/queries/feed.query';
 import { Post } from '@/apis/feed';
+import { FeedContents } from '@/components/molecules/contents/FeedContentsItem';
 
 const Feed = () => {
   const { latest, tags } = useFeedSearchStore((state) => state);
@@ -46,10 +46,10 @@ const Feed = () => {
           title={item.title}
           content={item.content}
           feedTags={item.tags}
-          commentCount={item.commentCount}
-          likeCount={item.likeCount}
-          viewCount={item.viewCount}
-          thumbnailUrl={item.thumnailUrl}
+          commentsCount={item.commentCount}
+          likesCount={item.likeCount}
+          viewsCount={item.viewCount}
+          thumnailUrl={item.thumnailUrl}
           postId={item.postId}
           isLiked={item.isLiked}
           user={{

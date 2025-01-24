@@ -67,7 +67,12 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
           <p className='text-body font-semibold'>{chat.userName}</p>
           <p className='text-caption2 text-gray'>{chat.userRole}</p>
         </div>
-        <div className='px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#EAFBFF]'>
+        <div
+          className={clsx(
+            'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#EAFBFF]',
+            { 'bg-[#ffdfe7]': isCurrentUser }
+          )}
+        >
           {chat.comment}
         </div>
       </div>

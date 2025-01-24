@@ -22,7 +22,7 @@ const SearchModal = ({ onClose }: ModalProps) => {
   const hubData = hubItem.filter(
     (el) =>
       el.title.includes(debouncedKeyword) ||
-      el.roleTags.map((t) => t.label).includes(debouncedKeyword)
+      el.roleTags.some((tag) => tag.includes(debouncedKeyword))
   );
 
   const { tabs, active, setActive } = useTabs(['전체', '피드', '커넥션 허브']);
@@ -35,7 +35,7 @@ const SearchModal = ({ onClose }: ModalProps) => {
   };
 
   return (
-    <Modal onClose={onClose} width='808px' height='687px'>
+    <Modal onClose={onClose}>
       <div className='w-full h-full px-[50px] flex flex-col'>
         <div className='mb-6 w-full h-6 flex items-center'>
           <Icon type='search' className='w-6 h-6' color='gray' />

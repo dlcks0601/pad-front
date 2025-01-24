@@ -34,19 +34,17 @@ const IntroductionTemplate = () => {
   const [isForUpdate, setIsForUpdate] = useState(false);
 
   const { ownerId } = useMyPageStore(useShallow((state) => state));
-  const { data: profileInfo } = useGetProfileInfo(ownerId);
+  const { data: profileInfo, isLoading } = useGetProfileInfo(ownerId);
   const { mutate: deleteMusic } = useDeleteMusicWork(ownerId);
 
   const handleProjectUpdate = (work: ShortProjects) => {
     if (!work) return;
     resetProjectForm();
-    console.log(work);
 
     setProjectForm({
+      ...work,
       id: work.myPageProjectId,
       image: work.projectProfileUrl,
-      title: work.title,
-      description: work.description,
       github: work.links.find((el) => el.type === 'Github')?.url ?? '',
       web: work.links.find((el) => el.type === 'Web')?.url ?? '',
       ios: work.links.find((el) => el.type === 'IOS')?.url ?? '',
@@ -74,6 +72,7 @@ const IntroductionTemplate = () => {
     return 'musicUrl' in work;
   };
 
+  console.log({ profileInfo });
   return (
     <>
       {role === 'Artist' ? (
@@ -100,7 +99,9 @@ const IntroductionTemplate = () => {
           </span>
           <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col text-center'>
             <span className='text-[50px]'>
-              {STATUS_EMOJI[profileInfo?.status as keyof typeof STATUS_EMOJI]}
+              {STATUS_EMOJI.find((el) =>
+                el.label.startsWith(profileInfo?.status as string)
+              )?.label.slice(-2)}
             </span>
             <span className='text-white'>{profileInfo?.status}</span>
           </div>
@@ -156,7 +157,10 @@ const IntroductionTemplate = () => {
       ) : (
         <WorkList>
           {role === 'Programmer' && (
-            <WorkList.Github githubId={profileInfo?.githubUsername!} />
+            <WorkList.Github
+              githubId={profileInfo?.githubUsername!}
+              loading={isLoading}
+            />
           )}
           <WorkList.Projects>
             {profileInfo?.works?.map((work, i) => {

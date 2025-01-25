@@ -67,6 +67,20 @@ export interface UploadImageResponse {
   imageUrl: string;
 }
 
+export interface FeedRankContent {
+  postId: number;
+  title: string;
+  userId: number;
+  userName: string;
+  userNickname: string;
+  userProfileUrl: string;
+  userRole: string;
+}
+
+export interface FeedRankResponse {
+  contents: FeedRankContent[];
+}
+
 export const fetchFeeds = async ({
   cursor,
   latest,
@@ -214,6 +228,15 @@ export const uploadImage = async (file: FormData) => {
     data: {
       file,
     },
+  });
+  return response.data;
+};
+
+export const fetchFeedRank = async () => {
+  const apiPath = API_PATH.feedRank;
+  const response = await fetcher<FeedRankResponse>({
+    url: apiPath,
+    method: 'GET',
   });
   return response.data;
 };

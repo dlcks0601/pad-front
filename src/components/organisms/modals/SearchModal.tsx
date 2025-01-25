@@ -6,7 +6,7 @@ import Modal from '@/components/organisms/modals/Modal';
 import { ModalProps } from '@/components/organisms/modals/modalProps';
 import Tabs from '@/components/organisms/Tabs';
 import { feedItem } from '@/mocks/mock-data/feedItem';
-import { hubItem } from '@/mocks/mock-data/hubItem';
+import { HubItem } from '@/mocks/mock-data/hubItem';
 import useDebounce from '@/hooks/useDebounce';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
@@ -24,6 +24,7 @@ const SearchModal = ({ onClose }: ModalProps) => {
       el.title.includes(debouncedKeyword) ||
       el.roleTags.some((tag) => tag.includes(debouncedKeyword))
   );
+  // 허브 데이터 연결 중
 
   const { tabs, active, setActive } = useTabs(['전체', '피드', '커넥션 허브']);
 

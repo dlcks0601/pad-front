@@ -1,27 +1,32 @@
-import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
-import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
-import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
-import { skillTagItemsKey } from '@/constants/hub/skillTagItems';
-import { statusTagItemskey } from '@/constants/hub/statusTagItems';
+import { hubTagItems } from '@/constants/hub/hubTagItems';
+import { meetingTagItems } from '@/constants/hub/meetingTagItems';
+import { roleItems } from '@/constants/hub/roleItems';
+import { roleTagItems } from '@/constants/hub/roleTagsItems';
+import { skillTagItems } from '@/constants/hub/skillTagItems';
+import { statusTagItems } from '@/constants/hub/statusTagItems';
 
-export interface DetailItemType {
+export interface DetailItem {
+  projectId: number;
   title: string;
-  hubTags: HubTagItemsKey;
-  meetingTags: meetingTagItemskey;
-  statusTags: statusTagItemskey;
-  roleTags: roleTagItemsKey[];
-  skillTags: skillTagItemsKey[];
-  role: roleItemsKey;
+  hubType: keyof typeof hubTagItems;
+  status: keyof typeof statusTagItems;
+  workType: keyof typeof meetingTagItems;
+  role: keyof typeof roleItems;
+  skills: (keyof typeof skillTagItems)[];
+  detailRoles: (keyof typeof roleTagItems)[];
   startDate: string;
   duration: string;
   contents: string;
+  bookMarkCount: number;
+  applyCount: number;
+  viewCount: number;
   user: {
-    userIntroduce: string;
-    userProfileUrl: string;
-    userNickname: string;
-    userRole: string;
-    createdAt: string;
+    userId?: number;
+    profileUrl: string;
+    nickname: string;
+    role: string;
+    createdAt?: string;
+    introduce: string;
   };
 }
 

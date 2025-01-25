@@ -7,7 +7,7 @@ import { statusTagItems } from '@/constants/hub/statusTagItems';
 
 export interface HubItem {
   projectId: number;
-  content: any;
+  content: string;
   status: keyof typeof statusTagItems;
   workType: keyof typeof meetingTagItems;
   title: string;

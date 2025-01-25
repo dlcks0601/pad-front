@@ -1,86 +1,88 @@
 import { API_PATH } from '@/apis/api-path';
 import { hubTagItems } from '@/constants/hub/hubTagItems';
 import { meetingTagItems } from '@/constants/hub/meetingTagItems';
+import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
 
-export interface HubPosts {
-  userId?: number;
-  userName?: string;
-  userNickname: string;
-  userJob: string;
-  userProfileUrl: string;
-  postId: number;
-  thumbnailUrl?: string;
-  title: string;
-  startDate: string;
-  duration: string;
-  role: 'PROGRAMMER' | 'DESIGNER' | 'ARTIST';
-  roleTags: (keyof typeof roleTagItems)[];
-  meetingTags: (keyof typeof meetingTagItems)[];
-  statusTags: (keyof typeof statusTagItems)[];
-  hubTags: (keyof typeof hubTagItems)[];
-  bookmarkCount: number;
-  applyCount: number;
-  viewCount: number;
-  createdAt: string;
-}
-
-export interface HubPost {
-  title: string;
-  hubTags: (keyof typeof hubTagItems)[];
-  roleTags: (keyof typeof roleTagItems)[];
-  meetingTags: (keyof typeof meetingTagItems)[];
-  statusTags: (keyof typeof statusTagItems)[];
-  skillTags: (keyof typeof skillTagItems)[];
-  role: 'PROGRAMMER' | 'ARTIST' | 'DESIGNER';
-  startDate: string;
-  duration: string;
-  contents: string;
-  user: {
-    userIntroduce: string;
-    userProfileUrl: string;
-    userNickname: string;
-    userRole: string;
-  };
-}
-
 export interface HubsResponse {
-  hubposts: HubPosts[];
+  message: {
+    code: number;
+    text: string;
+  };
+  projects: {
+    projectId: number;
+    title: string;
+    content: string;
+    thumbnailUrl?: string;
+    role: keyof typeof roleItems;
+    skills: (keyof typeof skillTagItems)[];
+    detailRoles: (keyof typeof roleTagItems)[];
+    hubType: keyof typeof hubTagItems;
+    startDate: string;
+    duration: string;
+    workType: keyof typeof meetingTagItems;
+    applyCount: number;
+    bookMarkCount: number;
+    viewCount: number;
+    status: keyof typeof statusTagItems;
+    user: {
+      userId: number;
+      nickname: string;
+      name: string;
+      profileUrl: string;
+      role: string;
+    };
+  }[];
+  page: number;
+  limit: number;
 }
 
-export interface HubResponse {
-  hubpost: HubPost[];
-}
+export const fetchHubs = async ({
+  skip,
+  limit,
+  role,
+  unit,
+  sort,
+}: {
+  skip: number;
+  limit: number;
+  role: string;
+  unit: string;
+  sort: string;
+}): Promise<HubsResponse> => {
+  const apiPath = API_PATH.projects;
 
-export const fetchHubs = async () => {
-  try {
-    const apiPath = API_PATH.connectionhub;
-    const response = await fetcher<HubsResponse>({
-      url: apiPath,
-      method: 'GET',
-    });
-    console.log('허브 페이지 데이터 조회 성공');
-    return response.data;
-  } catch (error) {
-    console.error('허브 페이지 데이터 조회 실패', error);
-    throw error;
+  const params: Record<string, unknown> = {
+    skip,
+    limit,
+  };
+
+  if (role !== 'null') {
+    params.role = role;
   }
+  if (unit !== 'null') {
+    params.unit = unit;
+  }
+  if (sort !== 'null') {
+    params.sort = sort;
+  }
+
+  const response = await fetcher<HubsResponse>({
+    url: apiPath,
+    method: 'GET',
+    params,
+  });
+  return response.data;
 };
 
-export const fetchHub = async () => {
-  try {
-    const apiPath = API_PATH.connectionhubdetail;
-    const response = await fetcher<HubResponse>({
-      url: apiPath,
-      method: 'GET',
-    });
-    console.log('허브 디테일 페이지 데이터 조회 성공');
-    return response.data;
-  } catch (error) {
-    console.log('허브 디테일 페이지 데이터 조회 실패', error);
-    throw error;
-  }
+export const fetchHub = async (projectId: number): Promise<HubsResponse> => {
+  const apiPath = API_PATH.project.replace(':projectId', projectId.toString());
+  const response = await fetcher<HubsResponse>({
+    url: apiPath,
+    method: 'GET',
+  });
+  return response.data;
 };

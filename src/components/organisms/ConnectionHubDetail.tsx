@@ -1,13 +1,11 @@
 import HubDetail from '@/components/molecules/contents/HubDetail';
-import { useFetchHub } from '@/hooks/queries/hub.query';
+// import { useFetchHub } from '@/hooks/queries/hub.query';
 import { DetailItemType } from '@/mocks/mock-data/detailItem';
 import { hubDetailMocks } from '@/mocks/mock-data/hubDetail.mock';
 import { useEffect, useState } from 'react';
 
 const ConnectionHubDetail = () => {
   const [data, setData] = useState<DetailItemType[]>([]);
-  const { data: HubData } = useFetchHub();
-  console.log('Hubdata: ', HubData);
 
   useEffect(() => {
     console.log(hubDetailMocks); // 데이터 확인

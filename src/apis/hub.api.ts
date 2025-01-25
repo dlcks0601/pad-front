@@ -2,7 +2,7 @@ import { API_PATH } from '@/apis/api-path';
 import { hubTagItems } from '@/constants/hub/hubTagItems';
 import { meetingTagItems } from '@/constants/hub/meetingTagItems';
 import { roleItems } from '@/constants/hub/roleItems';
-import { roleTagItems } from '@/constants/hub/roleTagsItems';
+import { roleTagItems, roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
@@ -40,35 +40,30 @@ export interface HubsResponse {
   limit: number;
 }
 
+export interface HubsRequest {
+  skip: number;
+  limit: number;
+  role?: keyof typeof roleItems;
+  unit?: keyof typeof roleTagItems;
+  sort: string;
+}
+
 export const fetchHubs = async ({
   skip,
   limit,
   role,
   unit,
   sort,
-}: {
-  skip: number;
-  limit: number;
-  role: string;
-  unit: string;
-  sort: string;
-}): Promise<HubsResponse> => {
+}: HubsRequest): Promise<HubsResponse> => {
   const apiPath = API_PATH.projects;
 
   const params: Record<string, unknown> = {
     skip,
     limit,
+    role,
+    unit,
+    sort,
   };
-
-  if (role !== 'null') {
-    params.role = role;
-  }
-  if (unit !== 'null') {
-    params.unit = unit;
-  }
-  if (sort !== 'null') {
-    params.sort = sort;
-  }
 
   const response = await fetcher<HubsResponse>({
     url: apiPath,

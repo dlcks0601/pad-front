@@ -4,6 +4,7 @@ import {
   meetingTagItemsColors,
   meetingTagItemskey,
 } from '@/constants/hub/meetingTagItems';
+import { roleItemsKey } from '@/constants/hub/roleItems';
 import {
   roleTagItems,
   roleTagItemsColors,
@@ -15,20 +16,20 @@ import {
 } from '@/constants/hub/statusTagItems';
 
 interface HubBodyProps {
-  meetingTags: meetingTagItemskey;
-  roleTags: roleTagItemsKey[];
-  statusTags: statusTagItemskey;
-  role: RoleProps['role'];
+  workType: meetingTagItemskey;
+  detailRoles: roleTagItemsKey[];
+  status: statusTagItemskey;
+  role: roleItemsKey;
   startDate: string;
   duration: string;
 }
 
 const HubBody = ({
-  meetingTags,
-  roleTags,
+  workType,
+  detailRoles = [],
   role,
   startDate,
-  statusTags,
+  status,
   duration,
 }: HubBodyProps) => {
   return (
@@ -37,12 +38,12 @@ const HubBody = ({
         <Role role={role} />
 
         <div className='flex gap-[10px]'>
-          {roleTags.map((roleTag) => (
+          {detailRoles.map((detailRoles) => (
             <span
-              key={roleTag}
-              className={`${roleTagItemsColors[roleTag]} bg-[#eaeaea] inline-flex items-center px-3 py-1`}
+              key={detailRoles}
+              className={`${roleTagItemsColors[detailRoles]} bg-[#eaeaea] inline-flex items-center px-3 py-1`}
             >
-              {roleTagItems[roleTag]}
+              {roleTagItems[detailRoles]}
             </span>
           ))}
         </div>
@@ -53,14 +54,14 @@ const HubBody = ({
 
       <div className='flex gap-[10px] text-white'>
         <span
-          className={`${meetingTagItemsColors[meetingTags]} inline-flex items-center px-3 py-1 font-medium`}
+          className={`${meetingTagItemsColors[workType]} inline-flex items-center px-3 py-1 font-medium`}
         >
-          {meetingTags}
+          {workType}
         </span>
         <span
-          className={`${statusTagItemsColors[statusTags]} inline-flex items-center px-3 py-1 font-medium `}
+          className={`${statusTagItemsColors[status]} inline-flex items-center px-3 py-1 font-medium `}
         >
-          {statusTags}
+          {status}
         </span>
       </div>
     </div>

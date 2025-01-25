@@ -11,9 +11,9 @@ interface FeedFooterProps {
 }
 
 interface HubFooterProps {
-  bookmarkCount: number;
-  userCount: number;
-  viewsCount: number;
+  bookMarkCount: number;
+  applyCount: number;
+  viewCount: number;
 }
 
 export const FeedFooter = ({
@@ -58,23 +58,23 @@ export const FeedFooter = ({
 };
 
 export const HubFooter = ({
-  bookmarkCount,
-  userCount,
-  viewsCount,
+  bookMarkCount,
+  applyCount,
+  viewCount,
 }: HubFooterProps) => {
   return (
     <div className='flex justify-center items-center gap-[107px]'>
       <div className='flex items-center space-x-1'>
         <Icon type='bookmark' color='gray' className='w-[24px] h-[24px]' />
-        <span className='text-[#838383]'>{bookmarkCount}</span>
+        <span className='text-[#838383]'>{bookMarkCount}</span>
       </div>
       <div className='flex items-center space-x-1'>
         <Icon type='user' color='gray' className='w-[24px] h-[24px]' />
-        <span className='text-[#838383]'>{userCount}</span>
+        <span className='text-[#838383]'>{applyCount}</span>
       </div>
       <div className='flex items-center space-x-1'>
         <Icon type='eye' color='gray' className='w-[24px] h-[24px]' />
-        <span className='text-[#838383]'>{viewsCount}</span>
+        <span className='text-[#838383]'>{viewCount}</span>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 export const roleTagItems = {
+  '백엔드 개발자': '#백엔드 개발자',
   '서버/백엔드 개발자': '#서버/백엔드 개발자',
   '프론트엔드 개발자': '#프론트엔드 개발자',
   '웹 풀스택 개발자': '#웹 풀스택 개발자',
@@ -53,6 +54,7 @@ export const roleTagItems = {
 export type roleTagItemsKey = keyof typeof roleTagItems;
 
 export const roleTagItemsColors: Record<roleTagItemsKey, string> = {
+  '백엔드 개발자': 'text-[#7d7d7d] text-[12px] rounded-full',
   '서버/백엔드 개발자': 'text-[#7d7d7d] text-[12px] rounded-full',
   '프론트엔드 개발자': 'text-[#7d7d7d] text-[12px] rounded-full',
   '웹 풀스택 개발자': 'text-[#7d7d7d] text-[12px] rounded-full',

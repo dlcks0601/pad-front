@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Icon from '@/components/atoms/Icon';
 import { usePatchFeedLike } from '@/hooks/queries/feed.query';
 import useAuthStore from '@/store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 interface FeedFooterProps {
   commentsCount: number;
@@ -18,6 +19,7 @@ export const FeedFooter = ({
   isLiked: initialIsLiked,
   postId,
 }: FeedFooterProps) => {
+  const navigate = useNavigate();
   const { isLoggedIn, userInfo } = useAuthStore((state) => state);
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
@@ -27,7 +29,13 @@ export const FeedFooter = ({
 
   const handleLikeClick = () => {
     if (!isLoggedIn || !userInfo.userId) {
-      console.log('로그인이 필요합니다.');
+      const answer = window.confirm(
+        '로그인이 필요합니다. 로그인을 하시겠습니까?'
+      );
+      if (answer) {
+        navigate('/login');
+        return;
+      }
       return;
     }
     if (isLoading) return;

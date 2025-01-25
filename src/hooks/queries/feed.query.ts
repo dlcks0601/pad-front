@@ -1,5 +1,6 @@
 import {
   FeedChatResponse,
+  FeedRankResponse,
   FeedRequest,
   FeedResponse,
   FeedsResponse,
@@ -8,6 +9,7 @@ import {
   deleteFeedChat,
   fetchFeed,
   fetchFeedChats,
+  fetchFeedRank,
   fetchFeeds,
   patchFeedLike,
   postFeed,
@@ -209,5 +211,14 @@ export const usePatchFeedLike = () => {
     onError: (error) => {
       console.error('피드 좋아요 처리중 오류 발생:', error);
     },
+  });
+};
+
+export const useFetchFeedRank = (): UseQueryResult<FeedRankResponse, Error> => {
+  return useQuery<FeedRankResponse>({
+    queryKey: ['feedRank'],
+    queryFn: () => fetchFeedRank(),
+    retry: 10,
+    refetchInterval: 60 * 60 * 1000,
   });
 };

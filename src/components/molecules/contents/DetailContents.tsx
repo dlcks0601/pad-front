@@ -1,11 +1,11 @@
 interface DetailContentsProps {
-  contents: string;
+  content: string;
 }
 
-const DetailContents = ({ contents }: DetailContentsProps) => {
+const DetailContents = ({ content }: DetailContentsProps) => {
   return (
     <div className='flex w-full border rounded-[10px] h-[400px] p-[10px]'>
-      {contents}
+      {content}
     </div>
   );
 };

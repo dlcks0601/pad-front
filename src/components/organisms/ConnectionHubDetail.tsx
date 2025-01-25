@@ -1,34 +1,32 @@
 import HubDetail from '@/components/molecules/contents/HubDetail';
+import { useFetchHub } from '@/hooks/queries/hub.query';
+
 // import { useFetchHub } from '@/hooks/queries/hub.query';
-import { DetailItemType } from '@/mocks/mock-data/detailItem';
-import { hubDetailMocks } from '@/mocks/mock-data/hubDetail.mock';
-import { useEffect, useState } from 'react';
+
+import { useParams } from 'react-router-dom';
 
 const ConnectionHubDetail = () => {
-  const [data, setData] = useState<DetailItemType[]>([]);
-
-  useEffect(() => {
-    console.log(hubDetailMocks); // 데이터 확인
-    setData(hubDetailMocks);
-  }, []);
+  const { projectId } = useParams<{ projectId: string }>();
+  const { data, isLoading, isError } = useFetchHub(Number(projectId));
 
   return (
     <div className='flex p-10px'>
-      {data.map((item) => (
-        <HubDetail
-          title={item.title}
-          hubTags={item.hubTags}
-          meetingTags={item.meetingTags}
-          statusTags={item.statusTags}
-          roleTags={item.roleTags}
-          skillTags={item.skillTags}
-          role={item.role}
-          startDate={item.startDate}
-          duration={item.duration}
-          contents={item.contents}
-          user={item.user}
-        />
-      ))}
+      {data &&
+        data.projects.map((item) => (
+          <HubDetail
+            title={item.title}
+            hubType={item.hubType}
+            workType={item.workType}
+            status={item.status}
+            detailRoles={item.detailRoles}
+            skills={item.skills}
+            role={item.role}
+            startDate={item.startDate}
+            duration={item.duration}
+            content={item.content}
+            user={item.user}
+          />
+        ))}
     </div>
   );
 };

@@ -31,7 +31,7 @@ const HubItem = ({
 }: HubItemProps) => {
   return (
     <div className='flex flex-col gap-[20px]'>
-      <HubTitle hubTags={hubType} title={title} />
+      <HubTitle hubType={hubType} title={title} />
       <div className='flex justify-between'>
         <HubBody
           status={status}

@@ -1,22 +1,22 @@
 import Icon from '@/components/atoms/Icon';
-import { RoleProps } from '@/components/atoms/Role';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { roleItemsKey } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 
 export interface HubInfoProps {
   startDate: string;
   duration: string;
-  meetingTags: meetingTagItemskey;
-  role: RoleProps['role'];
-  roleTags: roleTagItemsKey[];
+  workType: meetingTagItemskey;
+  role: roleItemsKey;
+  detailRoles: roleTagItemsKey[];
 }
 
 const HubInfo = ({
   startDate,
   duration,
-  meetingTags,
+  workType,
   role,
-  roleTags,
+  detailRoles,
 }: HubInfoProps) => {
   return (
     <div className='flex flex-col gap-[20px]'>
@@ -37,10 +37,10 @@ const HubInfo = ({
             {role}
             <div className='flex gap-[10px] text-[14px] items-center'>&gt;</div>
             <div className='flex gap-[10px] text-[14px]'>
-              {roleTags.map((tag, index) => (
+              {detailRoles.map((tag, index) => (
                 <div key={index}>
                   {tag}
-                  {index !== roleTags.length - 1 && ','}
+                  {index !== detailRoles.length - 1 && ','}
                 </div>
               ))}
             </div>
@@ -62,7 +62,7 @@ const HubInfo = ({
           <span className='text-[#838383] text-[14px]'>작업방식</span>
         </div>
         <div>
-          <span className='text-black text-[14px]'>{meetingTags}</span>
+          <span className='text-black text-[14px]'>{workType}</span>
         </div>
       </div>
     </div>

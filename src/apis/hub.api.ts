@@ -9,6 +9,7 @@ import {
   statusTagItemskey,
 } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
+import { promises } from 'dns';
 
 export interface HubsResponse {
   message: {
@@ -118,6 +119,14 @@ export interface HubPost {
   detail_roles: (keyof typeof roleTagItems)[];
 }
 
+export interface BookmarkResponse {
+  message: {
+    code: number;
+    text: string;
+  };
+  bookmarked: boolean;
+}
+
 // 허브 메인
 export const fetchHubs = async ({
   cursor,
@@ -196,6 +205,36 @@ export const postHub = async (
       detail_roles,
       recruiting,
     } as HubPost,
+  });
+  return response.data;
+};
+
+// 북마크 추가 및 삭제
+export const togledBookmark = async (
+  projectId: number
+): Promise<BookmarkResponse> => {
+  const apiPath = API_PATH.hubBookmark.replace(
+    ':projectId',
+    projectId.toString()
+  );
+  const response = await fetcher<BookmarkResponse>({
+    url: apiPath,
+    method: 'POST',
+  });
+  return response.data;
+};
+
+// 북마크 상태 확인
+export const fetchBookmarkStatus = async (
+  projectId: number
+): Promise<BookmarkResponse> => {
+  const apiPath = API_PATH.hubBookmark.replace(
+    ':projectId',
+    projectId.toString()
+  );
+  const response = await fetcher<BookmarkResponse>({
+    url: apiPath,
+    method: 'GET',
   });
   return response.data;
 };

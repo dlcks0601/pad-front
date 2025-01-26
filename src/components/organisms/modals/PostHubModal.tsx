@@ -31,14 +31,23 @@ import TiptapEditor from '@/components/organisms/TiptapEditor';
 
 interface PostHubModalProps {
   onClose: () => void;
+  onSubmit: () => void;
 }
 
-// interface AppState {
-//   content: string;
-//   setContent: (content: string) => void;
-// }
+const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
+  const {
+    title,
+    contents,
+    role,
+    hub_type,
+    start_date,
+    duration,
+    work_type,
+    recruiting,
+    skills,
+    detail_roles,
+  } = useState((state) => state);
 
-const PostHubModal = ({ onClose }: PostHubModalProps) => {
   const [selectedUnits, setSelectedUnits] = useState<string[]>([]);
 
   const handleUnitSelect = (unit: string) => {
@@ -82,12 +91,8 @@ const PostHubModal = ({ onClose }: PostHubModalProps) => {
   const [content, setContent] = useState<string>('');
 
   const [errors] = useState<{
-    title: boolean;
-    tags: boolean;
     content: boolean;
   }>({
-    title: false,
-    tags: false,
     content: false,
   });
 
@@ -274,7 +279,10 @@ const PostHubModal = ({ onClose }: PostHubModalProps) => {
                   >
                     이전
                   </button>
-                  <button className='w-[50px] h-[35px] text-[14px] bg-[#00C859] text-white rounded'>
+                  <button
+                    className='w-[50px] h-[35px] text-[14px] bg-[#00C859] text-white rounded'
+                    onClick={onSubmit}
+                  >
                     완료
                   </button>
                 </div>

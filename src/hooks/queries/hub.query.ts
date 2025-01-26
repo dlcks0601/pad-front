@@ -1,6 +1,6 @@
 // import { fetchHubs, HubsResponse } from '@/apis/hub.api';
 
-import { fetchHub, fetchHubs, HubsResponse } from '@/apis/hub.api';
+import { fetchHub, fetchHubs, HubResponse, HubsResponse } from '@/apis/hub.api';
 import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import {
@@ -27,17 +27,18 @@ export const useInfiniteFetchHubs = (
     queryKey: ['projects', sort, role],
     queryFn: ({ pageParam }) =>
       fetchHubs({
-        skip: pageParam as number,
+        cursor: pageParam as number,
+        skip,
         limit,
         role,
         unit,
         sort,
       }),
     getNextPageParam: (lastPage) => {
-      if (!lastPage.page || lastPage.page.lastCursor === null) {
+      if (!lastPage.pagination || lastPage.pagination.lastCursor === null) {
         return undefined;
       }
-      return lastPage.page.lastCursor;
+      return lastPage.pagination.lastCursor;
     },
     initialPageParam: 0,
   });
@@ -46,8 +47,8 @@ export const useInfiniteFetchHubs = (
 // // 피드 상세 불러오기
 export const useFetchHub = (
   projectId: number
-): UseQueryResult<HubsResponse, Error> => {
-  return useQuery<HubsResponse>({
+): UseQueryResult<HubResponse, Error> => {
+  return useQuery<HubResponse>({
     queryKey: ['project'],
     queryFn: () => fetchHub(projectId),
     retry: 10,

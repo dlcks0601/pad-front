@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import useFeedSearchStore from '@/store/feedSearchStore';
 import { useInfiniteFetchFeeds } from '@/hooks/queries/feed.query';
-import { Post } from '@/apis/feed';
+import { Post } from '@/apis/feed.api';
 import { FeedContents } from '@/components/molecules/contents/FeedContentsItem';
 
 const Feed = () => {

@@ -16,7 +16,7 @@ import {
   postFeedChat,
   putChatLike,
   putFeed,
-} from '@/apis/feed';
+} from '@/apis/feed.api';
 import queryClient from '@/utils/queryClient';
 import {
   InfiniteData,

@@ -13,6 +13,7 @@ export const API_PATH = {
   feedChatDelete: '/feed/:id/comment/:commentId',
   projects: '/projects',
   project: '/projects/:projectId',
+  hubWeeklyBest: '/projects/popular-this-week',
   feedLike: '/feed/:id/likes',
   feedImage: '/feed/image',
   searchMessages: '/chat/channels/:id/messages/search',

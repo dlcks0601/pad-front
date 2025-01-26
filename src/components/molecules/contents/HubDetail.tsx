@@ -52,9 +52,9 @@ const HubDetail = ({
   createdAt,
   isOwnConnectionHub,
 }: HubDetailProps) => {
+  console.log('Received isOwnConnectionHub in props:', isOwnConnectionHub);
   return (
     <div className='flex flex-col w-full gap-[20px]'>
-      {/* 허브 작성자 정보 */}
       <ContentsUser
         profileUrl={manager.profileUrl}
         nickname={manager.nickname}
@@ -64,7 +64,6 @@ const HubDetail = ({
 
       <div className='flex flex-col w-full bg-white rounded-[20px] p-[20px]'>
         <div className='flex flex-col gap-[20px]'>
-          {/* 허브 제목 및 정보 */}
           <HubTitle hubType={hubType} title={title} />
           <HubInfoTag workType={workType} status={status} role={role} />
           <HubInfo
@@ -76,7 +75,6 @@ const HubDetail = ({
           />
           <HubSkill skills={skills} />
 
-          {/* 허브 소개 */}
           <div className='flex'>
             <HubDetailTitle title='허브 소개' />
           </div>

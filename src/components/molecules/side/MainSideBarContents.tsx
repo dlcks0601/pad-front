@@ -3,9 +3,10 @@ import { useFetchFeedRank } from '@/hooks/queries/feed.query';
 
 const MainSideBarContents = () => {
   const { data: FeedRankData, isLoading } = useFetchFeedRank();
+  console.log('FeedRankData: ', FeedRankData);
   const FormattedContents = FeedRankData?.contents.map((item, index) => ({
     ...item,
-    rank: index + 1, // 순서를 rank로 추가 (1부터 시작)
+    rank: index + 1,
   }));
 
   if (isLoading) {

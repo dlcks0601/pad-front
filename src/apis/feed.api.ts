@@ -247,10 +247,11 @@ export const patchFeedChat = async (
   content: Comment['comment']
 ) => {
   const apiPath = `/feed/${id}/comment/${commentId}`;
+  console.log('apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'PUT',
-    data: content,
+    data: { content },
   });
   return response.data;
 };

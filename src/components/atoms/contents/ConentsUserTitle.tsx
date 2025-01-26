@@ -26,10 +26,13 @@ const ContentsUserTitle = ({
   return (
     <div className='flex flex-col items-start'>
       <span className='font-bold text-gray-900 text-sm'>{nickname}</span>
-      <div className='flex items-center gap-[2px]'>
+      <div className='flex justify-center items-center gap-[2px]'>
         <span className='text-gray-500 text-sm'>{role}</span>
-        <span className='w-[4px] h-[4px] bg-gray-500 rounded-full'></span>
-        <span className='text-gray-400 text-sm'>{createdAt}</span>
+        <span>•</span>
+        {/* calculateTimeAgo 함수로 변환된 시간 표시 */}
+        <span className='text-gray-400 text-sm'>
+          {calculateTimeAgo(createdAt)}
+        </span>
       </div>
     </div>
   );

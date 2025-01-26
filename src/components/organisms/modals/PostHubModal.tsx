@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   HubSelect,
   SkillSelect,
@@ -25,13 +24,11 @@ const PostHubModal = ({ onClose, onSubmit, onRevise }: PostHubModalProps) => {
   const {
     title,
     content,
-
     skills,
     detail_roles,
     setTitle,
     setContent,
     setStartDate,
-
     setSkills,
     setDetailRoles,
   } = useHubStore((state) => state);
@@ -59,8 +56,6 @@ const PostHubModal = ({ onClose, onSubmit, onRevise }: PostHubModalProps) => {
   const handleSkillRemove = (skill: string) => {
     setSelectedSkills((prev) => prev.filter((s) => s !== skill));
   };
-
-  const [date, setDate] = React.useState<Date>();
 
   const [currentStep, setCurrentStep] = useState<number>(1);
 

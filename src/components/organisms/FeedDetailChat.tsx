@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import useAuthStore from '@/store/authStore';
 import groupCommentsByDate from '@/utils/groupCommentsByDate';
 import ChatItem from '@/components/molecules/ChatItem';
-import { Comment } from '@/apis/feed';
+import { Comment } from '@/apis/feed.api';
 import { useDeleteFeedChat, usePostFeedChat } from '@/hooks/queries/feed.query';
 import ChatInput from '@/components/molecules/ChatInput';
 
@@ -12,7 +12,8 @@ interface FeedDetailChatProps {
 }
 
 const FeedDetailChat = ({ comments, feedId }: FeedDetailChatProps) => {
-  const { userId, userImage } = useAuthStore((state) => state.userInfo);
+  const { userId, profileUrl } = useAuthStore((state) => state.userInfo);
+  const { isLoggedIn } = useAuthStore((state) => state);
   const groupedComments = groupCommentsByDate(comments);
   const { mutate: postComment, isPending } = usePostFeedChat();
   const { mutate: deleteComment } = useDeleteFeedChat();
@@ -51,7 +52,7 @@ const FeedDetailChat = ({ comments, feedId }: FeedDetailChatProps) => {
   };
 
   return (
-    <div className='mt-3 w-full h-fit flex flex-col gap-[20px] px-[30px]'>
+    <div className='mt-3 w-full h-fit flex flex-col gap-[20px] px-[50px]'>
       {groupedComments && groupedComments.length > 0 ? (
         <div
           className={clsx(
@@ -83,8 +84,9 @@ const FeedDetailChat = ({ comments, feedId }: FeedDetailChatProps) => {
       )}
       <ChatInput
         onSubmit={submitComment}
-        userImage={userImage}
+        userImage={profileUrl}
         isPending={isPending}
+        isLoggedIn={isLoggedIn}
       />
     </div>
   );

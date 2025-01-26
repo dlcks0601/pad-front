@@ -29,7 +29,6 @@ const ContentsUserTitle = ({
       <div className='flex justify-center items-center gap-[2px]'>
         <span className='text-gray-500 text-sm'>{role}</span>
         <span>•</span>
-        {/* calculateTimeAgo 함수로 변환된 시간 표시 */}
         <span className='text-gray-400 text-sm'>
           {calculateTimeAgo(createdAt)}
         </span>

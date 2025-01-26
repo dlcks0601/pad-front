@@ -1,4 +1,4 @@
-import Icon from '@/components/atoms/Icon';
+import FeedDetailFooter from '@/components/molecules/FeedDetailFooter';
 import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
 import FeedDetailSkeleton from '@/components/molecules/skeletons/FeedDetailSkeleton';
@@ -51,7 +51,6 @@ const FeedDetailPage = () => {
               title={post.title}
               content={post.content}
             />
-
             <Suspense>
               {ChatLoading ? (
                 <FeedDetailSkeleton />
@@ -62,29 +61,11 @@ const FeedDetailPage = () => {
                 />
               )}
             </Suspense>
-
-            <div className='fixed bottom-[10px] bg-[#4B4B4B] ml-[20px] w-[760px] h-[40px] rounded-[10px] py-[10px] px-[200px] flex  text-white text-heading2'>
-              <div className='flex w-full justify-between'>
-                <div className='flex'>
-                  <Icon
-                    type='chatBubbleOvalLeftEllipsis'
-                    className='w-[24px] h-[24px] text-white'
-                  />
-                  &nbsp;
-                  {post.commentCount}
-                </div>
-                <div className='flex'>
-                  <Icon type='like' className='w-[24px] h-[24px] text-white' />
-                  &nbsp;
-                  {post.likeCount}
-                </div>
-                <div className='flex'>
-                  <Icon type='eye' className='w-[24px] h-[24px] text-white' />
-                  &nbsp;
-                  {post.viewCount}
-                </div>
-              </div>
-            </div>
+            <FeedDetailFooter
+              commentCount={post.commentCount}
+              likeCount={post.likeCount}
+              viewCount={post.viewCount}
+            />
           </div>
         </>
       )}

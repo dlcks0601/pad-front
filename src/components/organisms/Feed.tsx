@@ -1,8 +1,8 @@
-import { FeedContents } from '@/components/molecules/contents/ContentsItem';
 import { useEffect, useRef, useCallback } from 'react';
 import useFeedSearchStore from '@/store/feedSearchStore';
 import { useInfiniteFetchFeeds } from '@/hooks/queries/feed.query';
-import { Post } from '@/apis/feed';
+import { Post } from '@/apis/feed.api';
+import { FeedContents } from '@/components/molecules/contents/FeedContentsItem';
 
 const Feed = () => {
   const { latest, tags } = useFeedSearchStore((state) => state);
@@ -10,7 +10,6 @@ const Feed = () => {
     useInfiniteFetchFeeds(latest, tags || '');
   const observerRef = useRef<HTMLDivElement | null>(null);
   const flattenedData: Post[] = data?.pages.flatMap((page) => page.posts) || [];
-  console.log('flattenedData: ', flattenedData);
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
@@ -26,7 +25,6 @@ const Feed = () => {
       threshold: 1.0,
     });
     const currentRef = observerRef.current;
-
     if (currentRef) {
       observer.observe(currentRef);
     }
@@ -43,14 +41,22 @@ const Feed = () => {
       {flattenedData.map((item) => (
         <FeedContents
           key={item.postId}
-          {...item}
+          title={item.title}
+          content={item.content}
           feedTags={item.tags}
+          commentsCount={item.commentCount}
+          likesCount={item.likeCount}
+          viewsCount={item.viewCount}
+          thumnailUrl={item.thumnailUrl}
+          postId={item.postId}
+          isLiked={item.isLiked}
           user={{
             avatarSrc: item.userProfileUrl,
             name: item.userNickname,
             job: item.userRole,
             time: item.createdAt,
           }}
+          createdAt={item.createdAt}
         />
       ))}
       {!flattenedData.length && (

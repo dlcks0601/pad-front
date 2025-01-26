@@ -68,7 +68,6 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
       const textContent = doc.body.textContent?.trim() || '';
       return textContent === '';
     };
-
     const hasError = {
       title: title.trim() === '',
       tags: tags.length === 0,

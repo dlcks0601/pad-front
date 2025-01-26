@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import useAuthStore from '@/store/authStore';
 import groupCommentsByDate from '@/utils/groupCommentsByDate';
 import ChatItem from '@/components/molecules/ChatItem';
-import { Comment } from '@/apis/feed';
+import { Comment } from '@/apis/feed.api';
 import { useDeleteFeedChat, usePostFeedChat } from '@/hooks/queries/feed.query';
 import ChatInput from '@/components/molecules/ChatInput';
 

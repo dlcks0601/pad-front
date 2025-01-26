@@ -240,3 +240,17 @@ export const fetchFeedRank = async () => {
   });
   return response.data;
 };
+
+export const patchFeedChat = async (
+  id: Post['postId'],
+  commentId: Comment['commentId'],
+  content: Comment['comment']
+) => {
+  const apiPath = `/feed/${id}/comment/${commentId}`;
+  const response = await fetcher({
+    url: apiPath,
+    method: 'PUT',
+    data: content,
+  });
+  return response.data;
+};

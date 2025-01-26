@@ -11,11 +11,13 @@ import {
   fetchFeedChats,
   fetchFeedRank,
   fetchFeeds,
+  patchFeedChat,
   patchFeedLike,
   postFeed,
   postFeedChat,
   putChatLike,
   putFeed,
+  Comment,
 } from '@/apis/feed.api';
 import queryClient from '@/utils/queryClient';
 import {
@@ -72,7 +74,7 @@ export const useFetchFeed = (
 
 // 피드 댓글 불러오기
 export const useFetchFeedChat = (
-  id: number
+  id: Post['postId']
 ): UseQueryResult<FeedChatResponse, Error> => {
   return useQuery<FeedChatResponse>({
     queryKey: ['feedChats', id],
@@ -186,7 +188,7 @@ export const usePutFeed = () => {
   });
 };
 
-export const usePutChat = () => {
+export const usePutChatLike = () => {
   return useMutation({
     mutationFn: async ({ id }: { id: number }) => {
       return putChatLike(id);
@@ -220,5 +222,30 @@ export const useFetchFeedRank = (): UseQueryResult<FeedRankResponse, Error> => {
     queryFn: () => fetchFeedRank(),
     retry: 10,
     refetchInterval: 60 * 60 * 1000,
+  });
+};
+
+export const usePatchFeedChat = () => {
+  return useMutation({
+    mutationFn: async ({
+      id,
+      commentId,
+      content,
+    }: {
+      id: Post['postId'];
+      commentId: Comment['commentId'];
+      content: Comment['comment'];
+    }) => {
+      return patchFeedChat(id, commentId, content);
+    },
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['feedChats', id] as [string, number],
+      });
+      console.log('댓글 수정 성공');
+    },
+    onError: (error) => {
+      console.error('댓글 수정 중 오류 발생:', error);
+    },
   });
 };

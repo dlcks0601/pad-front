@@ -1,52 +1,40 @@
 import * as React from 'react';
 import {
-  HubCategory,
   HubSelect,
-  SetWork,
   SkillSelect,
 } from '@/components/atoms/contents/ContentsSelect';
 import Icon from '@/components/atoms/Icon';
 import Modal2 from '@/components/molecules/Modal';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select';
 import TiptapEditor from '@/components/organisms/TiptapEditor';
+import useHubStore from '@/store/postHubStore';
+
+import WorkTypeSelcet from '@/components/atoms/selects/WorkTypeSelect';
+import DurationSelect from '@/components/atoms/selects/DurationSelect';
+import HubCategorySelect from '@/components/atoms/selects/HubCategorySelect';
+import StartDateSelect from '@/components/atoms/selects/StartDateSelect';
 
 interface PostHubModalProps {
   onClose: () => void;
   onSubmit: () => void;
+  onRevise?: boolean;
 }
 
-const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
+const PostHubModal = ({ onClose, onSubmit, onRevise }: PostHubModalProps) => {
   const {
     title,
-    contents,
-    role,
-    hub_type,
-    start_date,
-    duration,
-    work_type,
-    recruiting,
+    content,
+
     skills,
     detail_roles,
-  } = useState((state) => state);
+    setTitle,
+    setContent,
+    setStartDate,
+
+    setSkills,
+    setDetailRoles,
+  } = useHubStore((state) => state);
 
   const [selectedUnits, setSelectedUnits] = useState<string[]>([]);
 
@@ -74,10 +62,6 @@ const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
 
   const [date, setDate] = React.useState<Date>();
 
-  const [durationType, setDurationType] = useState<string>('개월'); // 기간 단위
-
-  const [durationValue, setDurationValue] = useState<string>(''); // 기간 값
-
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const handleNextStep = () => {
@@ -87,8 +71,6 @@ const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
   const handlePrevStep = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
   };
-
-  const [content, setContent] = useState<string>('');
 
   const [errors] = useState<{
     content: boolean;
@@ -105,9 +87,11 @@ const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
             <div className='flex flex-col items-start w-full gap-[5px]'>
               <div className='flex text-[20px] font-semibold'>제목</div>
               <Input
-                type='title'
+                type='text'
+                value={title}
                 placeholder='제목을 입력해주세요.'
-                className='w-full border-black h-[44px]'
+                onChange={(e) => setTitle(e.target.value)}
+                className='w-full border border-black h-[44px] px-2'
               />
             </div>
             <div className='flex flex-col items-start w-full gap-[5px]'>
@@ -182,53 +166,12 @@ const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
                 <div className='flex text-[20px] font-semibold'>
                   시작 희망일
                 </div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant='outline'
-                      className={cn(
-                        'w-[280px] h-[44px] justify-start text-left font-normal bg-white border-black',
-                        !date && 'text-muted-foreground'
-                      )}
-                    >
-                      <CalendarIcon className='mr-2 h-4 w-4' />
-                      {date ? (
-                        format(date, 'yyyy-MM-dd')
-                      ) : (
-                        <span>날짜를 선택해주세요.</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className='w-auto p-0'>
-                    <Calendar
-                      mode='single'
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <StartDateSelect />
               </div>
               <div className='flex flex-col items-start w-full gap-[5px]'>
                 <div className='flex text-[20px] font-semibold'>기간</div>
                 <div className='flex items-center gap-2'>
-                  <Select onValueChange={setDurationType} value={durationType}>
-                    <SelectTrigger className='w-[90px] border border-black rounded-sm h-[44px]'>
-                      <SelectValue placeholder='단위' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value='개월'>개월</SelectItem>
-                      <SelectItem value='주'>주</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Input
-                    type='number'
-                    placeholder='0'
-                    className='w-[90px] border border-black rounded-sm h-[44px]'
-                    value={durationValue}
-                    onChange={(e) => setDurationValue(e.target.value)}
-                  />
+                  <DurationSelect />
                 </div>
               </div>
             </div>
@@ -236,11 +179,11 @@ const PostHubModal = ({ onClose, onSubmit }: PostHubModalProps) => {
             <div className='flex gap-[20px]'>
               <div className='flex flex-col items-start w-full gap-[5px]'>
                 <div className='flex text-[20px] font-semibold'>허브 유형</div>
-                <HubCategory />
+                <HubCategorySelect />
               </div>
               <div className='flex flex-col items-start w-full gap-[5px]'>
                 <div className='flex text-[20px] font-semibold'>작업 방식</div>
-                <SetWork />
+                <WorkTypeSelcet />
               </div>
             </div>
 

@@ -27,7 +27,7 @@ const ConfirmModal = ({ message, onConfirm, onCancel }: ConfirmModalProps) => {
         </div>
       </div>
     </div>,
-    document.getElementById('modal-root') as HTMLElement
+    document.body
   );
 };
 

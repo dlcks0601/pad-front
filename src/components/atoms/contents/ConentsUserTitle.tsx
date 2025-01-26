@@ -1,7 +1,7 @@
 interface ContentsUserTitleProps {
   nickname: string;
-  role: string;
-  createdAt?: string;
+  role?: string;
+  createdAt: string;
 }
 
 const ContentsUserTitle = ({

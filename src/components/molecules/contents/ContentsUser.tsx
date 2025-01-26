@@ -3,9 +3,9 @@ import ContentsUserTitle from '@/components/atoms/contents/ConentsUserTitle';
 
 interface ContentsUserProps {
   profileUrl: string;
-  createdAt?: string;
+  createdAt: string;
   nickname: string;
-  role: string;
+  role?: string;
 }
 
 const ContentsUser = ({

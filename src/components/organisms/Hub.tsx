@@ -25,9 +25,8 @@ const Hub = ({ keyword }: HubProps) => {
         const response = await fetchHubs({
           skip: 0,
           limit: 10,
-          role: 'null',
-          unit: 'null',
           sort: 'null',
+          cursor: 0,
         });
 
         console.log('fetchHubs response:', response);
@@ -90,6 +89,7 @@ const Hub = ({ keyword }: HubProps) => {
             thumbnailUrl={item.thumbnailUrl}
             startDate={item.startDate}
             duration={item.duration}
+            createdAt={item.createdAt}
           />
         </div>
       ))}

@@ -91,13 +91,13 @@ interface HubContentsProps {
   applyCount: number;
   viewCount: number;
   thumbnailUrl?: string;
+  createdAt: string;
   // 유저
   user: {
     userId?: number;
     profileUrl: string;
     nickname: string;
     role: string;
-    createdAt?: string;
   };
   hideUser?: boolean;
 }
@@ -117,6 +117,7 @@ export const HubContents = ({
   startDate,
   duration,
   hideUser,
+  createdAt,
 }: HubContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
@@ -125,7 +126,7 @@ export const HubContents = ({
           profileUrl={user!.profileUrl}
           nickname={user!.nickname}
           role={user!.role}
-          createdAt={user!.createdAt}
+          createdAt={createdAt}
         />
       )}
       <div className='w-full'>

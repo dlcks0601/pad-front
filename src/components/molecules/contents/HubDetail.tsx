@@ -26,14 +26,15 @@ interface HubDetailProps {
   startDate: string;
   duration: string;
   content: string;
-  user: {
+  createdAt: string;
+  manager: {
     userId?: number;
     profileUrl: string;
     nickname: string;
-    role: string;
-    createdAt?: string;
-    introduce?: string;
+    introduce: string;
+    role?: string;
   };
+  isOwnConnectionHub: boolean;
 }
 
 const HubDetail = ({
@@ -47,18 +48,23 @@ const HubDetail = ({
   startDate,
   content,
   duration,
-  user,
+  manager,
+  createdAt,
+  isOwnConnectionHub,
 }: HubDetailProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
+      {/* 허브 작성자 정보 */}
       <ContentsUser
-        profileUrl={user.profileUrl}
-        nickname={user.nickname}
-        role={user.role}
-        createdAt={user.createdAt}
+        profileUrl={manager.profileUrl}
+        nickname={manager.nickname}
+        role={manager.role}
+        createdAt={createdAt}
       />
+
       <div className='flex flex-col w-full bg-white rounded-[20px] p-[20px]'>
         <div className='flex flex-col gap-[20px]'>
+          {/* 허브 제목 및 정보 */}
           <HubTitle hubType={hubType} title={title} />
           <HubInfoTag workType={workType} status={status} role={role} />
           <HubInfo
@@ -69,33 +75,40 @@ const HubDetail = ({
             detailRoles={detailRoles}
           />
           <HubSkill skills={skills} />
+
+          {/* 허브 소개 */}
           <div className='flex'>
             <HubDetailTitle title='허브 소개' />
           </div>
           <div>
             <DetailContents content={content} />
           </div>
-          <div className='flex'>
-            <HubDetailTitle title='허브 매니저 소개' />
-          </div>
-          <div className='flex border rounded-[10px]'>
-            <div className='flex  w-full mx-[20px] my-[30px]'>
-              <div className='flex w-full  items-center  justify-between'>
-                <div className='flex items-center gap-[20px]'>
-                  <Avatar src={user.profileUrl} size='sm' />
-                  <div className='flex'>
-                    <HubDetailUser
-                      nickname={user.nickname}
-                      introduce={user.introduce}
-                    />
+
+          {!isOwnConnectionHub && (
+            <>
+              <div className='flex'>
+                <HubDetailTitle title='허브 매니저 소개' />
+              </div>
+              <div className='flex border rounded-[10px]'>
+                <div className='flex w-full mx-[20px] my-[30px]'>
+                  <div className='flex w-full items-center justify-between'>
+                    <div className='flex items-center gap-[20px]'>
+                      <Avatar src={manager.profileUrl} size='sm' />
+                      <div className='flex'>
+                        <HubDetailUser
+                          nickname={manager.nickname}
+                          introduce={manager.introduce}
+                        />
+                      </div>
+                    </div>
+                    <div className='flex'>
+                      <HubIntroduce />
+                    </div>
                   </div>
                 </div>
-                <div className='flex'>
-                  <HubIntroduce />
-                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>

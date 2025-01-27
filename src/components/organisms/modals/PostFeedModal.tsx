@@ -79,12 +79,12 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
       if (onRevise && id) {
+        onSubmit();
         putFeed(
           { id: Number(id), title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onSubmit();
               onClose();
             },
             onError: (error) => {
@@ -93,12 +93,12 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
           }
         );
       } else {
+        onSubmit();
         postFeed(
           { title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onSubmit();
               onClose();
               queryClient.invalidateQueries({
                 queryKey: ['feeds', true, 'null'],

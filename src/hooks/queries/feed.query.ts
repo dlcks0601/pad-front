@@ -1,6 +1,7 @@
 import {
   FeedChatResponse,
   FeedRankResponse,
+  FeedRankResponse,
   FeedRequest,
   FeedResponse,
   FeedsResponse,

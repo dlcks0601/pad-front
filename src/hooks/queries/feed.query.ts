@@ -18,6 +18,7 @@ import {
   putChatLike,
   putFeed,
   Comment,
+  uploadImage,
 } from '@/apis/feed.api';
 import queryClient from '@/utils/queryClient';
 import {
@@ -57,7 +58,6 @@ export const useInfiniteFetchFeeds = (
   });
 };
 
-// 피드 상세 불러오기
 export const useFetchFeed = (
   id: number,
   options?: { enabled: boolean }
@@ -72,7 +72,6 @@ export const useFetchFeed = (
   });
 };
 
-// 피드 댓글 불러오기
 export const useFetchFeedChat = (
   id: Post['postId']
 ): UseQueryResult<FeedChatResponse, Error> => {
@@ -246,6 +245,32 @@ export const usePatchFeedChat = () => {
     },
     onError: (error) => {
       console.error('댓글 수정 중 오류 발생:', error);
+    },
+  });
+};
+
+interface UsePostImageParams {
+  file: File;
+}
+
+interface UsePostImageResponse {
+  imageUrl: string;
+}
+
+export const usePostImage = (): UseMutationResult<
+  UsePostImageResponse,
+  Error,
+  UsePostImageParams
+> => {
+  return useMutation({
+    mutationFn: async ({ file }: UsePostImageParams) => {
+      return uploadImage(file);
+    },
+    onSuccess: (data) => {
+      console.log('이미지 업로드 성공:', data);
+    },
+    onError: (error) => {
+      console.error('이미지 업로드 실패:', error);
     },
   });
 };

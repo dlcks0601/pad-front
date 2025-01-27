@@ -1,12 +1,20 @@
 // import { fetchHubs, HubsResponse } from '@/apis/hub.api';
 
-import { fetchHub, fetchHubs, HubResponse, HubsResponse } from '@/apis/hub.api';
+import {
+  fetchBookmarkStatus,
+  fetchHub,
+  fetchHubs,
+  HubResponse,
+  HubsResponse,
+  togledBookmark,
+} from '@/apis/hub.api';
 import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import {
   InfiniteData,
   useInfiniteQuery,
   UseInfiniteQueryResult,
+  useMutation,
   useQuery,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -44,13 +52,37 @@ export const useInfiniteFetchHubs = (
   });
 };
 
-// // 피드 상세 불러오기
 export const useFetchHub = (
   projectId: number
 ): UseQueryResult<HubResponse, Error> => {
   return useQuery<HubResponse>({
     queryKey: ['project'],
     queryFn: () => fetchHub(projectId),
+    retry: 10,
+    staleTime: 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
+};
+
+// 허브 북마크
+export const useTogledHubBookmark = () => {
+  return useMutation({
+    mutationFn: async ({ projectId }: { projectId: number }) => {
+      return togledBookmark(projectId);
+    },
+    onSuccess: () => {
+      console.log('허브 북마크 변경 성공');
+    },
+    onError: (error) => {
+      console.error('허브 북마크 처리중 오류 발생:', error);
+    },
+  });
+};
+
+export const useFetchBookmarkStatus = (projectId: number) => {
+  return useQuery({
+    queryKey: ['bookmarkStatus', projectId],
+    queryFn: () => fetchBookmarkStatus(projectId),
     retry: 10,
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,

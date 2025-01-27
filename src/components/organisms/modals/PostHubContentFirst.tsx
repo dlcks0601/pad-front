@@ -1,18 +1,21 @@
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HubState } from '@/store/postHubStore';
+import useHubStore from '@/store/postHubStore';
 import HubSelect from '@/components/atoms/contents/HubSelect';
 import SkillSelect from '@/components/atoms/contents/SkillSelect';
+import HubCategory from '@/components/atoms/contents/Hubcategory';
+import SetWork from '@/components/atoms/contents/SetWork';
+import { Input } from '@/components/ui/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/ui/button';
+import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -20,15 +23,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import SetWork from '@/components/atoms/contents/SetWork';
-import useHubStore from '@/store/postHubStore';
-import HubCategory from '@/components/atoms/contents/Hubcategory';
 
 interface PostHubContentFirstProps {
   onNext: () => void;
 }
 
 const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
+  const {
+    title,
+    role,
+    hubType,
+    startDate,
+    duration,
+    durationType,
+    workType,
+    skills,
+    detailRoles,
+    setTitle,
+    setRole,
+    setHubType,
+    setStartDate,
+    setDuration,
+    setDurationType,
+    setWorkType,
+    setSkills,
+    setDetailRoles,
+  } = useHubStore();
+
   const [hubContent, setHubContent] = useState<Omit<HubState, 'content'>>({
     title: '',
     role: '',
@@ -42,17 +63,30 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     detailRoles: [],
   });
 
-  const {
-    setTitle,
-    setRole,
-    setHubType,
-    setStartDate,
-    setDuration,
-    setDurationType,
-    setWorkType,
-    setSkills,
-    setDetailRoles,
-  } = useHubStore();
+  useEffect(() => {
+    setHubContent({
+      title,
+      role,
+      hubType,
+      startDate,
+      duration,
+      durationType,
+      workType,
+      skills,
+      detailRoles,
+      recruiting: false,
+    });
+  }, [
+    title,
+    role,
+    hubType,
+    startDate,
+    duration,
+    durationType,
+    workType,
+    skills,
+    detailRoles,
+  ]);
 
   const handleChange = (field: keyof HubState, value: string | string[]) => {
     setHubContent((prev) => ({
@@ -82,12 +116,10 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           type='text'
           placeholder='제목을 입력해주세요.'
           className='w-full border-black h-[44px]'
-          name='title'
           value={hubContent.title}
           onChange={(e) => handleChange('title', e.target.value)}
         />
       </div>
-
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>직군</div>
         <HubSelect
@@ -97,7 +129,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           selectedUnits={hubContent.detailRoles}
         />
       </div>
-
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>스킬</div>
         <SkillSelect
@@ -107,7 +138,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           selectedSkills={hubContent.skills}
         />
       </div>
-
       <div className='flex gap-[20px]'>
         <div className='flex flex-col items-start w-full gap-[5px]'>
           <div className='flex text-[20px] font-semibold'>시작 희망일</div>
@@ -150,6 +180,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           <div className='flex items-center gap-2'>
             <Select
               onValueChange={(value) => handleChange('durationType', value)}
+              value={hubContent.durationType}
             >
               <SelectTrigger className='w-[90px] border border-black rounded-sm h-[44px]'>
                 <SelectValue placeholder={hubContent.durationType || '단위'} />
@@ -169,7 +200,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           </div>
         </div>
       </div>
-
       <div className='flex gap-[20px]'>
         <div className='flex flex-col items-start w-full gap-[5px]'>
           <div className='flex text-[20px] font-semibold'>허브 유형</div>
@@ -186,7 +216,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           />
         </div>
       </div>
-
       <div className='flex w-full justify-end'>
         <button
           type='button'

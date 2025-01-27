@@ -55,7 +55,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
-    setEditedComment(chat.comment); // 기존 텍스트를 초기화
+    setEditedComment(chat.comment);
   };
 
   const handleEditSubmit = () => {
@@ -73,7 +73,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         {
           onSuccess: () => {
             notifyToast('댓글 수정 성공');
-            setIsEditing(false); // 수정 모드 종료
+            setIsEditing(false);
           },
           onError: () => {
             notifyToast('댓글 수정 실패');
@@ -107,7 +107,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
           <div className='flex gap-2 items-center'>
             <input
               className='px-2 py-1 rounded-[10px] bg-[#EAFBFF] max-w-96 w-full focus:outline-none'
-              value={editedComment} // 기존 텍스트를 기본값으로 표시
+              value={editedComment}
               onChange={(e) => setEditedComment(e.target.value)}
             />
             <button

@@ -10,7 +10,6 @@ interface TiptapFloatingMenuProps {
 
 const TiptapFloatingMenu = ({ editor }: TiptapFloatingMenuProps) => {
   const { mutate: uploadImage } = usePostImage();
-
   const handleUploadImage = (file: File, editor: Editor) => {
     uploadImage(
       { file },

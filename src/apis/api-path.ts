@@ -19,4 +19,5 @@ export const API_PATH = {
   searchMessages: '/chat/channels/:id/messages/search',
   feedRank: '/feed/weekly',
   hubBookmark: '/projects/:projectId/bookmark',
+  hubImage: '/projects/image',
 };

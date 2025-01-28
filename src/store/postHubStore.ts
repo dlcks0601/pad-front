@@ -6,11 +6,11 @@ export interface HubState {
   title: string; // 프로젝트 명
   content: string; // 프로젝트 설명
   role: string; // P, A, D 중 하나
-  hubType: string; // 프로젝트, 외주
+  hubType: 'PROJECT' | 'OUTSOURCING'; // 프로젝트, 외주
   startDate: string; // 시작 날짜
   duration: string; // 작업 기간
   durationType: string; // 기간 단위 (개월, 주 등)
-  workType: string; // 대면, 비대면
+  workType: 'ONLINE' | 'OFFLINE';
   recruiting: boolean; // 모집 중인지 여부
   skills: string[]; // React, TypeScript 등
   detailRoles: string[]; // Frontend Developer 등 role의 상세 역할
@@ -20,11 +20,11 @@ interface HubAction {
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
   setRole: (role: string) => void;
-  setHubType: (hubType: string) => void;
+  setHubType: (hubType: 'PROJECT' | 'OUTSOURCING') => void;
   setStartDate: (startDate: string) => void;
   setDuration: (duration: string) => void;
   setDurationType: (durationType: string) => void;
-  setWorkType: (workType: string) => void;
+  setWorkType: (workType: 'ONLINE' | 'OFFLINE') => void;
   setRecruiting: (recruiting: boolean) => void;
   setSkills: (skills: string[]) => void;
   setDetailRoles: (detailRoles: string[]) => void;
@@ -35,11 +35,11 @@ const initialState: HubState = {
   title: '',
   content: '',
   role: '',
-  hubType: '',
+  hubType: 'PROJECT',
   startDate: '',
   duration: '',
   durationType: '',
-  workType: '',
+  workType: 'ONLINE',
   recruiting: false,
   skills: [],
   detailRoles: [],
@@ -51,51 +51,51 @@ const useHubStore: () => HubStore = create<HubStore>()(
   devtools(
     immer<HubStore>((set) => ({
       ...initialState,
-      setTitle: (title) =>
+      setTitle: (title: string) =>
         set((state) => {
           state.title = title;
         }),
-      setContent: (content) =>
+      setContent: (content: string) =>
         set((state) => {
           state.content = content;
         }),
-      setRole: (role) =>
+      setRole: (role: string) =>
         set((state) => {
           state.role = role;
         }),
-      setHubType: (hubType) =>
+      setHubType: (hubType: 'PROJECT' | 'OUTSOURCING') =>
         set((state) => {
           state.hubType = hubType;
         }),
-      setStartDate: (startDate) =>
+      setStartDate: (startDate: string) =>
         set((state) => {
           state.startDate = startDate;
         }),
-      setDuration: (duration) =>
+      setDuration: (duration: string) =>
         set((state) => {
           state.duration = duration;
         }),
-      setDurationType: (durationType) =>
+      setDurationType: (durationType: string) =>
         set((state) => {
           state.durationType = durationType;
         }),
-      setWorkType: (workType) =>
+      setWorkType: (workType: 'ONLINE' | 'OFFLINE') =>
         set((state) => {
           state.workType = workType;
         }),
-      setRecruiting: (recruiting) =>
+      setRecruiting: (recruiting: boolean) =>
         set((state) => {
           state.recruiting = recruiting;
         }),
-      setSkills: (skills) =>
+      setSkills: (skills: string[]) =>
         set((state) => {
           state.skills = skills;
         }),
-      setDetailRoles: (detailRoles) =>
+      setDetailRoles: (detailRoles: string[]) =>
         set((state) => {
           state.detailRoles = detailRoles;
         }),
-      resetHub: () => set(() => initialState), // immer와 호환되도록 수정
+      resetHub: () => set(() => initialState),
     }))
   )
 );

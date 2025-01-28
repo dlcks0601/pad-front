@@ -3,8 +3,6 @@ import { HubState } from '@/store/postHubStore';
 import useHubStore from '@/store/postHubStore';
 import HubSelect from '@/components/atoms/contents/HubSelect';
 import SkillSelect from '@/components/atoms/contents/SkillSelect';
-import HubCategory from '@/components/atoms/contents/Hubcategory';
-import SetWork from '@/components/atoms/contents/SetWork';
 import { Input } from '@/components/ui/input';
 import {
   Popover,
@@ -23,6 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
+import WorkTypeSelect from '@/components/atoms/contents/WorkTypeSelect';
+import ProjectTypeSelect from '@/components/atoms/contents/ProjectTypeSelect';
 
 interface PostHubContentFirstProps {
   onNext: () => void;
@@ -53,11 +53,11 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
   const [hubContent, setHubContent] = useState<Omit<HubState, 'content'>>({
     title: '',
     role: '',
-    hubType: '',
+    hubType: 'PROJECT',
     startDate: '',
     duration: '',
     durationType: '',
-    workType: '',
+    workType: 'ONLINE',
     recruiting: false,
     skills: [],
     detailRoles: [],
@@ -203,14 +203,14 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
       <div className='flex gap-[20px]'>
         <div className='flex flex-col items-start w-full gap-[5px]'>
           <div className='flex text-[20px] font-semibold'>허브 유형</div>
-          <HubCategory
+          <ProjectTypeSelect
             selectedHubType={hubContent.hubType}
             onChange={(value) => handleChange('hubType', value)}
           />
         </div>
         <div className='flex flex-col items-start w-full gap-[5px]'>
           <div className='flex text-[20px] font-semibold'>작업 방식</div>
-          <SetWork
+          <WorkTypeSelect
             selectedWorkType={hubContent.workType}
             onChange={(value) => handleChange('workType', value)}
           />

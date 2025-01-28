@@ -5,24 +5,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
+import { HubState } from '@/store/postHubStore';
 
 interface HubCategoryProps {
-  selectedHubType: string;
-  onChange: (value: string) => void;
+  selectedHubType: HubState['hubType'];
+  onChange: (value: HubState['hubType']) => void;
 }
 
-const HubCategory = ({ selectedHubType, onChange }: HubCategoryProps) => {
+const ProjectTypeSelect = ({ selectedHubType, onChange }: HubCategoryProps) => {
   return (
     <Select onValueChange={onChange} value={selectedHubType}>
       <SelectTrigger className='w-[120px] border-black h-[44px]'>
         <SelectValue placeholder='허브 유형' />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value='Project'>프로젝트</SelectItem>
-        <SelectItem value='Outsourcing'>외주</SelectItem>
+        <SelectItem value='PROJECT'>프로젝트</SelectItem>
+        <SelectItem value='OUTSOURCING'>외주</SelectItem>
       </SelectContent>
     </Select>
   );
 };
 
-export default HubCategory;
+export default ProjectTypeSelect;

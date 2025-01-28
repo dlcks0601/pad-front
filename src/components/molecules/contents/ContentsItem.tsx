@@ -22,6 +22,7 @@ interface HubContentsProps {
   viewCount: number;
   thumbnailUrl?: string;
   createdAt: string;
+  projectId: number;
   // 유저
   user: {
     userId?: number;
@@ -30,6 +31,7 @@ interface HubContentsProps {
     role: string;
   };
   hideUser?: boolean;
+  isOwnConnectionHub?: boolean;
 }
 
 export const HubContents = ({
@@ -48,6 +50,8 @@ export const HubContents = ({
   duration,
   hideUser,
   createdAt,
+  projectId,
+  isOwnConnectionHub,
 }: HubContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
@@ -57,6 +61,8 @@ export const HubContents = ({
           nickname={user!.nickname}
           role={user!.role}
           createdAt={createdAt}
+          isOwnConnectionHub={isOwnConnectionHub}
+          projectId={projectId}
         />
       )}
       <div className='w-full'>
@@ -78,6 +84,7 @@ export const HubContents = ({
               bookMarkCount={bookMarkCount}
               applyCount={applyCount}
               viewCount={viewCount}
+              projectId={projectId}
             />
           </div>
         </div>

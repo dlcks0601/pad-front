@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { HubState } from '@/store/postHubStore';
 import useHubStore from '@/store/postHubStore';
-import JobSelect from '@/components/atoms/contents/JobSelect';
-import SkillSelect from '@/components/atoms/contents/SkillSelect';
 import { Input } from '@/components/ui/input';
 import {
   Popover,
@@ -21,9 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import WorkTypeSelect from '@/components/atoms/contents/WorkTypeSelect';
-import ProjectTypeSelect from '@/components/atoms/contents/ProjectTypeSelect';
 import Icon from '@/components/atoms/Icon';
+import JobSelect from '@/components/atoms/Select/JobSelect';
+import SkillSelect from '@/components/atoms/Select/SkillSelect';
+import ProjectTypeSelect from '@/components/atoms/Select/ProjectTypeSelect';
+import WorkTypeSelect from '@/components/atoms/Select/WorkTypeSelect';
 
 interface PostHubContentFirstProps {
   onNext: () => void;
@@ -150,7 +150,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>직군</div>
         <JobSelect
-          className={`border ${errors.role ? 'border-red-500' : 'border-black'}`}
+          className='border-black'
           handleChange={handleChange}
           selectedRole={hubContent.role}
           selectedUnits={hubContent.detailRoles}

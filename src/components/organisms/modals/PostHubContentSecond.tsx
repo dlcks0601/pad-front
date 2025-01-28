@@ -38,22 +38,22 @@ const PostHubContentSecond = ({
 
   const handleSaveContent = () => {
     setContent(hubContent.content);
-
-    // postHub 호출
-    postHub({
-      title,
-      content: hubContent.content,
-      role,
-      hub_type: hubType,
-      start_date: startDate,
-      duration,
-      work_type: workType,
-      recruiting: false,
-      skills,
-      detail_roles: detailRoles,
-    });
-    resetHub();
-    onClose();
+    if (window.confirm('작성을 완료하시겠습니까?')) {
+      postHub({
+        title,
+        content: hubContent.content,
+        role,
+        hub_type: hubType,
+        start_date: startDate,
+        duration,
+        work_type: workType,
+        recruiting: false,
+        skills,
+        detail_roles: detailRoles,
+      });
+      resetHub();
+      onClose();
+    }
   };
 
   return (

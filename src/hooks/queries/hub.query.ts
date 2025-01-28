@@ -1,12 +1,12 @@
-// import { fetchHubs, HubsResponse } from '@/apis/hub.api';
-
 import {
   deleteHub,
   fetchBookmarkStatus,
   fetchHub,
   fetchHubs,
+  HubRequest,
   HubResponse,
   HubsResponse,
+  postHub,
   togledBookmark,
 } from '@/apis/hub.api';
 import { roleItems } from '@/constants/hub/roleItems';
@@ -17,6 +17,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useMutation,
+  UseMutationResult,
   useQuery,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -105,5 +106,46 @@ export const useFetchBookmarkStatus = (projectId: number) => {
     retry: 10,
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,
+  });
+};
+
+export const usePostHub = (): UseMutationResult<
+  unknown,
+  Error,
+  HubRequest,
+  unknown
+> => {
+  return useMutation({
+    mutationFn: async ({
+      title,
+      content,
+      role,
+      hub_type,
+      start_date,
+      duration,
+      work_type,
+      recruiting,
+      skills,
+      detail_roles,
+    }: HubRequest) => {
+      return postHub({
+        title,
+        content,
+        role,
+        hub_type,
+        start_date,
+        duration,
+        work_type,
+        recruiting,
+        skills,
+        detail_roles,
+      });
+    },
+    onSuccess: () => {
+      console.log('허브 작성 성공');
+    },
+    onError: (error) => {
+      console.error('허브 작성 중 오류 발생:', error);
+    },
   });
 };

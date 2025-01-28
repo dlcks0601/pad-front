@@ -6,6 +6,7 @@ import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
+import { title } from 'process';
 
 export interface HubsResponse {
   message: {
@@ -130,6 +131,19 @@ export interface BookmarkResponse {
   bookmarked: boolean;
 }
 
+export interface HubRequest {
+  title: string;
+  content: string;
+  role: string;
+  hub_type: string;
+  start_date: string;
+  duration: string;
+  work_type: string;
+  recruiting: boolean;
+  skills: string[];
+  detail_roles: string[];
+}
+
 // 허브 메인
 export const fetchHubs = async ({
   cursor,
@@ -190,40 +204,6 @@ export const fetchBestHubs = async (): Promise<HubWeeklyResponse> => {
   return response.data;
 };
 
-export const postHub = async (
-  title: string,
-  content: string,
-  role: keyof typeof roleItems,
-  hub_type: keyof typeof hubTagItems,
-  start_date: string,
-  duration: string,
-  work_type: keyof typeof meetingTagItems,
-  recruiting: boolean,
-  skills: (keyof typeof skillTagItems)[],
-  detail_roles: (keyof typeof roleTagItems)[]
-) => {
-  console.log('허브 작성 요청됨');
-  const apiPath = API_PATH.project;
-
-  const response = await fetcher({
-    url: apiPath,
-    method: 'POST',
-    data: {
-      title,
-      content,
-      role,
-      hub_type,
-      start_date,
-      duration,
-      work_type,
-      skills,
-      detail_roles,
-      recruiting,
-    } as HubPost,
-  });
-  return response.data;
-};
-
 // 북마크 추가 및 삭제
 export const togledBookmark = async (
   projectId: number
@@ -250,6 +230,38 @@ export const fetchBookmarkStatus = async (
   const response = await fetcher<BookmarkResponse>({
     url: apiPath,
     method: 'GET',
+  });
+  return response.data;
+};
+
+export const postHub = async ({
+  title,
+  content,
+  role,
+  hub_type,
+  start_date,
+  duration,
+  work_type,
+  recruiting,
+  skills,
+  detail_roles,
+}: HubRequest) => {
+  const apiPath = API_PATH.project;
+  const response = await fetcher({
+    url: apiPath,
+    method: 'POST',
+    data: {
+      title,
+      content,
+      role,
+      hub_type,
+      start_date,
+      duration,
+      work_type,
+      recruiting,
+      skills,
+      detail_roles,
+    } as HubRequest,
   });
   return response.data;
 };

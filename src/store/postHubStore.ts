@@ -1,97 +1,101 @@
-import { hubTagItems } from '@/constants/hub/hubTagItems';
-import { meetingTagItems } from '@/constants/hub/meetingTagItems';
-import { roleItems } from '@/constants/hub/roleItems';
-import { roleTagItems } from '@/constants/hub/roleTagsItems';
-import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-interface HubState {
-  title: string;
-  content: string;
-  role: '' | keyof typeof roleItems;
-  hub_type: '' | keyof typeof hubTagItems;
-  start_date: string;
-  duration: string;
-  work_type: '' | keyof typeof meetingTagItems;
-  recruiting: boolean;
-  skills: (keyof typeof skillTagItems)[];
-  detail_roles: (keyof typeof roleTagItems)[];
+export interface HubState {
+  title: string; // 프로젝트 명
+  content: string; // 프로젝트 설명
+  role: string; // P, A, D 중 하나
+  hubType: 'PROJECT' | 'OUTSOURCING'; // 프로젝트, 외주
+  startDate: string; // 시작 날짜
+  duration: string; // 작업 기간
+  durationType: string; // 기간 단위 (개월, 주 등)
+  workType: 'ONLINE' | 'OFFLINE';
+  recruiting: boolean; // 모집 중인지 여부
+  skills: string[]; // React, TypeScript 등
+  detailRoles: string[]; // Frontend Developer 등 role의 상세 역할
 }
 
 interface HubAction {
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
-  setRole: (role: keyof typeof roleItems) => void;
-  setHubType: (hub_type: keyof typeof hubTagItems) => void;
-  setStartDate: (start_date: string) => void;
+  setRole: (role: string) => void;
+  setHubType: (hubType: 'PROJECT' | 'OUTSOURCING') => void;
+  setStartDate: (startDate: string) => void;
   setDuration: (duration: string) => void;
-  setWorkType: (work_type: keyof typeof meetingTagItems) => void;
+  setDurationType: (durationType: string) => void;
+  setWorkType: (workType: 'ONLINE' | 'OFFLINE') => void;
   setRecruiting: (recruiting: boolean) => void;
-  setSkills: (skills: (keyof typeof skillTagItems)[]) => void;
-  setDetailRoles: (detail_roles: (keyof typeof roleTagItems)[]) => void;
+  setSkills: (skills: string[]) => void;
+  setDetailRoles: (detailRoles: string[]) => void;
+  resetHub: () => void;
 }
 
 const initialState: HubState = {
   title: '',
   content: '',
   role: '',
-  hub_type: '',
-  start_date: '',
+  hubType: 'PROJECT',
+  startDate: '',
   duration: '',
-  work_type: '',
+  durationType: '',
+  workType: 'ONLINE',
   recruiting: false,
   skills: [],
-  detail_roles: [],
+  detailRoles: [],
 };
 
 type HubStore = HubState & HubAction;
 
-const useHubStore = create<HubStore>()(
+const useHubStore: () => HubStore = create<HubStore>()(
   devtools(
     immer<HubStore>((set) => ({
       ...initialState,
-      setTitle: (title) =>
+      setTitle: (title: string) =>
         set((state) => {
           state.title = title;
         }),
-      setContent: (content) =>
+      setContent: (content: string) =>
         set((state) => {
           state.content = content;
         }),
-      setRole: (role) =>
+      setRole: (role: string) =>
         set((state) => {
           state.role = role;
         }),
-      setHubType: (hub_type) =>
+      setHubType: (hubType: 'PROJECT' | 'OUTSOURCING') =>
         set((state) => {
-          state.hub_type = hub_type;
+          state.hubType = hubType;
         }),
-      setStartDate: (start_date) =>
+      setStartDate: (startDate: string) =>
         set((state) => {
-          state.start_date = start_date;
+          state.startDate = startDate;
         }),
-      setDuration: (duration) =>
+      setDuration: (duration: string) =>
         set((state) => {
           state.duration = duration;
         }),
-      setWorkType: (work_type) =>
+      setDurationType: (durationType: string) =>
         set((state) => {
-          state.work_type = work_type;
+          state.durationType = durationType;
         }),
-      setRecruiting: (recruiting) =>
+      setWorkType: (workType: 'ONLINE' | 'OFFLINE') =>
+        set((state) => {
+          state.workType = workType;
+        }),
+      setRecruiting: (recruiting: boolean) =>
         set((state) => {
           state.recruiting = recruiting;
         }),
-      setSkills: (skills) =>
+      setSkills: (skills: string[]) =>
         set((state) => {
           state.skills = skills;
         }),
-      setDetailRoles: (detail_roles) =>
+      setDetailRoles: (detailRoles: string[]) =>
         set((state) => {
-          state.detail_roles = detail_roles;
+          state.detailRoles = detailRoles;
         }),
+      resetHub: () => set(() => initialState),
     }))
   )
 );

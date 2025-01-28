@@ -47,6 +47,7 @@ const ConnectionHubDetail = () => {
         content={project.content}
         createdAt={project.createdAt}
         manager={project.manager}
+        projectId={project.projectId}
         isOwnConnectionHub={project.manager.userId === currentUserId}
       />
     </div>

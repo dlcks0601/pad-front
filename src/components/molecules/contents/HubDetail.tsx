@@ -27,6 +27,7 @@ interface HubDetailProps {
   duration: string;
   content: string;
   createdAt: string;
+  projectId: number;
   manager: {
     userId?: number;
     profileUrl: string;
@@ -51,6 +52,7 @@ const HubDetail = ({
   manager,
   createdAt,
   isOwnConnectionHub,
+  projectId,
 }: HubDetailProps) => {
   console.log('Received isOwnConnectionHub in props:', isOwnConnectionHub);
   return (
@@ -60,6 +62,8 @@ const HubDetail = ({
         nickname={manager.nickname}
         role={manager.role}
         createdAt={createdAt}
+        isOwnConnectionHub={isOwnConnectionHub}
+        projectId={projectId}
       />
 
       <div className='flex flex-col w-full bg-white rounded-[20px] p-[20px]'>

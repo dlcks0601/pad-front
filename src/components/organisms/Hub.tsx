@@ -14,7 +14,6 @@ const Hub = ({ keyword }: HubProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 이동을 위해 useNavigate 훅 사용
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,34 +43,34 @@ const Hub = ({ keyword }: HubProps) => {
   }, []);
 
   const handleClickProject = (projectId: number) => {
-    // 예: /projects/2
     navigate(`/projects/${projectId}`);
   };
 
-  // 1) 로딩 상태
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
 
-  // 2) 에러 상태
   if (error) {
     return <div>에러가 발생했습니다: {error}</div>;
   }
 
-  // 3) 검색어(keyword)가 있으면 제목/내용에 해당 키워드가 있는지 필터링
   const filteredData = keyword
     ? data.filter(
         (item) => item.title.includes(keyword) || item.content.includes(keyword)
       )
     : data;
 
-  // 4) 실제 렌더링
   return (
     <div className='flex flex-col gap-[30px] w-full h-full'>
       {filteredData.map((item) => (
         <div
           key={item.projectId}
-          onClick={() => handleClickProject(item.projectId)}
+          onClick={(e) => {
+            if ((e.target as HTMLElement).closest('.bookmark-button')) {
+              return;
+            }
+            handleClickProject(item.projectId);
+          }}
           className='cursor-pointer'
         >
           <HubContents
@@ -90,11 +89,11 @@ const Hub = ({ keyword }: HubProps) => {
             startDate={item.startDate}
             duration={item.duration}
             createdAt={item.createdAt}
+            projectId={item.projectId}
           />
         </div>
       ))}
 
-      {/* 5) 검색어가 있는데도 필터된 결과가 없다면 */}
       {keyword && !filteredData.length && (
         <div className='flex flex-col justify-center items-center'>
           검색 결과가 없습니다.

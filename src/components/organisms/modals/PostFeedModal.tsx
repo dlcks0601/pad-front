@@ -27,7 +27,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     setTitle,
     setTag,
     resetFeed,
-  } = useFeedStore((state) => state);
+  } = useFeedStore();
   console.log('content: ', content);
   const { id } = useParams<{ id: string }>();
   const {

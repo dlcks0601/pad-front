@@ -1,6 +1,7 @@
 // import { fetchHubs, HubsResponse } from '@/apis/hub.api';
 
 import {
+  deleteHub,
   fetchBookmarkStatus,
   fetchHub,
   fetchHubs,
@@ -10,6 +11,7 @@ import {
 } from '@/apis/hub.api';
 import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
+import queryClient from '@/utils/queryClient';
 import {
   InfiniteData,
   useInfiniteQuery,
@@ -61,6 +63,23 @@ export const useFetchHub = (
     retry: 10,
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,
+  });
+};
+
+export const useDeleteHub = () => {
+  return useMutation({
+    mutationFn: async (projectId: number) => {
+      return deleteHub(projectId);
+    },
+    onSuccess: (_, projectId) => {
+      queryClient.invalidateQueries({
+        queryKey: ['project'],
+      });
+      console.log(`허브 ${projectId} 삭제 성공`);
+    },
+    onError: (error) => {
+      console.error('허브 삭제 중 오류 발생', error);
+    },
   });
 };
 

@@ -4,12 +4,8 @@ import { meetingTagItems } from '@/constants/hub/meetingTagItems';
 import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
-import {
-  statusTagItems,
-  statusTagItemskey,
-} from '@/constants/hub/statusTagItems';
+import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
-import { promises } from 'dns';
 
 export interface HubsResponse {
   message: {
@@ -76,6 +72,13 @@ export interface HubResponse {
     };
   };
   isOwnConnectionHub: boolean;
+}
+
+export interface HubDeleteResponse {
+  message: {
+    code: number;
+    text: string;
+  };
 }
 
 export interface HubWeeklyResponse {
@@ -161,6 +164,18 @@ export const fetchHub = async (projectId: number): Promise<HubResponse> => {
   const response = await fetcher<HubResponse>({
     url: apiPath,
     method: 'GET',
+  });
+  return response.data;
+};
+
+// 허브 상세 삭제
+export const deleteHub = async (
+  projectId: number
+): Promise<HubDeleteResponse> => {
+  const apiPath = API_PATH.project.replace(':projectId', projectId.toString());
+  const response = await fetcher<HubDeleteResponse>({
+    url: apiPath,
+    method: 'DELETE',
   });
   return response.data;
 };

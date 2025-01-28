@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { HubState } from '@/store/postHubStore';
 import useHubStore from '@/store/postHubStore';
-import HubSelect from '@/components/atoms/contents/HubSelect';
+import JobSelect from '@/components/atoms/contents/JobSelect';
 import SkillSelect from '@/components/atoms/contents/SkillSelect';
 import { Input } from '@/components/ui/input';
 import {
@@ -122,7 +122,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
       </div>
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>직군</div>
-        <HubSelect
+        <JobSelect
           className='border-black'
           handleChange={handleChange}
           selectedRole={hubContent.role}

@@ -72,7 +72,7 @@ interface HubSelectProps {
   selectedUnits: string[];
 }
 
-const HubSelect = ({
+const JobSelect = ({
   className,
   handleChange,
   selectedRole,

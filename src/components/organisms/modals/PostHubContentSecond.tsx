@@ -37,6 +37,11 @@ const PostHubContentSecond = ({
   }, [content]);
 
   const handleSaveContent = () => {
+    const plainText = hubContent.content.replace(/<[^>]*>?/g, '').trim();
+    if (!plainText) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     setContent(hubContent.content);
     if (window.confirm('작성을 완료하시겠습니까?')) {
       postHub({

@@ -4,3 +4,4 @@ export const roleItems = {
   Designer: 'DESIGNER',
 } as const;
 export type roleItemsKey = keyof typeof roleItems;
+export type roleItemsValue = (typeof roleItems)[keyof typeof roleItems];

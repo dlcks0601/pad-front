@@ -1,8 +1,8 @@
 import { API_PATH } from '@/apis/api-path';
 import { hubTagItems } from '@/constants/hub/hubTagItems';
 import { meetingTagItems } from '@/constants/hub/meetingTagItems';
-import { roleItems } from '@/constants/hub/roleItems';
-import { roleTagItems } from '@/constants/hub/roleTagsItems';
+import { roleItems, roleItemsValue } from '@/constants/hub/roleItems';
+import { roleTagItems, roleTagItemsValue } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
@@ -39,7 +39,7 @@ export interface HubsResponse {
     };
   }[];
   pagination: {
-    lastCursor: number;
+    lastCursor?: number;
   };
 }
 
@@ -103,11 +103,9 @@ export interface HubWeeklyResponse {
 
 export interface HubsRequest {
   cursor: number;
-  skip: number;
-  limit: number;
-  role?: keyof typeof roleItems;
-  unit?: keyof typeof roleTagItems;
-  sort: string;
+  role?: string;
+  unit?: string;
+  sort: boolean;
 }
 
 export interface HubPost {
@@ -144,31 +142,43 @@ export interface HubRequest {
   detail_roles: string[];
 }
 
-// 허브 메인
 export const fetchHubs = async ({
   cursor,
-  skip,
-  limit,
   role,
   unit,
   sort,
-}: HubsRequest): Promise<HubsResponse> => {
+}: {
+  cursor: number;
+  role?: string | null;
+  unit?: string | null;
+  sort: boolean;
+}) => {
   const apiPath = API_PATH.projects;
-
   const params: Record<string, unknown> = {
     cursor,
-    skip,
-    limit,
-    role,
-    unit,
     sort,
   };
+
+  // role이 유효한 경우에만 추가
+  if (role && role !== 'null') {
+    params.role = role;
+  }
+
+  // unit이 유효한 경우에만 추가
+  if (unit && unit !== 'null') {
+    params.unit = unit;
+  }
+
+  console.log('API 요청 URL:', apiPath);
+  console.log('API 요청 params:', params);
 
   const response = await fetcher<HubsResponse>({
     url: apiPath,
     method: 'GET',
     params,
   });
+
+  console.log('fetchHubs 응답 데이터:', response.data);
   return response.data;
 };
 

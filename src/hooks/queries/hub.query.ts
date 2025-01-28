@@ -9,8 +9,8 @@ import {
   postHub,
   togledBookmark,
 } from '@/apis/hub.api';
-import { roleItems } from '@/constants/hub/roleItems';
-import { roleTagItems } from '@/constants/hub/roleTagsItems';
+import { roleItems, roleItemsKey } from '@/constants/hub/roleItems';
+import { roleTagItems, roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import queryClient from '@/utils/queryClient';
 import {
   InfiniteData,
@@ -23,24 +23,20 @@ import {
 } from '@tanstack/react-query';
 
 export const useInfiniteFetchHubs = (
-  skip: number,
-  limit: number,
-  role: keyof typeof roleItems,
-  unit: keyof typeof roleTagItems,
-  sort: string
+  sort: boolean,
+  role: string,
+  unit: string
 ): UseInfiniteQueryResult<InfiniteData<HubsResponse>, Error> => {
   return useInfiniteQuery<
     HubsResponse,
     Error,
     InfiniteData<HubsResponse>,
-    [string, string, string]
+    [string, boolean, string, string]
   >({
-    queryKey: ['projects', sort, role],
+    queryKey: ['projects', sort, unit, role],
     queryFn: ({ pageParam }) =>
       fetchHubs({
         cursor: pageParam as number,
-        skip,
-        limit,
         role,
         unit,
         sort,

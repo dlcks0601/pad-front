@@ -52,6 +52,8 @@ export const roleTagItems = {
 } as const;
 
 export type roleTagItemsKey = keyof typeof roleTagItems;
+export type roleTagItemsValue =
+  (typeof roleTagItems)[keyof typeof roleTagItems];
 
 export const roleTagItemsColors: Record<roleTagItemsKey, string> = {
   '백엔드 개발자': 'text-[#7d7d7d] text-[12px] rounded-full',

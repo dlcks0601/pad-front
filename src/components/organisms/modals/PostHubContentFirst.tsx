@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/Select';
 import WorkTypeSelect from '@/components/atoms/contents/WorkTypeSelect';
 import ProjectTypeSelect from '@/components/atoms/contents/ProjectTypeSelect';
+import Icon from '@/components/atoms/Icon';
 
 interface PostHubContentFirstProps {
   onNext: () => void;
@@ -126,6 +127,11 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     }
   };
 
+  const handleSkillRemove = (skill: string) => {
+    const updatedSkills = hubContent.skills.filter((s) => s !== skill);
+    setHubContent((prev) => ({ ...prev, skills: updatedSkills }));
+  };
+
   return (
     <div className='flex flex-col items-start w-full gap-[20px]'>
       <div className='flex flex-col items-start w-full gap-[5px]'>
@@ -161,6 +167,34 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
           }
           selectedSkills={hubContent.skills}
         />
+      </div>
+      <div className='flex border w-full border-black rounded-sm h-[44px]'>
+        <div className='flex items-center px-[10px] py-[10px] gap-[10px]'>
+          {hubContent.skills.length === 0 ? (
+            <span className='text-[12px] text-[#FF6868]'>
+              스킬을 선택해주세요.
+            </span>
+          ) : (
+            hubContent.skills.map((skill) => (
+              <div
+                key={skill}
+                className='flex text-[12px] items-center px-2 py-1 bg-[#EAEAEA] rounded-sm'
+              >
+                <span className='mr-1'>{skill}</span>
+                <button
+                  className='text-black'
+                  onClick={() => handleSkillRemove(skill)}
+                >
+                  <Icon
+                    type='xmark'
+                    color='black'
+                    className='w-[18px] h-[18px]'
+                  />
+                </button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
       <div className='flex gap-[20px]'>
         <div className='flex flex-col items-start w-full gap-[5px]'>

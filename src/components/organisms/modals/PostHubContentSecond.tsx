@@ -6,7 +6,7 @@ import { usePostHub } from '@/hooks/queries/hub.query';
 
 interface PostHubContentSecondProps {
   onPrevious: () => void;
-  onClose: () => void; // 정확한 대소문자 확인
+  onClose: () => void;
 }
 
 const PostHubContentSecond = ({

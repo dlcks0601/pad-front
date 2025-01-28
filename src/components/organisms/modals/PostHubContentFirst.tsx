@@ -57,10 +57,16 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     startDate: '',
     duration: '',
     durationType: '',
-    workType: 'ONLINE',
+    workType: 'OFFLINE',
     recruiting: false,
     skills: [],
     detailRoles: [],
+  });
+
+  const [errors, setErrors] = useState({
+    title: false,
+    role: false,
+    startDate: false,
   });
 
   useEffect(() => {
@@ -95,17 +101,29 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     }));
   };
 
+  const validateFields = () => {
+    const newErrors = {
+      title: hubContent.title.trim() === '',
+      role: hubContent.role.trim() === '',
+      startDate: hubContent.startDate.trim() === '',
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).includes(true);
+  };
+
   const handleSaveToStore = () => {
-    setTitle(hubContent.title);
-    setRole(hubContent.role);
-    setHubType(hubContent.hubType);
-    setStartDate(hubContent.startDate);
-    setDuration(hubContent.duration);
-    setDurationType(hubContent.durationType);
-    setWorkType(hubContent.workType);
-    setSkills(hubContent.skills);
-    setDetailRoles(hubContent.detailRoles);
-    onNext();
+    if (validateFields()) {
+      setTitle(hubContent.title);
+      setRole(hubContent.role);
+      setHubType(hubContent.hubType);
+      setStartDate(hubContent.startDate);
+      setDuration(hubContent.duration);
+      setDurationType(hubContent.durationType);
+      setWorkType(hubContent.workType);
+      setSkills(hubContent.skills);
+      setDetailRoles(hubContent.detailRoles);
+      onNext();
+    }
   };
 
   return (
@@ -115,19 +133,25 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
         <Input
           type='text'
           placeholder='제목을 입력해주세요.'
-          className='w-full border-black h-[44px]'
+          className={`w-full border h-[44px] ${errors.title ? 'border-red-500' : 'border-black'}`}
           value={hubContent.title}
           onChange={(e) => handleChange('title', e.target.value)}
         />
+        {errors.title && (
+          <p className='text-red-500 text-sm'>제목을 입력해주세요.</p>
+        )}
       </div>
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>직군</div>
         <JobSelect
-          className='border-black'
+          className={`border ${errors.role ? 'border-red-500' : 'border-black'}`}
           handleChange={handleChange}
           selectedRole={hubContent.role}
           selectedUnits={hubContent.detailRoles}
         />
+        {errors.role && (
+          <p className='text-red-500 text-sm'>직군을 선택해주세요.</p>
+        )}
       </div>
       <div className='flex flex-col items-start w-full gap-[5px]'>
         <div className='flex text-[20px] font-semibold'>스킬</div>
@@ -146,8 +170,8 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
               <Button
                 variant='outline'
                 className={cn(
-                  'w-[280px] h-[44px] justify-start text-left font-normal bg-white border-black',
-                  !hubContent.startDate && 'text-muted-foreground'
+                  'w-[280px] h-[44px] justify-start text-left font-normal bg-white',
+                  errors.startDate ? 'border-red-500' : 'border-black'
                 )}
               >
                 <CalendarIcon className='mr-2 h-4 w-4' />
@@ -174,6 +198,9 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
               />
             </PopoverContent>
           </Popover>
+          {errors.startDate && (
+            <p className='text-red-500 text-sm'>시작 희망일을 선택해주세요.</p>
+          )}
         </div>
         <div className='flex flex-col items-start w-full gap-[5px]'>
           <div className='flex text-[20px] font-semibold'>기간</div>

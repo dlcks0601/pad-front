@@ -15,8 +15,10 @@ const PostHubModal = ({ onClose }: PostHubModalProps) => {
   return (
     <Modal2 onClose={onClose}>
       <Modal2.Title>새 허브</Modal2.Title>
-      {step === 1 && <PostHubContentFirst onNext={goToNextStep} />}{' '}
-      {step === 2 && <PostHubContentSecond onPrevious={goToPreviousStep} />}{' '}
+      {step === 1 && <PostHubContentFirst onNext={goToNextStep} />}
+      {step === 2 && (
+        <PostHubContentSecond onPrevious={goToPreviousStep} onClose={onClose} />
+      )}
     </Modal2>
   );
 };

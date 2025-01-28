@@ -6,9 +6,13 @@ import { usePostHub } from '@/hooks/queries/hub.query';
 
 interface PostHubContentSecondProps {
   onPrevious: () => void;
+  onClose: () => void; // 정확한 대소문자 확인
 }
 
-const PostHubContentSecond = ({ onPrevious }: PostHubContentSecondProps) => {
+const PostHubContentSecond = ({
+  onPrevious,
+  onClose,
+}: PostHubContentSecondProps) => {
   const {
     content,
     setContent,
@@ -22,6 +26,7 @@ const PostHubContentSecond = ({ onPrevious }: PostHubContentSecondProps) => {
     detailRoles,
   } = useHubStore();
   const { mutate: postHub } = usePostHub();
+  const { resetHub } = useHubStore();
 
   const [hubContent, setHubContent] = useState<Pick<HubState, 'content'>>({
     content: '',
@@ -33,8 +38,8 @@ const PostHubContentSecond = ({ onPrevious }: PostHubContentSecondProps) => {
 
   const handleSaveContent = () => {
     setContent(hubContent.content);
-    console.log('Content 저장됨:', hubContent.content);
 
+    // postHub 호출
     postHub({
       title,
       content: hubContent.content,
@@ -43,10 +48,12 @@ const PostHubContentSecond = ({ onPrevious }: PostHubContentSecondProps) => {
       start_date: startDate,
       duration,
       work_type: workType,
-      recruiting: false, // Default or dynamic value
+      recruiting: false,
       skills,
       detail_roles: detailRoles,
     });
+    resetHub();
+    onClose();
   };
 
   return (

@@ -22,11 +22,6 @@ const Hub = () => {
     },
     [hasNextPage, isFetchingNextPage, fetchNextPage]
   );
-
-  // const [data, setData] = useState<HubItem[]>([]);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,38 +39,6 @@ const Hub = () => {
       observer.disconnect();
     };
   }, [handleObserver]);
-
-  console.log('데이터 :', data);
-  console.log('useInfiniteFetchHubs 호출 파라미터:', {
-    role,
-    unit,
-    sort,
-  });
-
-  // useEffect(() => {
-  //   const getProjects = async () => {
-  //     setIsLoading(true);
-  //     setError(null);
-  //     try {
-  //       const response = await fetchHubs({
-  //         skip: 0,
-  //         limit: 10,
-  //         cursor: 0,
-  //       });
-
-  //       console.log('fetchHubs response:', response);
-  //       console.log('projects:', response.projects);
-
-  //       setData(response.projects);
-  //     } catch (err: any) {
-  //       setError(err.message || '데이터를 불러오는 중 오류가 발생했습니다.');
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   getProjects();
-  // }, []);
 
   const handleClickProject = (projectId: number) => {
     navigate(`/projects/${projectId}`);

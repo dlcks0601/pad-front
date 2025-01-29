@@ -1,8 +1,4 @@
 import { useLocation } from 'react-router-dom';
-// import {
-//   SideBarApplicantList,
-//   SideBarContents,
-// } from '@/components/molecules/side/SideBarContents';
 import PadContact from '@/components/molecules/PadContact';
 import SideBarTitle from '@/components/atoms/SideBarTitle';
 import { ProjectApplyButton } from '@/components/molecules/contents/HubApplyButton';

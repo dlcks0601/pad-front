@@ -3,17 +3,20 @@ import {
   fetchBookmarkStatus,
   fetchHub,
   fetchHubs,
+  fetchStatus,
   HubRequest,
   HubResponse,
   HubsResponse,
   postHub,
+  putHub,
   togledBookmark,
+  uploadHubImage,
 } from '@/apis/hub.api';
-import { roleItems, roleItemsKey } from '@/constants/hub/roleItems';
-import { roleTagItems, roleTagItemsKey } from '@/constants/hub/roleTagsItems';
+
 import queryClient from '@/utils/queryClient';
 import {
   InfiniteData,
+  Mutation,
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useMutation,
@@ -95,6 +98,26 @@ export const useTogledHubBookmark = () => {
   });
 };
 
+export const changeHubStatus = () => {
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      recruiting,
+    }: {
+      projectId: number;
+      recruiting: boolean;
+    }) => {
+      return fetchStatus(projectId, recruiting);
+    },
+    onSuccess: () => {
+      console.log('허브 상태 변경 성공');
+    },
+    onError: (error) => {
+      console.error('허브 상태 변경 중 오류 발생:', error);
+    },
+  });
+};
+
 export const useFetchBookmarkStatus = (projectId: number) => {
   return useQuery({
     queryKey: ['bookmarkStatus', projectId],
@@ -142,6 +165,85 @@ export const usePostHub = (): UseMutationResult<
     },
     onError: (error) => {
       console.error('허브 작성 중 오류 발생:', error);
+    },
+  });
+};
+
+export const usePutHub = () => {
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      title,
+      content,
+      role,
+      hub_type,
+      start_date,
+      duration,
+      work_type,
+      recruiting,
+      skills,
+      detail_roles,
+    }: {
+      projectId: number;
+      title: string;
+      content: string;
+      role: string;
+      hub_type: string;
+      start_date: string;
+      duration: string;
+      work_type: string;
+      recruiting: boolean;
+      skills: string[];
+      detail_roles: string[];
+    }) => {
+      return putHub(
+        projectId,
+        title,
+        content,
+        role,
+        hub_type,
+        start_date,
+        duration,
+        work_type,
+        recruiting,
+        skills,
+        detail_roles
+      );
+    },
+    onSuccess: (_, { projectId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['project', projectId],
+      });
+      console.log(`허브 ${projectId} 수정 성공`);
+    },
+    onError: (error) => {
+      console.error('허브 수정 중 오류 발생:', error);
+    },
+  });
+};
+
+interface UsePostImageParams {
+  file: File;
+}
+
+interface UsePostImageResponse {
+  imageUrl: string;
+}
+
+export const useHubPostImage = (): UseMutationResult<
+  UsePostImageResponse,
+  Error,
+  UsePostImageParams
+> => {
+  return useMutation({
+    mutationFn: async ({ file }: UsePostImageParams) => {
+      return uploadHubImage(file);
+    },
+    onSuccess: (data) => {
+      console.log('이미지 업로드 성공:', data);
+    },
+    onError: (error) => {
+      console.error('이미지 업로드 실패:', error);
     },
   });
 };

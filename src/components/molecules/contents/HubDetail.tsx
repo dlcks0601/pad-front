@@ -54,7 +54,6 @@ const HubDetail = ({
   isOwnConnectionHub,
   projectId,
 }: HubDetailProps) => {
-  console.log('Received isOwnConnectionHub in props:', isOwnConnectionHub);
   return (
     <div className='flex flex-col w-full gap-[20px]'>
       <ContentsUser

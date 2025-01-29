@@ -32,6 +32,8 @@ const HubBody = ({
   status,
   duration,
 }: HubBodyProps) => {
+  console.log('📌 현재 status 값:', status);
+  console.log('📌 적용된 배경 클래스:', statusTagItemsColors[status]);
   return (
     <div className='flex flex-col gap-[20px]'>
       <div className='flex w-full items-center gap-[20px]'>
@@ -52,14 +54,14 @@ const HubBody = ({
         <ContentsTime startDate={startDate} duration={duration} />
       </div>
 
-      <div className='flex gap-[10px] text-white'>
+      <div className='flex gap-[10px]'>
         <span
-          className={`${meetingTagItemsColors[workType]} inline-flex items-center px-3 py-1 font-medium`}
+          className={`${meetingTagItemsColors[workType]} inline-flex items-center px-3 py-1 font-medium text-white`}
         >
           {workType}
         </span>
         <span
-          className={`${statusTagItemsColors[status]} inline-flex items-center px-3 py-1 font-medium `}
+          className={`${statusTagItemsColors[status]} inline-flex items-center px-3 py-1 font-medium text-white`}
         >
           {status}
         </span>

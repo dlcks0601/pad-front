@@ -11,6 +11,7 @@ export interface ChatState {
   messages: Record<string, ReceiveMessage[]>;
   currentChannelId: number | null;
   channels: Record<Channel['channelId'], Channel>;
+  navigatePath: string | null;
 }
 
 export interface ChatAction {
@@ -20,10 +21,6 @@ export interface ChatAction {
   createGroup: (userIds: number[], title: Channel['title']) => void;
   sendMessage: (message: SendMessage) => void;
   joinChannel: (userId: number, channleId: Channel['channelId']) => void;
-  setMessages: (
-    messages: ReceiveMessage[],
-    channelId: NonNullable<ChatState['currentChannelId']>
-  ) => void;
 }
 
 export interface Handlers {
@@ -38,6 +35,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
   immer((set, get) => {
     return {
       socket: null,
+      navigatePath: null,
       messages: {},
       currentChannelId: null,
       channels: {},
@@ -91,6 +89,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           currentChannelId: null,
           messages: {},
           channels: {},
+          navigatePath: null,
         }));
       },
       createChannel: (userId1, userId2) => {
@@ -124,15 +123,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         if (!socket)
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
-      },
-      // http 로 받아온 메시지를 이용해 messages 상태 업데이트
-      setMessages: (messages, channelId) => {
-        set((state) => {
-          if (!state.messages[channelId]) {
-            state.messages[channelId] = [];
-          }
-          state.messages[channelId] = messages;
-        });
+        set({ navigatePath: `/chat/channels/${channelId}` });
       },
       // 메시지 받았을 때 messages 상태 업데이트
       handleMessage: (message) => {
@@ -140,7 +131,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           if (!state.messages[message.channelId]) {
             state.messages[message.channelId] = [];
           }
-          state.messages[message.channelId].unshift(message);
+          state.messages[message.channelId].push(message);
         });
       },
       // 채널에 참가 했을 때 channels 상태 업데이트

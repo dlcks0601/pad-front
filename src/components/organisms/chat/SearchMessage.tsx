@@ -1,37 +1,113 @@
 import Icon from '@/components/atoms/Icon';
 import SearchInput from '@/components/molecules/chat/SearchInput';
-import { useSearchMessages } from '@/hooks/useSearchMessages';
-import { ChatState } from '@/store/chatStore';
-import { useState } from 'react';
+import { useSearchMessagesQuery } from '@/hooks/useSearchMessages';
+import { SearchState, useSearchStore } from '@/store/searchStore';
+import { Channel } from '@/types/channel.type';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 
-interface SearchMessagesProps {
-  currentChannelId: NonNullable<ChatState['currentChannelId']>;
+interface SearchMessageProps {
+  currentChannelId: Channel['channelId'];
 }
 
-const SearchMessage = ({ currentChannelId }: SearchMessagesProps) => {
-  const [keyword, setKeyword] = useState('');
-  const { loadMore, handleSearch, cursors } = useSearchMessages(
-    currentChannelId,
-    keyword
+const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
+  const [isFirst, setIsFirst] = useState(false);
+  const [isLast, setIsLast] = useState(false);
+  const {
+    setState,
+    searchMode,
+    searchDirection,
+    searchKeyword,
+    searchCursors,
+  } = useSearchStore(
+    useShallow((state) => ({
+      setState: state.setState,
+      searchMode: state.searchMode,
+      searchDirection: state.searchDirection,
+      searchKeyword: state.searchKeyword,
+      searchCursors: state.searchCursors,
+    }))
   );
+
+  const { data, isFetching, refetch } = useSearchMessagesQuery(
+    currentChannelId,
+    searchKeyword
+  );
+
+  console.log('searchCursors >>> ', searchCursors);
+  const handleUpDown = async (direciton: SearchState['searchDirection']) => {
+    if (isFetching) return;
+    setState({ searchDirection: direciton });
+    const { data } = await refetch();
+    if (data?.cursors) {
+      setState({
+        searchCursors: data.cursors,
+        searchMode: true,
+      });
+    } else {
+      setState({ searchMode: false });
+    }
+  };
+
+  const handleSearch = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!searchKeyword.trim()) return;
+    if (isFetching) return;
+    setState({
+      searchDirection: 'backward',
+      searchCursors: null,
+    });
+    const { data } = await refetch();
+    if (data?.cursors) {
+      setState({
+        searchCursors: data.cursors,
+        searchMode: true,
+      });
+    } else {
+      setState({ searchMode: false });
+    }
+  };
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    // setKeyword(e.target.value);
+    setState({ searchKeyword: e.target.value });
+  };
+
+  useEffect(() => {
+    if (!data) return;
+    if (data.message.code === 404) {
+      alert(data.message.text);
+      switch (searchDirection) {
+        case 'backward':
+          setIsFirst(true);
+          break;
+        case 'forward':
+          setIsLast(true);
+          break;
+      }
+    } else {
+      setIsFirst(false);
+      setIsLast(false);
+    }
+  }, [data]);
 
   return (
     <div className='shrink-0 flex items-center gap-2'>
-      {keyword.trim() && (
+      {searchMode && (
         <>
           <button
             className='p-[5px] bg-[#333333] text-white rounded-full hover:bg-[#555555] disabled:bg-[#949494] disabled:text-[#c5c5c5]'
             aria-label='이전 메시지'
-            disabled={cursors.search === null || cursors.prev === null}
-            onClick={() => loadMore('backward')}
+            disabled={isFirst}
+            onClick={() => handleUpDown('backward')}
           >
             <Icon type='arrow' className='w-[20px] h-[20px] text-inherit' />
           </button>
           <button
             className='p-[5px] bg-[#333333] text-white rounded-full hover:bg-[#555555] disabled:bg-[#949494] disabled:text-[#c5c5c5]'
-            aria-label='최근 메시지'
-            disabled={cursors.search === null || cursors.next === null}
-            onClick={() => loadMore('forward')}
+            aria-label='다음 메시지'
+            disabled={isLast}
+            onClick={() => handleUpDown('forward')}
           >
             <Icon
               type='arrow'
@@ -41,8 +117,8 @@ const SearchMessage = ({ currentChannelId }: SearchMessagesProps) => {
         </>
       )}
       <SearchInput
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
+        value={searchKeyword}
+        onChange={handleInput}
         onSubmit={handleSearch}
       />
     </div>

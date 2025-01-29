@@ -1,15 +1,8 @@
-import ChatMessages from '@/components/organisms/chat/ChatMessages';
-import { ChatState } from '@/store/chatStore';
-interface ChatBodyProps {
-  currentChannelId: ChatState['currentChannelId'];
-}
+import { PropsWithChildren } from 'react';
+interface ChatBodyProps extends PropsWithChildren {}
 
-const ChatBody = ({ currentChannelId }: ChatBodyProps) => {
-  return currentChannelId ? (
-    <ChatMessages currentChannelId={currentChannelId} />
-  ) : (
-    <div className='grow' />
-  );
+const ChatBody = ({ children }: ChatBodyProps) => {
+  return children;
 };
 
 export default ChatBody;

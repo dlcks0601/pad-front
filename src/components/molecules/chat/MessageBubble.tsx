@@ -2,8 +2,7 @@ import HighlightedText from '@/components/atoms/HighlightedText';
 import { useSearchStore } from '@/store/searchStore';
 import { ReceiveMessage } from '@/types/message.type';
 import { cn } from '@/utils/cn';
-import { useEffect, useRef } from 'react';
-import { useShallow } from 'zustand/shallow';
+import { useRef } from 'react';
 
 interface MessageBubbleProps {
   content: ReceiveMessage['content'];
@@ -18,20 +17,20 @@ const MessageBubble = ({
 }: MessageBubbleProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
 
-  const { searchCursor } = useSearchStore(
-    useShallow((state) => ({
-      searchCursor: state.cursors.search,
-    }))
-  );
-
+  // const queryCilent = new QueryClient();
+  // const queryKey = useSearchMessagesQueryKey();
+  // const data = queryCilent.getQueryData(['search', queryKey]);
+  // console.log(data);
+  const searchCursor = useSearchStore((state) => state.searchCursors?.search);
   const isSearchMessage = searchCursor === messageId;
 
-  useEffect(() => {
-    const message = messageRef.current;
-    if (isSearchMessage && message) {
-      message.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [isSearchMessage]);
+  // useEffect(() => {
+  //   console.log(isSearchMessage);
+  //   const message = messageRef.current;
+  //   if (isSearchMessage && message) {
+  //     message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  //   }
+  // }, [data]);
 
   return (
     <div

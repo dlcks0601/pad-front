@@ -4,14 +4,12 @@ import Icon from '@/components/atoms/Icon';
 import Input from '@/components/atoms/Input';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { SendMessage } from '@/types/message.type';
-import { ChatState, useChatStore } from '@/store/chatStore';
+import { useChatStore } from '@/store/chatStore';
 import useAuthStore from '@/store/authStore';
+import { useChannelParam } from '@/hooks/useChannelParam';
 
-interface ChatInputProps {
-  currentChannelId: ChatState['currentChannelId'];
-}
-
-const ChatInput = ({ currentChannelId }: ChatInputProps) => {
+const ChatInput = () => {
+  const { currentChannelId } = useChannelParam();
   const [content, setContent] = useState('');
   const sendMessage = useChatStore((state) => state.sendMessage);
   const userInfo = useAuthStore.getState().userInfo;

@@ -4,6 +4,7 @@ import PadContact from '@/components/molecules/PadContact';
 import HubSideBarContents from '@/components/molecules/side/HubSideBarContents';
 import HubApplySideBar from '@/components/organisms/sides/HubApplySideBar';
 import { useProjectStore } from '@/store/hubDetailStore';
+import HubApplyUserSideBar from '@/components/organisms/sides/HubApplyUserSideBar';
 
 const HubSideBar = () => {
   const location = useLocation(); // 현재 경로 가져오기
@@ -29,6 +30,12 @@ const HubSideBar = () => {
       {shouldShowHubApplySideBar && (
         <div className='flex flex-col'>
           <HubApplySideBar />
+        </div>
+      )}
+
+      {!shouldShowHubApplySideBar && (
+        <div className='flex flex-col'>
+          <HubApplyUserSideBar />
         </div>
       )}
 

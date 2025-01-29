@@ -1,7 +1,9 @@
 import Avatar from '@/components/atoms/Avatar';
 import ContentsUserTitle from '@/components/atoms/contents/ConentsUserTitle';
 import Icon from '@/components/atoms/Icon';
+import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import { useDeleteHub } from '@/hooks/queries/hub.query';
+import usePostHubModal from '@/hooks/usePostHubModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +24,8 @@ const ContentsUser = ({
   isOwnConnectionHub,
   projectId,
 }: ContentsUserProps) => {
+  const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
+    usePostHubModal();
   const [clicked, setClicked] = useState<boolean>(false);
   const navigate = useNavigate();
   const { mutate: deleteHub } = useDeleteHub();
@@ -31,7 +35,7 @@ const ContentsUser = ({
       deleteHub(projectId, {
         onSuccess: () => {
           console.log('허브 삭제 성공');
-          navigate('/');
+          navigate('/projects');
         },
         onError: (error) => {
           console.log('허브 삭제 실패: ', error);
@@ -61,7 +65,10 @@ const ContentsUser = ({
           {clicked && (
             <div className='absolute w-[80px] h-fit top-[120%] left-[-30px] z-50'>
               <div className='flex flex-col gap-3 text-gray bg-white px-[20px] py-[10px] rounded-[20px] shadow-md'>
-                <button className='hover:underline text-caption1 w-full text-gray flex gap-1 items-center'>
+                <button
+                  className='hover:underline text-caption1 w-full text-gray flex gap-1 items-center'
+                  onClick={openPostModal}
+                >
                   <Icon
                     type='pencilSquare'
                     className='w-[14px] h-[14px] text-gray'
@@ -79,6 +86,14 @@ const ContentsUser = ({
             </div>
           )}
         </div>
+      )}
+      {isModalOpen && (
+        <PostHubModal
+          onClose={closePostModal}
+          onSubmit={() => setIsSubmitted(true)}
+          onRevise={true}
+          projectId={projectId}
+        />
       )}
     </div>
   );

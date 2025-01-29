@@ -18,6 +18,10 @@ const HubInfo = ({
   role,
   detailRoles,
 }: HubInfoProps) => {
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    return date.toISOString().split('T')[0];
+  };
   return (
     <div className='flex flex-col gap-[20px]'>
       <div className='flex gap-[20px] items-center'>
@@ -25,7 +29,7 @@ const HubInfo = ({
         <div className='flex w-[100px]'>
           <span className='text-[#838383] text-[14px]'>시작 예정일</span>
         </div>
-        <span className='text-black text-[14px]'>{startDate}</span>
+        <span className='text-black text-[14px]'>{formatDate(startDate)}</span>
       </div>
       <div className='flex gap-[20px] items-center'>
         <Icon type='roledetail' color='gray' className='w-[24px] h-[24px]' />

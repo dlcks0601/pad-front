@@ -1,8 +1,8 @@
 import { API_PATH } from '@/apis/api-path';
 import { hubTagItems } from '@/constants/hub/hubTagItems';
 import { meetingTagItems } from '@/constants/hub/meetingTagItems';
-import { roleItems, roleItemsValue } from '@/constants/hub/roleItems';
-import { roleTagItems, roleTagItemsValue } from '@/constants/hub/roleTagsItems';
+import { roleItems } from '@/constants/hub/roleItems';
+import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
@@ -169,9 +169,6 @@ export const fetchHubs = async ({
     params.unit = unit;
   }
 
-  console.log('API 요청 URL:', apiPath);
-  console.log('API 요청 params:', params);
-
   const response = await fetcher<HubsResponse>({
     url: apiPath,
     method: 'GET',
@@ -256,7 +253,7 @@ export const postHub = async ({
   skills,
   detail_roles,
 }: HubRequest) => {
-  const apiPath = API_PATH.project;
+  const apiPath = API_PATH.projects;
   const response = await fetcher({
     url: apiPath,
     method: 'POST',
@@ -272,6 +269,86 @@ export const postHub = async ({
       skills,
       detail_roles,
     } as HubRequest,
+  });
+  return response.data;
+};
+
+export const putHub = async (
+  projectId: number,
+  title: string,
+  content: string,
+  role: string,
+  hub_type: string,
+  start_date: string,
+  duration: string,
+  work_type: string,
+  recruiting: boolean,
+  skills: string[],
+  detail_roles: string[]
+) => {
+  const apiPath = `${API_PATH.projects}/${projectId}`;
+  const response = await fetcher({
+    url: apiPath,
+    method: 'PUT',
+    data: {
+      title,
+      content,
+      role,
+      hub_type,
+      start_date,
+      duration,
+      work_type,
+      recruiting,
+      skills,
+      detail_roles,
+    } as HubRequest,
+  });
+  return response.data;
+};
+
+export interface UploadImageResponse {
+  imageUrl: string;
+}
+
+export const uploadHubImage = async (file: File) => {
+  const apiPath = API_PATH.hubImage;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetcher<UploadImageResponse>({
+    url: apiPath,
+    method: 'POST',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response.data;
+};
+
+export interface statusRequest {
+  recruiting: boolean;
+}
+
+export interface statusRespons {
+  message: string;
+  project: {
+    projectId: number;
+    recruiting: boolean;
+    status: string;
+  };
+}
+
+export const fetchStatus = async (projectId: number, recruiting: boolean) => {
+  const apiPath = `${API_PATH.projects}/${projectId}/status`;
+  const response = await fetcher<statusRespons>({
+    url: apiPath,
+    method: 'PATCH',
+    data: {
+      recruiting,
+    } as statusRequest,
   });
   return response.data;
 };

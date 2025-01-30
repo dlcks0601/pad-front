@@ -14,13 +14,7 @@ export const useInfiniteMessagesQuery = (currentChannelId: number) => {
         cursor: pageParam,
       }),
     initialPageParam: null as number | null, // next | prev | null
-    getNextPageParam: (lastPage) => {
-      // console.log('lastPage >>> ', lastPage);
-      return lastPage.cursors.next;
-    },
-    getPreviousPageParam: (firstPage) => {
-      // console.log('firstPage >>> ', firstPage);
-      return firstPage.cursors.prev;
-    },
+    getNextPageParam: (lastPage) => lastPage.cursors.next,
+    getPreviousPageParam: (firstPage) => firstPage.cursors.prev,
   });
 };

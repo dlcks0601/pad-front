@@ -7,7 +7,7 @@ import { immer } from 'zustand/middleware/immer';
 
 export interface SearchState {
   searchDirection: FetchChannelMessagesRequest['direction'];
-  searchCursors: SearchChannelMessagesResponse['cursors'] | null;
+  searchCursors: SearchChannelMessagesResponse['cursors'];
   searchMode: boolean;
   searchKeyword: string;
 }
@@ -21,7 +21,11 @@ type SearchStore = SearchState & SearchAction;
 export const useSearchStore = create<SearchStore>()(
   immer((set) => ({
     searchDirection: 'backward',
-    searchCursors: null,
+    searchCursors: {
+      prev: null,
+      next: null,
+      search: null,
+    },
     searchMode: false,
     searchKeyword: '',
     setState: (state) => {

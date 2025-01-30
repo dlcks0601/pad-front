@@ -17,20 +17,8 @@ const MessageBubble = ({
 }: MessageBubbleProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
 
-  // const queryCilent = new QueryClient();
-  // const queryKey = useSearchMessagesQueryKey();
-  // const data = queryCilent.getQueryData(['search', queryKey]);
-  // console.log(data);
   const searchCursor = useSearchStore((state) => state.searchCursors?.search);
   const isSearchMessage = searchCursor === messageId;
-
-  // useEffect(() => {
-  //   console.log(isSearchMessage);
-  //   const message = messageRef.current;
-  //   if (isSearchMessage && message) {
-  //     message.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  //   }
-  // }, [data]);
 
   return (
     <div

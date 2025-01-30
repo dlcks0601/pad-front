@@ -6,10 +6,9 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { SendMessage } from '@/types/message.type';
 import { useChatStore } from '@/store/chatStore';
 import useAuthStore from '@/store/authStore';
-import { useChannelParam } from '@/hooks/useChannelParam';
 
 const ChatInput = () => {
-  const { currentChannelId } = useChannelParam();
+  const currentChannelId = useChatStore((state) => state.currentChannelId);
   const [content, setContent] = useState('');
   const sendMessage = useChatStore((state) => state.sendMessage);
   const userInfo = useAuthStore.getState().userInfo;

@@ -1,9 +1,10 @@
 import Icon from '@/components/atoms/Icon';
 import SearchInput from '@/components/molecules/chat/SearchInput';
-import { useSearchMessagesQuery } from '@/hooks/useSearchMessages';
+import { useSearchMessagesQuery } from '@/hooks/chat/useSearchMessages';
+import { useSearchUpDown } from '@/hooks/chat/useSearchUpDown';
 import { SearchState, useSearchStore } from '@/store/searchStore';
 import { Channel } from '@/types/channel.type';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 interface SearchMessageProps {
@@ -11,34 +12,30 @@ interface SearchMessageProps {
 }
 
 const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
-  const [isFirst, setIsFirst] = useState(false);
-  const [isLast, setIsLast] = useState(false);
-  const {
-    setState,
-    searchMode,
-    searchDirection,
-    searchKeyword,
-    searchCursors,
-  } = useSearchStore(
-    useShallow((state) => ({
-      setState: state.setState,
-      searchMode: state.searchMode,
-      searchDirection: state.searchDirection,
-      searchKeyword: state.searchKeyword,
-      searchCursors: state.searchCursors,
-    }))
-  );
+  const { setState, searchMode, searchDirection, searchKeyword } =
+    useSearchStore(
+      useShallow((state) => ({
+        setState: state.setState,
+        searchMode: state.searchMode,
+        searchDirection: state.searchDirection,
+        searchKeyword: state.searchKeyword,
+      }))
+    );
 
   const { data, isFetching, refetch } = useSearchMessagesQuery(
     currentChannelId,
     searchKeyword
   );
 
-  console.log('searchCursors >>> ', searchCursors);
+  const { isFirst, isLast } = useSearchUpDown(data, searchDirection);
+
   const handleUpDown = async (direciton: SearchState['searchDirection']) => {
     if (isFetching) return;
+
     setState({ searchDirection: direciton });
+
     const { data } = await refetch();
+
     if (data?.cursors) {
       setState({
         searchCursors: data.cursors,
@@ -51,13 +48,15 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
-    if (!searchKeyword.trim()) return;
-    if (isFetching) return;
+    if (!searchKeyword.trim() || isFetching) return;
+
     setState({
       searchDirection: 'backward',
-      searchCursors: null,
+      // searchCursors: null,
     });
+
     const { data } = await refetch();
+
     if (data?.cursors) {
       setState({
         searchCursors: data.cursors,
@@ -69,27 +68,8 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
   };
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    // setKeyword(e.target.value);
     setState({ searchKeyword: e.target.value });
   };
-
-  useEffect(() => {
-    if (!data) return;
-    if (data.message.code === 404) {
-      alert(data.message.text);
-      switch (searchDirection) {
-        case 'backward':
-          setIsFirst(true);
-          break;
-        case 'forward':
-          setIsLast(true);
-          break;
-      }
-    } else {
-      setIsFirst(false);
-      setIsLast(false);
-    }
-  }, [data]);
 
   return (
     <div className='shrink-0 flex items-center gap-2'>

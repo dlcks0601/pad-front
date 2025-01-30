@@ -48,15 +48,11 @@ const ChatMessages = ({ currentChannelId }: ChatMessagesProsp) => {
     threshold: 1,
   });
 
-  console.log('searchMode >>> ', searchMode);
-  console.log({ data });
   const messages = useMemo(() => {
     const searchMessages = searchData ? searchData.messages : [];
     const infiniteMessages = data
       ? data.pages?.flatMap((page) => page.messages)
       : [];
-    console.log('searchData >>> ', searchData);
-    console.log('messageData >>> ', data);
     const messages = [
       ...(searchMessages ? searchMessages : []),
       ...(searchMode ? [] : infiniteMessages),
@@ -110,7 +106,7 @@ const ChatMessages = ({ currentChannelId }: ChatMessagesProsp) => {
       </div>
     );
   }
-  console.log('render >>> ', { messages });
+
   return (
     <div
       ref={scrollContainerRef}

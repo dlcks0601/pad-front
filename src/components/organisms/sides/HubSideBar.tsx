@@ -12,9 +12,11 @@ const HubSideBar = () => {
     (state) => state.isOwnConnectionHub
   );
 
-  // ✅ "/projects" 경로이거나 isOwnConnectionHub가 null 또는 false일 때 숨김
   const shouldShowHubApplySideBar =
     isOwnConnectionHub === true && location.pathname !== '/projects';
+
+  const shouldShowHubApplyUserSideBar =
+    !isOwnConnectionHub === true && location.pathname !== '/projects';
 
   return (
     <div className='flex flex-col gap-[40px]'>
@@ -26,14 +28,13 @@ const HubSideBar = () => {
         <HubSideBarContents />
       </div>
 
-      {/* ✅ isOwnConnectionHub가 true이고 현재 경로가 "/projects"가 아닐 때만 표시 */}
       {shouldShowHubApplySideBar && (
         <div className='flex flex-col'>
           <HubApplySideBar />
         </div>
       )}
 
-      {!shouldShowHubApplySideBar && (
+      {shouldShowHubApplyUserSideBar && (
         <div className='flex flex-col'>
           <HubApplyUserSideBar />
         </div>

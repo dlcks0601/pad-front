@@ -46,7 +46,11 @@ const Message = memo(({ message, sameBefore, isMyMessage }: MessageProps) => {
             isMyMessage ? 'flex-row-reverse' : 'flex-row'
           )}
         >
-          <MessageBubble content={content} messageId={message.messageId} />
+          <MessageBubble
+            content={content}
+            messageId={message.messageId}
+            isMyMessage={isMyMessage}
+          />
           <div className='text-caption2 text-darkgray'>
             {formatTime(message.date)}
           </div>

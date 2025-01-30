@@ -1,6 +1,11 @@
 import {
   deleteHub,
+  fetchApplicants,
+  fetchApplicantsStatus,
+  fetchApply,
+  fetchApplyStatus,
   fetchBookmarkStatus,
+  fetchCancelApply,
   fetchHub,
   fetchHubs,
   fetchStatus,
@@ -58,7 +63,7 @@ export const useFetchHub = (
   projectId: number
 ): UseQueryResult<HubResponse, Error> => {
   return useQuery<HubResponse>({
-    queryKey: ['project'],
+    queryKey: ['project', projectId],
     queryFn: () => fetchHub(projectId),
     retry: 10,
     staleTime: 60 * 1000,
@@ -73,7 +78,7 @@ export const useDeleteHub = () => {
     },
     onSuccess: (_, projectId) => {
       queryClient.invalidateQueries({
-        queryKey: ['project'],
+        queryKey: ['project', projectId],
       });
       console.log(`허브 ${projectId} 삭제 성공`);
     },
@@ -118,10 +123,80 @@ export const changeHubStatus = () => {
   });
 };
 
+export const applyHub = () => {
+  return useMutation({
+    mutationFn: async ({ projectId }: { projectId: number }) => {
+      return fetchApply(projectId);
+    },
+    onSuccess: () => {
+      console.log('허브 지원 성공');
+    },
+    onError: (error) => {
+      console.error('허브 지원 실패', error);
+    },
+  });
+};
+
+export const applyCancel = () => {
+  return useMutation({
+    mutationFn: async ({ projectId }: { projectId: number }) => {
+      return fetchCancelApply(projectId);
+    },
+    onSuccess: () => {
+      console.log('허브 지원 취소');
+    },
+    onError: (error) => {
+      console.error('허브 지원 취소 실패', error);
+    },
+  });
+};
+
+export const useFetchApplicants = (projectId: number) => {
+  return useQuery({
+    queryKey: ['applyList', projectId],
+    queryFn: () => fetchApplicants(projectId),
+    retry: 10,
+    staleTime: 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
+};
+
+export const applicantsStatus = () => {
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      userId,
+      status, // ✅ 추가
+    }: {
+      projectId: number;
+      userId: number;
+      status: string;
+    }) => {
+      return fetchApplicantsStatus(projectId, userId, status);
+    },
+    onSuccess: () => {
+      console.log('지원 상태 변경');
+    },
+    onError: (error) => {
+      console.log('지원 상태 변경 실패', error);
+    },
+  });
+};
+
 export const useFetchBookmarkStatus = (projectId: number) => {
   return useQuery({
     queryKey: ['bookmarkStatus', projectId],
     queryFn: () => fetchBookmarkStatus(projectId),
+    retry: 10,
+    staleTime: 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
+};
+
+export const useFetchApplyStatus = (projectId: number) => {
+  return useQuery({
+    queryKey: ['applyStatus', projectId],
+    queryFn: () => fetchApplyStatus(projectId),
     retry: 10,
     staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,

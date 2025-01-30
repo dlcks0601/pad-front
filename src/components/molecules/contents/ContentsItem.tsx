@@ -1,11 +1,11 @@
 import { HubFooter } from '@/components/molecules/contents/ContentsFooter';
-import ContentsUser from '@/components/molecules/contents/ContentsUser';
 import HubItem from '@/components/molecules/contents/HubItem';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import { roleItemsKey } from '@/constants/hub/roleItems';
+import ContentsHubUser from '@/components/molecules/contents/ContentsHubUser';
 
 // 허브 컨텐츠
 interface HubContentsProps {
@@ -56,7 +56,7 @@ export const HubContents = ({
   return (
     <div className='flex flex-col w-full gap-[20px]'>
       {!hideUser && (
-        <ContentsUser
+        <ContentsHubUser
           profileUrl={user!.profileUrl}
           nickname={user!.nickname}
           role={user!.role}

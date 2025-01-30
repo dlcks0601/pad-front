@@ -76,7 +76,6 @@ export const fetchHubs = async () => {
       url: apiPath,
       method: 'GET',
     });
-    console.log('허브 페이지 데이터 조회 성공');
     return response.data;
   } catch (error) {
     console.error('허브 페이지 데이터 조회 실패', error);
@@ -91,10 +90,8 @@ export const fetchHub = async () => {
       url: apiPath,
       method: 'GET',
     });
-    console.log('허브 디테일 페이지 데이터 조회 성공');
     return response.data;
   } catch (error) {
-    console.log('허브 디테일 페이지 데이터 조회 실패', error);
     throw error;
   }
 };

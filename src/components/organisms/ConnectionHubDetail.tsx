@@ -11,36 +11,23 @@ const ConnectionHubDetail = () => {
     data: ProjectData,
     isLoading: ProjectLoading,
     isError,
-    // refetch,
   } = useFetchHub(Number(projectId));
-  // const setProject = useProjectStore((state) => state.setProject);
-  // const currentUserId = useAuthStore((state) => state.userInfo.userId);
-  // const projectState = useProjectStore((state) => state.project);
 
   const setProject = useProjectStore((state) => state.setProject);
   const isOwnConnectionHub = useProjectStore(
     (state) => state.isOwnConnectionHub
   );
   const currentUserId = useAuthStore((state) => state.userInfo.userId);
-  console.log(
-    '✅ Zustand 저장된 프로젝트 데이터:',
-    useProjectStore.getState().project
-  );
-  console.log('✅ Zustand 저장된 isOwnConnectionHub:', isOwnConnectionHub);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [projectId, refetch]);
+  useEffect(() => {
+    setProject(null, currentUserId);
+  }, [projectId, setProject, currentUserId]);
+
   useEffect(() => {
     if (ProjectData?.project) {
-      setProject(ProjectData.project, currentUserId); // currentUserId 추가
+      setProject(ProjectData.project, currentUserId);
     }
   }, [ProjectData, currentUserId, setProject]);
-
-  console.log('ProjectData:', ProjectData);
-  console.log('Current User ID:', currentUserId);
-
-  // const project = ProjectData?.project;
 
   if (ProjectLoading) {
     return <div>피드 로딩 중...</div>;

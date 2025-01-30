@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 const HubApplyUserSideBar = () => {
   const hubType = useProjectStore((state) => state.project?.hubType);
+  const hubStatus = useProjectStore((state) => state.project?.status);
   const { projectId } = useParams<{ projectId: string }>();
   const applyMutation = applyHub();
   const applyCancelMutation = applyCancel();
@@ -71,34 +72,42 @@ const HubApplyUserSideBar = () => {
         <button
           onClick={isApplied ? handleCancelApply : handleApply}
           className={`w-[314px] h-[50px] rounded-md text-white ${
-            isApplied
-              ? 'bg-gradient-to-r from-[#000000] to-[#ffffff] cursor-pointer'
-              : 'bg-gradient-to-r from-[#FF8800] to-[#84FF74]'
+            hubStatus === 'CLOSED'
+              ? 'bg-gradient-to-r from-[#555555] to-[#777777] cursor-not-allowed'
+              : isApplied
+                ? 'bg-gradient-to-r from-[#000000] to-[#ffffff] cursor-pointer'
+                : 'bg-gradient-to-r from-[#FF8800] to-[#84FF74]'
           }`}
-          disabled={isApplyStatusLoading}
+          disabled={isApplyStatusLoading || hubStatus === 'CLOSED'}
         >
-          {isApplyStatusLoading
-            ? '로딩 중...'
-            : isApplied
-              ? '지원 취소'
-              : '지원'}
+          {hubStatus === 'CLOSED'
+            ? '마감'
+            : isApplyStatusLoading
+              ? '로딩 중...'
+              : isApplied
+                ? '지원 취소'
+                : '지원'}
         </button>
       )}
       {hubType === 'PROJECT' && (
         <button
           onClick={isApplied ? handleCancelApply : handleApply}
           className={`w-[314px] h-[50px] rounded-md text-white ${
-            isApplied
-              ? 'bg-gradient-to-r from-[#000000] to-[#ffffff] cursor-pointer'
-              : 'bg-gradient-to-r from-[#87DBFF] to-[#FFA9BE]'
+            hubStatus === 'CLOSED'
+              ? 'bg-gradient-to-r from-[#000000] to-[#777777] cursor-not-allowed'
+              : isApplied
+                ? 'bg-gradient-to-r from-[#000000] to-[#ffffff] cursor-pointer'
+                : 'bg-gradient-to-r from-[#87DBFF] to-[#FFA9BE]'
           }`}
-          disabled={isApplyStatusLoading}
+          disabled={isApplyStatusLoading || hubStatus === 'CLOSED'}
         >
-          {isApplyStatusLoading
-            ? '로딩 중...'
-            : isApplied
-              ? '지원 취소'
-              : '지원'}
+          {hubStatus === 'CLOSED'
+            ? '마감'
+            : isApplyStatusLoading
+              ? '로딩 중...'
+              : isApplied
+                ? '지원 취소'
+                : '지원'}
         </button>
       )}
     </div>

@@ -16,9 +16,6 @@ const HubSideBarContents = () => {
       try {
         const response = await fetchBestHubs();
 
-        console.log('fetchWeeklyBestHub response: ', response);
-        console.log('WeeklyBestHub: ', response.popularProjects);
-
         setData(response.popularProjects);
       } catch (err: any) {
         setError(err.message || '데이터를 불러오는 중 오류가 발생했습니다.');

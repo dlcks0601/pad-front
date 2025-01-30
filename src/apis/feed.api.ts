@@ -9,6 +9,7 @@ export interface Post {
   userRole: string;
   userProfileUrl: string;
   postId: number;
+  // TODO: 여기 thumbnail인데 데이터 전달 시 오타인지 모르겠는데 확인하고 해결 부탁드립니다.
   thumnailUrl: string;
   content: string;
   title: string;
@@ -148,7 +149,6 @@ export const postFeed = async (
   tags: string[],
   content: string
 ) => {
-  console.log('피드 작성 요청됨');
   const apiPath = API_PATH.feed;
   const response = await fetcher({
     url: apiPath,
@@ -166,11 +166,9 @@ export const deleteFeedChat = async (
   postId: Post['postId'],
   commentId: Comment['commentId']
 ) => {
-  console.log('deleteFeedChat 요청됨');
   const apiPath = API_PATH.feedChatDelete
     .replace(':id', postId.toString())
     .replace(':commentId', commentId.toString());
-  console.log('apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'DELETE',
@@ -185,7 +183,6 @@ export const patchFeedLike = async (id: Post['postId']) => {
     url: apiPath,
     method: 'POST',
   });
-  console.log(response.data.message); // { code: 200, message: "좋아요가 취소되었습니다." }
   return response.data;
 };
 
@@ -197,7 +194,6 @@ export const putFeed = async (
   content: string
 ) => {
   const apiPath = `${API_PATH.feed}/${id}`;
-  console.log('피드 수정 apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'PUT',

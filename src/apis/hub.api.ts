@@ -6,7 +6,6 @@ import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
-import { title } from 'process';
 
 export interface HubsResponse {
   message: {

@@ -1,6 +1,6 @@
 import Messages from '@/components/organisms/chat/Messages';
-import { useInfiniteMessagesQuery } from '@/hooks/useMessages';
-import { useSearchMessagesQuery } from '@/hooks/useSearchMessages';
+import { useInfiniteMessagesQuery } from '@/hooks/chat/useMessages';
+import { useSearchMessagesQuery } from '@/hooks/chat/useSearchMessages';
 import { useChatStore } from '@/store/chatStore';
 import { useSearchStore } from '@/store/searchStore';
 import { Channel } from '@/types/channel.type';

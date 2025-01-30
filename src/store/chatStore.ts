@@ -11,7 +11,6 @@ export interface ChatState {
   messages: Record<string, ReceiveMessage[]>;
   currentChannelId: number | null;
   channels: Record<Channel['channelId'], Channel>;
-  navigatePath: string | null;
 }
 
 export interface ChatAction {
@@ -35,7 +34,6 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
   immer((set, get) => {
     return {
       socket: null,
-      navigatePath: null,
       messages: {},
       currentChannelId: null,
       channels: {},
@@ -89,7 +87,6 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
           currentChannelId: null,
           messages: {},
           channels: {},
-          navigatePath: null,
         }));
       },
       createChannel: (userId1, userId2) => {
@@ -123,7 +120,6 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         if (!socket)
           return alert('소켓에 연결되어있지 않습니다. (joinChannel)');
         socket.emit('joinChannel', { userId, channelId });
-        set({ navigatePath: `/chat/channels/${channelId}` });
       },
       // 메시지 받았을 때 messages 상태 업데이트
       handleMessage: (message) => {

@@ -1,36 +1,25 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useChatStore } from '@/store/chatStore';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import useAuthStore from '@/store/authStore';
 import { useAlert } from '@/hooks/useAlert';
-import { useChannelParam } from '@/hooks/useChannelParam';
 
 export const useChat = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const userInfo = useAuthStore((state) => state.userInfo);
   const { loginAlert } = useAlert();
 
-  const { currentChannelId } = useChannelParam();
-  const joinChannel = useChatStore((state) => state.joinChannel);
-
-  const {
-    createChannel,
-    connectSocket,
-    disconnectSocket,
-    createGroup,
-    navigatePath,
-  } = useChatStore(
-    useShallow((state) => ({
-      createChannel: state.createChannel,
-      connectSocket: state.connectSocket,
-      disconnectSocket: state.disconnectSocket,
-      createGroup: state.createGroup,
-      navigatePath: state.navigatePath,
-    }))
-  );
+  const { createChannel, connectSocket, disconnectSocket, createGroup } =
+    useChatStore(
+      useShallow((state) => ({
+        createChannel: state.createChannel,
+        connectSocket: state.connectSocket,
+        disconnectSocket: state.disconnectSocket,
+        createGroup: state.createGroup,
+      }))
+    );
 
   useEffect(() => {
     if (!userInfo) {
@@ -49,17 +38,11 @@ export const useChat = () => {
       const userIds = location.state.userIds;
       const title = location.state.title;
       createGroup(userIds, title);
-    } else if (userInfo.userId && currentChannelId) {
-      joinChannel(userInfo.userId, currentChannelId);
     }
+
     return () => {
       disconnectSocket();
       window.history.replaceState({}, '');
     };
   }, []);
-
-  useEffect(() => {
-    if (navigatePath === null) return;
-    navigate(navigatePath);
-  }, [navigatePath]);
 };

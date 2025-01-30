@@ -1,21 +1,25 @@
 import Avatar from '@/components/atoms/Avatar';
 import Title from '@/components/atoms/Title';
 import { ListItem } from '@/components/molecules/ListItem';
-import { useChannelParam } from '@/hooks/useChannelParam';
 import useAuthStore from '@/store/authStore';
 import { ChatState, useChatStore } from '@/store/chatStore';
 import { Channel } from '@/types/channel.type';
 import { formatDateFromNow } from '@/utils/format';
 import clsx from 'clsx';
+import { useShallow } from 'zustand/shallow';
 
 interface ChannelListProps {
   channels: ChatState['channels'];
 }
 
 const ChannelList = ({ channels }: ChannelListProps) => {
-  const joinChannel = useChatStore((state) => state.joinChannel);
+  const { joinChannel, currentChannelId } = useChatStore(
+    useShallow((state) => ({
+      joinChannel: state.joinChannel,
+      currentChannelId: state.currentChannelId,
+    }))
+  );
   const user = useAuthStore((state) => state.userInfo);
-  const { currentChannelId } = useChannelParam();
 
   const switchChannel = (channelId: Channel['channelId']) => {
     if (channelId === currentChannelId) return;

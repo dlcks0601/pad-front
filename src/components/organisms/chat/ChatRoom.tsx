@@ -5,10 +5,10 @@ import ChatMessages from '@/components/organisms/chat/ChatMessages';
 import ChatMessagesWelcome from '@/components/molecules/chat/ChatMessagesWelcome';
 import ChatHeaderInfo from '@/components/molecules/chat/ChatHeaderInfo';
 import ChatHeaderWelcome from '@/components/molecules/chat/ChatHeaderWelcome';
-import { useChannelParam } from '@/hooks/useChannelParam';
+import { useChatStore } from '@/store/chatStore';
 
 const ChatRoom = () => {
-  const { currentChannelId } = useChannelParam();
+  const currentChannelId = useChatStore((state) => state.currentChannelId);
 
   return (
     <>

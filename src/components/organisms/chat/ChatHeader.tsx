@@ -3,7 +3,7 @@ import { Channel } from '@/types/channel.type';
 import { PropsWithChildren } from 'react';
 
 interface ChatHeaderProps extends PropsWithChildren {
-  currentChannelId?: Channel['channelId'];
+  currentChannelId: Channel['channelId'] | null;
 }
 
 const ChatHeader = ({ currentChannelId, children }: ChatHeaderProps) => {

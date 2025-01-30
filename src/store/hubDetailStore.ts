@@ -1,39 +1,3 @@
-// import { HubResponse } from '@/apis/hub.api';
-
-// import { create } from 'zustand';
-// import { devtools } from 'zustand/middleware';
-// import { immer } from 'zustand/middleware/immer';
-
-// export interface HubDetailState {
-//   status: HubResponse['project']['status'];
-//   isOwnConnectionHub: HubResponse['isOwnConnectionHub'];
-// }
-
-// interface HubDetailAction {
-//   setStatus: (status: 'OPEN' | 'CLOSE') => void;
-// }
-
-// const initialState: HubDetailState = {
-//   status: 'OPEN',
-//   isOwnConnectionHub: false,
-// };
-
-// type HubDetailStore = HubDetailState & HubDetailAction;
-
-// const useDetailStore = create<HubDetailStore>()(
-//   devtools(
-//     immer<HubDetailStore>((set) => ({
-//       ...initialState,
-//       setStatus: (status: 'OPEN' | 'CLOSE') =>
-//         set((state) => {
-//           state.status = status;
-//         }),
-//     }))
-//   )
-// );
-
-// export default useDetailStore;
-
 import { create } from 'zustand';
 
 interface Project {
@@ -57,7 +21,7 @@ interface Project {
 interface ProjectStore {
   project: Project | null;
   isOwnConnectionHub: boolean;
-  setProject: (project: Project, currentUserId: number) => void;
+  setProject: (project: Project | null, currentUserId: number) => void;
 }
 
 export const useProjectStore = create<ProjectStore>((set) => ({
@@ -66,6 +30,8 @@ export const useProjectStore = create<ProjectStore>((set) => ({
   setProject: (project, currentUserId) =>
     set({
       project,
-      isOwnConnectionHub: project.manager.userId === currentUserId,
+      isOwnConnectionHub: project
+        ? project.manager.userId === currentUserId
+        : false,
     }),
 }));

@@ -21,7 +21,6 @@ import {
 import queryClient from '@/utils/queryClient';
 import {
   InfiniteData,
-  Mutation,
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useMutation,
@@ -88,7 +87,6 @@ export const useDeleteHub = () => {
   });
 };
 
-// 허브 북마크
 export const useTogledHubBookmark = () => {
   return useMutation({
     mutationFn: async ({ projectId }: { projectId: number }) => {
@@ -166,7 +164,7 @@ export const applicantsStatus = () => {
     mutationFn: async ({
       projectId,
       userId,
-      status, // ✅ 추가
+      status,
     }: {
       projectId: number;
       userId: number;

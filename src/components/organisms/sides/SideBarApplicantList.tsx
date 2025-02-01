@@ -1,6 +1,7 @@
 import Avatar from '@/components/atoms/Avatar';
 import {
   applicantsStatus,
+  changeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
 import useAuthStore from '@/store/authStore';
@@ -21,6 +22,7 @@ const SideBarApplicantList = () => {
   const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
   const hubTitle = useProjectStore((state) => state.project?.title);
+  const hubStatusMutation = changeHubStatus();
 
   const handleStatusChange = (
     userId: number,
@@ -43,6 +45,39 @@ const SideBarApplicantList = () => {
     );
   };
 
+  const handleInvite = () => {
+    if (window.confirm('초대를 하시면 허브를 마감하겠습니까?')) {
+      // ✅ 허브 마감 (recruiting: false)
+      hubStatusMutation.mutate(
+        {
+          projectId: Number(projectId),
+          recruiting: false,
+        },
+        {
+          onSuccess: () => {
+            refetch(); // ✅ 허브 상태 변경 후 지원자 목록 갱신
+
+            const acceptedApplicants =
+              ApplicantData?.applicants.filter(
+                (applicant) => applicant.status === 'Accepted'
+              ) || [];
+            const userIds = [
+              ...acceptedApplicants.map((applicant) => applicant.userId),
+              writeUserId,
+            ];
+
+            console.log('초대된 사용자:', userIds); // ✅ 초대된 사용자 확인
+
+            // ✅ 초대된 사용자와 함께 채팅으로 이동
+            navigate('/chat', {
+              state: { userIds, title: hubTitle },
+            });
+          },
+        }
+      );
+    }
+  };
+
   if (ApplicantLoading) {
     return <div className='text-center text-gray-500'>지원자 로딩 중...</div>;
   }
@@ -51,13 +86,13 @@ const SideBarApplicantList = () => {
     return <div className='text-center text-gray-500'>지원자가 없습니다.</div>;
   }
 
-  const acceptedApplicants = ApplicantData.applicants.filter(
-    (applicant) => applicant.status === 'Accepted'
-  );
-  const userIds = [
-    ...acceptedApplicants.map((applicant) => applicant.userId),
-    writeUserId,
-  ];
+  // const acceptedApplicants = ApplicantData.applicants.filter(
+  //   (applicant) => applicant.status === 'Accepted'
+  // );
+  // const userIds = [
+  //   ...acceptedApplicants.map((applicant) => applicant.userId),
+  //   writeUserId,
+  // ];
 
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
@@ -105,11 +140,7 @@ const SideBarApplicantList = () => {
       ))}
       <div className='flex flex-col'>
         <button
-          onClick={() => {
-            navigate('/chat', {
-              state: { userIds, title: hubTitle },
-            });
-          }}
+          onClick={handleInvite}
           className='flex w-full items-center justify-center h-[40px] text-[14px] bg-gradient-to-r from-[#e7acff] to-[#6eddff] text-white rounded-md'
         >
           {hubTitle} 초대

@@ -43,7 +43,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         const protocol = window.location.protocol;
         const socketUrl =
           process.env.NODE_ENV === 'development'
-            ? `${protocol}//localhost:8080/chat`
+            ? `${protocol}//43.202.172.0:8080/chat`
             : `${import.meta.env.VITE_BASE_SERVER_URL}/chat`;
         const {
           handleFetchChannels,
@@ -142,6 +142,7 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       // 채널에 참가 했을 때 channels 상태 업데이트
       handleChannelJoined: (channel) => {
         const myUserId = useAuthStore.getState().userInfo?.userId;
+        console.log('참여 : ', channel);
         set((state) => {
           state.currentChannelId = channel.channelId;
           if (!state.messages[channel.channelId]) {
@@ -180,6 +181,8 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         const { joinChannel } = get();
         const user = useAuthStore.getState().userInfo;
         if (!user) return alertLoginRequired();
+        console.log('channel: ', channel);
+
         joinChannel(user.userId, channel.channelId);
       },
       // 채팅방 나가기 완료 시 채팅방 목록에서 해당 채널 삭제

@@ -46,7 +46,11 @@ const SideBarApplicantList = () => {
   };
 
   const handleInvite = () => {
-    if (window.confirm('초대를 하시면 허브를 마감하겠습니까?')) {
+    if (
+      window.confirm(
+        '초대를 진행하면 허브 모집이 마감됩니다. 계속하시겠습니까?'
+      )
+    ) {
       // ✅ 허브 마감 (recruiting: false)
       hubStatusMutation.mutate(
         {

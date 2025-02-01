@@ -29,6 +29,7 @@ const ConnectionHubDetail = () => {
   useEffect(() => {
     if (ProjectData?.project) {
       setProject(ProjectData.project, currentUserId);
+      console.log('data: ', ProjectData);
     }
   }, [ProjectData, currentUserId, setProject]);
 
@@ -40,9 +41,9 @@ const ConnectionHubDetail = () => {
     return <div>프로젝트 데이터를 불러오는 중 오류가 발생했습니다.</div>;
   }
 
-  // NOTE: 검색 모달 관련 코드
-  const { openModal, keyword } = useSearchModal(useShallow((state) => state));
-  useHandlePopState(keyword, openModal);
+  // // NOTE: 검색 모달 관련 코드
+  // const { openModal, keyword } = useSearchModal(useShallow((state) => state));
+  // useHandlePopState(keyword, openModal);
 
   return (
     <div className='flex p-10px'>

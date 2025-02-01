@@ -29,6 +29,9 @@ interface HubDetailProps {
   content: string;
   createdAt: string;
   projectId: number;
+  bookmarkCount: number;
+  applyCount: number;
+  viewCount: number;
   manager: {
     userId?: number;
     profileUrl: string;
@@ -54,6 +57,9 @@ const HubDetail = ({
   createdAt,
   isOwnConnectionHub,
   projectId,
+  bookmarkCount,
+  applyCount,
+  viewCount,
 }: HubDetailProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
@@ -113,7 +119,12 @@ const HubDetail = ({
           )}
         </div>
       </div>
-      {/* <HubDetailFooter /> */}
+      <HubDetailFooter
+        bookmarkCount={bookmarkCount}
+        applyCount={applyCount}
+        viewCount={viewCount}
+        projectId={projectId}
+      />
     </div>
   );
 };

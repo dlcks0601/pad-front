@@ -1,9 +1,8 @@
-// import { HubSelect } from '@/components/atoms/contents/HubSelect';
-import { ContentsToggle } from '@/components/atoms/contents/ContentsToggle';
 import Button from '@/components/atoms/Button';
 import { Plus } from 'lucide-react';
 import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import usePostHubModal from '@/hooks/usePostHubModal';
+import { ContentsHubToggle } from '@/components/atoms/contents/ContentsHubToggle';
 
 export const HubContentsTop = () => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
@@ -12,7 +11,7 @@ export const HubContentsTop = () => {
     <div className='flex flex-col items-start gap-[20px]'>
       <div className='flex w-full justify-between items-center border border-gray-300 rounded-lg p-1'>
         <div className='flex items-center gap-[10px]'>
-          <ContentsToggle />
+          <ContentsHubToggle />
         </div>
         <Button
           width='90px'

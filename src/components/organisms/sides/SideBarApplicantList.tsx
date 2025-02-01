@@ -3,7 +3,9 @@ import {
   applicantsStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import { useParams } from 'react-router-dom';
+import useAuthStore from '@/store/authStore';
+import { useProjectStore } from '@/store/hubDetailStore';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBarApplicantList = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -14,7 +16,11 @@ const SideBarApplicantList = () => {
     refetch,
   } = useFetchApplicants(Number(projectId));
 
+  const writeUserId = useAuthStore((state) => state.userInfo.userId);
+
+  const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
+  const hubTitle = useProjectStore((state) => state.project?.title);
 
   const handleStatusChange = (
     userId: number,
@@ -45,6 +51,14 @@ const SideBarApplicantList = () => {
     return <div className='text-center text-gray-500'>지원자가 없습니다.</div>;
   }
 
+  const acceptedApplicants = ApplicantData.applicants.filter(
+    (applicant) => applicant.status === 'Accepted'
+  );
+  const userIds = [
+    ...acceptedApplicants.map((applicant) => applicant.userId),
+    writeUserId,
+  ];
+
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {ApplicantData.applicants.map((applicant, index) => (
@@ -62,7 +76,6 @@ const SideBarApplicantList = () => {
             <div className='text-[14px] font-medium'>{applicant.nickname}</div>
           </div>
           <div className='flex gap-[10px]'>
-            {/* ✅ 상태에 따라 버튼 또는 상태 표시 */}
             {applicant.status === 'Pending' ? (
               <>
                 <button
@@ -90,6 +103,18 @@ const SideBarApplicantList = () => {
           </div>
         </div>
       ))}
+      <div className='flex flex-col'>
+        <button
+          onClick={() => {
+            navigate('/chat', {
+              state: { userIds, title: hubTitle },
+            });
+          }}
+          className='flex w-full items-center justify-center h-[40px] text-[14px] bg-gradient-to-r from-[#e7acff] to-[#6eddff] text-white rounded-md'
+        >
+          {hubTitle} 초대
+        </button>
+      </div>
     </div>
   );
 };

@@ -62,6 +62,9 @@ const ConnectionHubDetail = () => {
         manager={ProjectData.project.manager}
         projectId={ProjectData.project.projectId}
         isOwnConnectionHub={isOwnConnectionHub}
+        bookmarkCount={ProjectData.project.bookmarkCount}
+        applyCount={ProjectData.project.applyCount}
+        viewCount={ProjectData.project.viewCount}
       />
     </div>
   );

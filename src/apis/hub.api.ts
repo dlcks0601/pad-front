@@ -58,8 +58,8 @@ export interface HubResponse {
     startDate: string;
     duration: string;
     workType: keyof typeof meetingTagItems;
-    applyCount?: number;
-    bookMarkCount?: number;
+    applyCount: number;
+    bookmarkCount: number;
     viewCount: number;
     status: keyof typeof statusTagItems;
     createdAt: string;

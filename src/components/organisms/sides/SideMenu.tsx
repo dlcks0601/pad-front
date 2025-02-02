@@ -82,14 +82,9 @@ const SideMenu = () => {
       setNewNotification(true);
     });
     eventSource.addEventListener('error', () => {
-      console.log('🔴 SSE 연결 실패. 10초 후 재시도...');
       eventSource.close();
-      setTimeout(() => {
-        window.location.reload();
-      }, 20000);
     });
     return () => {
-      console.log('🔴 SSE 연결 종료');
       eventSource.close();
     };
   }, [token]);

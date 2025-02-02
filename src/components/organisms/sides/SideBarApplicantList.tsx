@@ -18,7 +18,6 @@ const SideBarApplicantList = () => {
   } = useFetchApplicants(Number(projectId));
 
   const writeUserId = useAuthStore((state) => state.userInfo.userId);
-
   const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
   const hubTitle = useProjectStore((state) => state.project?.title);
@@ -90,14 +89,6 @@ const SideBarApplicantList = () => {
     return <div className='text-center text-gray-500'>지원자가 없습니다.</div>;
   }
 
-  // const acceptedApplicants = ApplicantData.applicants.filter(
-  //   (applicant) => applicant.status === 'Accepted'
-  // );
-  // const userIds = [
-  //   ...acceptedApplicants.map((applicant) => applicant.userId),
-  //   writeUserId,
-  // ];
-
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {ApplicantData.applicants.map((applicant, index) => (
@@ -112,7 +103,12 @@ const SideBarApplicantList = () => {
               alt={applicant.nickname}
               size='xxs'
             />
-            <div className='text-[14px] font-medium'>{applicant.nickname}</div>
+            <div
+              className='text-[14px] font-medium cursor-pointer'
+              onClick={() => navigate(`/@${applicant.nickname}`)}
+            >
+              {applicant.nickname}
+            </div>
           </div>
           <div className='flex gap-[10px]'>
             {applicant.status === 'Pending' ? (

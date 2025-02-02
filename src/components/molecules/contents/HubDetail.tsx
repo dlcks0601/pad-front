@@ -68,8 +68,7 @@ const HubDetail = ({
         nickname={manager.nickname}
         role={manager.role}
         createdAt={createdAt}
-        isOwnConnectionHub={isOwnConnectionHub}
-        projectId={projectId}
+        userId={manager.userId}
       />
 
       <div className='flex flex-col w-full bg-white rounded-[20px] p-[20px]'>

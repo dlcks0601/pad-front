@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { HubState } from '@/store/postHubStore';
 import useHubStore from '@/store/postHubStore';
-import TiptapEditor from '@/components/organisms/TiptapEditor';
 import { usePostHub, usePutHub } from '@/hooks/queries/hub.query';
 import TiptapHubEditor from '@/components/organisms/TiptapHubEditor';
 

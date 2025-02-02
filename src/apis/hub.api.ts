@@ -58,8 +58,8 @@ export interface HubResponse {
     startDate: string;
     duration: string;
     workType: keyof typeof meetingTagItems;
-    applyCount?: number;
-    bookMarkCount?: number;
+    applyCount: number;
+    bookmarkCount: number;
     viewCount: number;
     status: keyof typeof statusTagItems;
     createdAt: string;
@@ -174,7 +174,6 @@ export const fetchHubs = async ({
     params,
   });
 
-  console.log('fetchHubs 응답 데이터:', response.data);
   return response.data;
 };
 

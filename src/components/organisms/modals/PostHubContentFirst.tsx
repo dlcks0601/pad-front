@@ -70,7 +70,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     startDate: '',
     duration: '',
     durationType: '',
-
     workType: 'OFFLINE',
     recruiting: true,
     skills: [],
@@ -94,7 +93,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
       workType,
       skills,
       detailRoles,
-
       recruiting: false,
     });
   }, [
@@ -104,7 +102,6 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
     startDate,
     duration,
     durationType,
-
     workType,
     skills,
     detailRoles,
@@ -145,6 +142,13 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
   const handleSkillRemove = (skill: string) => {
     const updatedSkills = hubContent.skills.filter((s) => s !== skill);
     setHubContent((prev) => ({ ...prev, skills: updatedSkills }));
+  };
+
+  const handleRoleRemove = (detailRoles: string) => {
+    const updatedDetailRoles = hubContent.detailRoles.filter(
+      (s) => s !== detailRoles
+    );
+    setHubContent((prev) => ({ ...prev, detailRoles: updatedDetailRoles }));
   };
 
   return (
@@ -189,7 +193,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
                 <span className='mr-1'>{detailRoles}</span>
                 <button
                   className='text-black'
-                  onClick={() => handleSkillRemove(detailRoles)}
+                  onClick={() => handleRoleRemove(detailRoles)}
                 >
                   <Icon
                     type='xmark'

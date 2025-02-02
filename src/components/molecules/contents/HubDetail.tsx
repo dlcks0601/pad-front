@@ -1,6 +1,6 @@
 import Avatar from '@/components/atoms/Avatar';
 import HubDetailUser from '@/components/atoms/contents/HubDetailUser';
-import ContentsUser from '@/components/molecules/contents/ContentsUser';
+import ContentsHubUser from '@/components/molecules/contents/ContentsHubUser';
 import DetailContents from '@/components/molecules/contents/DetailContents';
 import HubDetailTitle from '@/components/molecules/contents/HubDetailTitle';
 import HubInfo from '@/components/molecules/contents/HubInfo';
@@ -8,6 +8,7 @@ import HubInfoTag from '@/components/molecules/contents/HubInfoTag';
 import HubIntroduce from '@/components/molecules/contents/HubIntroduce';
 import HubSkill from '@/components/molecules/contents/HubSkill';
 import HubTitle from '@/components/molecules/contents/HubTitle';
+import HubDetailFooter from '@/components/molecules/HubDetailFooter';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
 import { roleItemsKey } from '@/constants/hub/roleItems';
@@ -28,6 +29,9 @@ interface HubDetailProps {
   content: string;
   createdAt: string;
   projectId: number;
+  bookmarkCount: number;
+  applyCount: number;
+  viewCount: number;
   manager: {
     userId?: number;
     profileUrl: string;
@@ -53,15 +57,18 @@ const HubDetail = ({
   createdAt,
   isOwnConnectionHub,
   projectId,
+  bookmarkCount,
+  applyCount,
+  viewCount,
 }: HubDetailProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
-      <ContentsUser
+      <ContentsHubUser
         profileUrl={manager.profileUrl}
         nickname={manager.nickname}
         role={manager.role}
         createdAt={createdAt}
-        isOwnConnectionHub={isOwnConnectionHub}
+        userId={manager.userId}
         projectId={projectId}
       />
 
@@ -112,6 +119,12 @@ const HubDetail = ({
           )}
         </div>
       </div>
+      <HubDetailFooter
+        bookmarkCount={bookmarkCount}
+        applyCount={applyCount}
+        viewCount={viewCount}
+        projectId={projectId}
+      />
     </div>
   );
 };

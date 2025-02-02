@@ -1,14 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { useNavigate } from 'react-router-dom';
-import { EventSourcePolyfill } from 'event-source-polyfill';
 import Logo from '@/components/atoms/Logo';
 import Menu from '@/components/molecules/Menu';
 import Avatar from '@/components/atoms/Avatar';
 import Icon from '@/components/atoms/Icon';
 import SearchModal from '@/components/organisms/modals/SearchModal';
-import { useModal } from '@/hooks/useModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
@@ -30,8 +27,6 @@ interface NotificationProp {
 
 const SideMenu = () => {
   const navigate = useNavigate();
-  const token = useAuthStore.getState().accessToken;
-
   const token = useAuthStore.getState().accessToken;
 
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);

@@ -21,5 +21,5 @@ export const API_PATH = {
   hubBookmark: '/projects/:projectId/bookmark',
   hubImage: '/projects/image',
   notificationUnread: '/notifications/unread',
-  notificationsAsRead: '/notifications/:notificationId/read',
+  notificationsAsRead: '/notifications/:notificationId/delete',
 };

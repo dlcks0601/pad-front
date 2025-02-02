@@ -34,9 +34,10 @@ export const fetchMissedNotifications = async () => {
 export const patchNotificationsAsRead = async (notificationId: string) => {
   console.log('patchNotificationsAsRead요청됨');
   const apiPath = API_PATH.notificationsAsRead.replace(
-    'notificationId',
+    ':notificationId',
     notificationId
   );
+  console.log('apiPath: ', apiPath);
   const response = await fetcher<MissedNotificationsResponse>({
     url: apiPath,
     method: 'PATCH',

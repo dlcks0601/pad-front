@@ -60,13 +60,6 @@ const SideMenu = () => {
         }));
 
       setMessages(formattedNotifications);
-
-      formattedNotifications.forEach((message) => {
-        if (!message.isRead) {
-          console.log(`🔵 알림 ${message.notificationId} 읽음 처리 요청`);
-          markAsRead({ notificationId: String(message.notificationId) });
-        }
-      });
     }
   }, [missedNotifications]);
 
@@ -87,8 +80,6 @@ const SideMenu = () => {
       const data: NotificationProp = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
       setNewNotification(true);
-      console.log('notificationId: ', data.notificationId);
-      markAsRead({ notificationId: String(data.notificationId) });
     });
     eventSource.addEventListener('error', () => {
       console.log('🔴 SSE 연결 실패. 10초 후 재시도...');
@@ -103,6 +94,7 @@ const SideMenu = () => {
     };
   }, [token]);
 
+  // ✅ 알림창을 열 때 읽음 처리
   const handleNotificationClick = () => {
     setShowNotificationBox((prev) => !prev);
     setNewNotification(false);

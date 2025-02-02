@@ -25,6 +25,7 @@ const MainSideBarContents = () => {
                   src={item.userProfileUrl}
                   alt={item.userNickname}
                   size='xxs'
+                  className='object-cover'
                 />
                 <div className='flex text-[12px] font-medium'>
                   {item.userNickname}

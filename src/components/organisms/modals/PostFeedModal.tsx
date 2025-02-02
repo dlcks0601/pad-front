@@ -9,8 +9,8 @@ import {
 } from '@/hooks/queries/feed.query';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import queryClient from '@/utils/queryClient';
 import usePostModal from '@/hooks/usePostModal';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 
 interface PostFeedModalProps {
   onClose: () => void;
@@ -28,7 +28,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     setTag,
     resetFeed,
   } = useFeedStore();
-  console.log('content: ', content);
+
   const { id } = useParams<{ id: string }>();
   const {
     data: feedData,
@@ -64,19 +64,13 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
   });
 
   const handleSubmit = () => {
-    const isContentEmpty = (html: string) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const textContent = doc.body.textContent?.trim() || '';
-      return textContent === '';
-    };
+    const plainText = content.replace(/<[^>]*>?/g, '').trim() === '';
     const hasError = {
       title: title.trim() === '',
       tags: tags.length === 0,
-      content: isContentEmpty(content),
+      content: plainText,
     };
     setErrors(hasError);
-
     if (!hasError.title && !hasError.tags && !hasError.content) {
       if (onRevise && id) {
         onSubmit();
@@ -100,9 +94,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
             onSuccess: () => {
               resetFeed();
               onClose();
-              queryClient.invalidateQueries({
-                queryKey: ['feeds', true, 'null'],
-              });
+              querySuccessHandler('feeds', [true, 'null']);
             },
             onError: (error) => {
               console.error('폼 제출 실패:', error);

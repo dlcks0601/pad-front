@@ -1,25 +1,27 @@
-// import DateText from '@/components/atoms/DateText';
-// import { HubContents } from '@/components/molecules/contents/ContentsItem';
-// import { useMyPageStore } from '@/store/mypageStore';
-// import { useShallow } from 'zustand/shallow';
-// import { useInView } from 'react-intersection-observer';
-// import { useEffect } from 'react';
-// import { useGetConnectionHubs } from '@/hooks/queries/mypage/connection-hub';
-// import { useTabs } from '@/hooks/useTabs';
+import DateText from '@/components/atoms/DateText';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
+import { useTabs } from '@/hooks/useTabs';
+import HubItem from '@/components/molecules/contents/HubItem';
+import { HubFooter } from '@/components/molecules/contents/ContentsFooter';
+import { useNavigate } from 'react-router-dom';
+import { HubResponse } from '@/apis/mypage';
+import { showDate } from '@/utils/showDate';
+import useConnectionHub from '@/hooks/mypage/useConnectionHub.business';
 
-// const ConnectionHubTemplate = () => {
-//   const { ref, inView } = useInView();
+const TAB_DATA = {
+  applied: '지원한 프로젝트',
+  created: '내가 작성한 프로젝트',
+} as const;
 
-//   const { ownerId } = useMyPageStore(useShallow((state) => state));
-//   const { data, fetchNextPage, hasNextPage, isFetching } = useGetConnectionHubs(
-//     ownerId,
-//     'created'
-//   );
+const ConnectionHubTemplate = () => {
+  const navigate = useNavigate();
+  const { ref, inView } = useInView();
 
-//   const { tabs, active, setActive } = useTabs([
-//     '지원한 프로젝트',
-//     '내가 작성한 프로젝트',
-//   ]);
+  const { tabs, active, setActive } = useTabs(Object.values(TAB_DATA));
+
+  const { data, hasNextPage, isFetching, fetchNextPage, error, isLoading } =
+    useConnectionHub(active);
 
 //   useEffect(() => {
 //     if (inView && hasNextPage && !isFetching) {
@@ -27,57 +29,66 @@
 //     }
 //   }, [inView, hasNextPage, isFetching, fetchNextPage]);
 
-//   return (
-//     <div className='flex flex-col gap-[30px] w-full mt-3'>
-//       {data && data.pages[0].projects.length > 0 ? (
-//         <div className='flex'>
-//           {tabs.map((item) => (
-//             <button
-//               key={item}
-//               className={`px-2 h-[46px] text-[14px] flex justify-center items-center ${active === item ? 'border-b-4 border-b-[#FFBA6C] text-[#FFBA6C]' : 'border-b-4 border-b-[#7D7D7D] text-[#7D7D7D]'}`}
-//               onClick={() => setActive(item)}
-//             >
-//               {item}
-//             </button>
-//           ))}
-//         </div>
-//       ) : (
-//         <div className='flex justify-center text-[13px]'>
-//           프로젝트가 존재하지 않습니다.
-//         </div>
-//       )}
-//       {data?.pages.map((page) => {
-//         let lastDate = '';
-//         return page.projects.map((project) => {
-//           const currentDate = new Date(project.startDate).toLocaleDateString();
-//           const showDate = currentDate !== lastDate;
-//           lastDate = currentDate;
-//           return (
-//             <div key={project.title}>
-//               {showDate && (
-//                 <DateText
-//                   hasBg
-//                   date={project.startDate}
-//                   className='mb-[28px]'
-//                 />
-//               )}
-//               <HubContents
-//                 key={project.title + new Date().toISOString()}
-//                 {...project}
-//                 roleTags={[]}
-//                 role='PROGRAMMER'
-//                 userCount={0}
-//                 bookmarkCount={0}
-//                 viewsCount={project.view}
-//                 hideUser
-//               />
-//             </div>
-//           );
-//         });
-//       })}
-//       <div ref={ref} className='h-1' />
-//     </div>
-//   );
-// };
+  return (
+    <div className='flex flex-col gap-[30px] w-full mt-3'>
+      <div className='flex'>
+        {tabs.map((item) => (
+          <button
+            key={item}
+            className={`px-2 h-[46px] text-[14px] flex justify-center items-center ${active === item ? 'border-b-4 border-b-[#FFBA6C] text-[#FFBA6C]' : 'border-b-4 border-b-[#7D7D7D] text-[#7D7D7D]'}`}
+            onClick={() => setActive(item)}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      {data?.pages[0].projects.length === 0 && (
+        <div className='flex justify-center text-[13px]'>
+          프로젝트가 존재하지 않습니다.
+        </div>
+      )}
+      {isLoading && (
+        <div className='flex justify-center text-[13px]'>
+          {isLoading && '프로젝트 가져오는 중..'}
+          {error && <span className='text-red-500'>에러가 발생했습니다.</span>}
+        </div>
+      )}
+      {data?.pages.map((page: HubResponse) => {
+        let lastDate = '';
+        return page.projects.map((project) => {
+          const [show, date] = showDate(project.createdAt, lastDate);
+          lastDate = date as string;
+          return (
+            <div key={project.title}>
+              {show && (
+                <DateText
+                  hasBg
+                  date={project.createdAt}
+                  className='mb-[28px]'
+                />
+              )}
+              <div className='w-full'>
+                <div
+                  className='bg-white rounded-[10px] p-[20px] w-full cursor-pointer'
+                  onClick={() => navigate(`/projects/${project.projectPostId}`)}
+                >
+                  <div className='flex flex-col gap-[20px]'>
+                    <HubItem {...project} projectId={project.projectPostId} />
+                    <HubFooter
+                      {...project}
+                      projectId={project.projectPostId}
+                      bookMarkCount={project.bookmarkCount}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        });
+      })}
+      <div ref={ref} className='h-1' />
+    </div>
+  );
+};
 
 // export default ConnectionHubTemplate;

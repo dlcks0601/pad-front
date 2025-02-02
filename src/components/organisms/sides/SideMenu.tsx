@@ -9,8 +9,6 @@ import SearchModal from '@/components/organisms/modals/SearchModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
-import { useSearchModal } from '@/store/modals/searchModalstore';
-import { useShallow } from 'zustand/shallow';
 
 interface MessageProp {
   type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
@@ -24,9 +22,6 @@ const SideMenu = () => {
   const navigate = useNavigate();
   const token = useAuthStore.getState().accessToken;
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
-  // const { isModalOpen, openModal, closeModal } = useSearchModal(
-  //   useShallow((state) => state)
-  // );
   const { mutate } = useLogout();
 
   const {

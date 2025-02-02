@@ -18,7 +18,7 @@ interface PostFeedModalProps {
   onRevise?: boolean;
 }
 
-const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
+const PostFeedModal = ({ onClose, onRevise }: PostFeedModalProps) => {
   const {
     title,
     content,

@@ -14,10 +14,12 @@ import {
   usePatchNotificationAsRead,
 } from '@/hooks/queries/notification.query';
 import { createPortal } from 'react-dom';
+import Popup from '@/components/molecules/Popup';
+import { NotificationTypes } from '@/apis/notification.api';
 
 interface NotificationProp {
   notificationId: number;
-  type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
+  type: NotificationTypes;
   message: string;
   senderNickname: string;
   senderProfileUrl: string;

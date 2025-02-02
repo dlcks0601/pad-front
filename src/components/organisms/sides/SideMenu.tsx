@@ -14,7 +14,6 @@ import {
   usePatchNotificationAsRead,
 } from '@/hooks/queries/notification.query';
 import { createPortal } from 'react-dom';
-import Popup from '@/components/molecules/Popup';
 import { NotificationTypes } from '@/apis/notification.api';
 
 interface NotificationProp {

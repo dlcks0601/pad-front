@@ -11,17 +11,8 @@ const usePostModal = () => {
   };
 
   const closePostModal = () => {
-    if (!isSubmitted) {
-      const answer = window.confirm(
-        '작성중인 피드가 사라집니다. 정말 나가시겠습니까?'
-      );
-      if (answer) {
-        resetFeed();
-      }
-      setIsModalOpen(!answer);
-    } else {
-      setIsModalOpen(false);
-    }
+    resetFeed();
+    setIsModalOpen(false);
   };
 
   const handleSubmitConfirmation = (onSubmit: () => void) => {
@@ -37,7 +28,7 @@ const usePostModal = () => {
   return {
     isModalOpen,
     isSubmitted,
-    setIsSubmitted, // ✅ 여기서 반환
+    setIsSubmitted,
     openPostModal,
     closePostModal,
     handleSubmitConfirmation,

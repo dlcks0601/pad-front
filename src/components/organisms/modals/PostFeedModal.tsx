@@ -75,15 +75,16 @@ const PostFeedModal = ({ onClose, onRevise }: PostFeedModalProps) => {
     setErrors(hasError);
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
-      setIsSubmitted(true); // ✅ 여기서 먼저 true로 설정
-
+      setIsSubmitted(true);
       if (onRevise && id) {
         putFeed(
           { id: Number(id), title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onClose();
+              setTimeout(() => {
+                onClose();
+              }, 0);
             },
             onError: (error) => {
               console.error('피드 수정 중 오류 발생:', error);
@@ -96,8 +97,10 @@ const PostFeedModal = ({ onClose, onRevise }: PostFeedModalProps) => {
           {
             onSuccess: () => {
               resetFeed();
-              onClose();
-              querySuccessHandler('feeds', [true, 'null']);
+              setTimeout(() => {
+                onClose();
+                querySuccessHandler('feeds', [true, 'null']);
+              }, 0);
             },
             onError: (error) => {
               console.error('폼 제출 실패:', error);

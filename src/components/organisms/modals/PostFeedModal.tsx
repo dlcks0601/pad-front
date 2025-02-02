@@ -38,7 +38,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     enabled: false,
   });
 
-  const { handleSubmitConfirmation } = usePostModal();
+  const { handleSubmitConfirmation, setIsSubmitted } = usePostModal();
 
   useEffect(() => {
     if (onRevise && id) {
@@ -65,15 +65,19 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
 
   const handleSubmit = () => {
     const plainText = content.replace(/<[^>]*>?/g, '').trim() === '';
+
     const hasError = {
       title: title.trim() === '',
       tags: tags.length === 0,
       content: plainText,
     };
+
     setErrors(hasError);
+
     if (!hasError.title && !hasError.tags && !hasError.content) {
+      setIsSubmitted(true); // ✅ 여기서 먼저 true로 설정
+
       if (onRevise && id) {
-        onSubmit();
         putFeed(
           { id: Number(id), title, tags, content },
           {
@@ -87,7 +91,6 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
           }
         );
       } else {
-        onSubmit();
         postFeed(
           { title, tags, content },
           {

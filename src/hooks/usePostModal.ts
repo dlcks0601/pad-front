@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import useFeedStore from '@/store/postFeedStore';
+import { useState } from 'react';
 
 const usePostModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const resetFeed = useFeedStore((state) => state.resetFeed);
+  const { resetFeed } = useFeedStore();
 
   const openPostModal = () => {
     setIsModalOpen(true);
@@ -28,14 +28,16 @@ const usePostModal = () => {
     const confirmSubmit = window.confirm('작성을 완료하시겠습니까?');
     if (confirmSubmit) {
       setIsSubmitted(true);
-      onSubmit();
+      setTimeout(() => {
+        onSubmit();
+      }, 0);
     }
   };
 
   return {
     isModalOpen,
     isSubmitted,
-    setIsSubmitted,
+    setIsSubmitted, // ✅ 여기서 반환
     openPostModal,
     closePostModal,
     handleSubmitConfirmation,

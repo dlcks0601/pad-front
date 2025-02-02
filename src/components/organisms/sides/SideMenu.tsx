@@ -9,37 +9,69 @@ import SearchModal from '@/components/organisms/modals/SearchModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
+import {
+  useFetchMissedNotifications,
+  usePatchNotificationAsRead,
+} from '@/hooks/queries/notification.query';
 
-interface MessageProp {
+interface NotificationProp {
+  notificationId: number;
   type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
   message: string;
   senderNickname: string;
   senderProfileUrl: string;
   timestamp: string;
+  isRead?: boolean;
 }
 
 const SideMenu = () => {
   const navigate = useNavigate();
   const token = useAuthStore.getState().accessToken;
+
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
   const { mutate } = useLogout();
-
+  const [showLogin, setShowLogin] = useState(false);
+  const loginRef = useRef<HTMLDivElement>(null);
   const {
     isOpen: isSearchModalOpen,
     openModal: openSearchModal,
     closeModal: closeSearchModal,
   } = useModal();
 
-  const [showLogin, setShowLogin] = useState(false);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
   const [newNotification, setNewNotification] = useState(false);
-  const [messages, setMessages] = useState<MessageProp[]>([]);
-  const loginRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<NotificationProp[]>([]);
+
   const notificationRef = useRef<HTMLDivElement>(null);
+  const { data: missedNotifications } = useFetchMissedNotifications();
+  const { mutate: markAsRead } = usePatchNotificationAsRead();
+
+  useEffect(() => {
+    if (missedNotifications?.notifications) {
+      const formattedNotifications: NotificationProp[] =
+        missedNotifications.notifications.map((notification) => ({
+          notificationId: notification.notificationId,
+          type: notification.type,
+          message: notification.message,
+          senderNickname: notification.sender.nickname,
+          senderProfileUrl: notification.sender.profileUrl,
+          timestamp: notification.createdAt,
+          isRead: notification.isRead,
+        }));
+
+      setMessages(formattedNotifications);
+
+      formattedNotifications.forEach((message) => {
+        if (!message.isRead) {
+          console.log(`🔵 알림 ${message.notificationId} 읽음 처리 요청`);
+          markAsRead({ notificationId: String(message.notificationId) });
+        }
+      });
+    }
+  }, [missedNotifications]);
 
   useEffect(() => {
     if (!token) return;
-
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
       {
@@ -47,79 +79,44 @@ const SideMenu = () => {
         withCredentials: true,
       }
     );
-
     eventSource.addEventListener('open', () => {
       console.log('✅ SSE 연결 성공');
     });
-
     eventSource.addEventListener('message', (event) => {
-      console.log('message 이벤트 호출');
-      const data: MessageProp = JSON.parse(event.data);
+      console.log('📩 새 알림 도착');
+      const data: NotificationProp = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
-      setNewNotification(true); // 🔔 새로운 알림 감지
+      setNewNotification(true);
+      console.log('notificationId: ', data.notificationId);
+      markAsRead({ notificationId: String(data.notificationId) });
     });
-
     eventSource.addEventListener('error', () => {
       console.log('🔴 SSE 연결 실패. 10초 후 재시도...');
       eventSource.close();
       setTimeout(() => {
-        window.location.reload(); // SSE 재연결
+        window.location.reload();
       }, 20000);
     });
-
     return () => {
       console.log('🔴 SSE 연결 종료');
       eventSource.close();
     };
   }, [token]);
-  // token 변경 시만 재연결
-
-  // 로그인 창 외부 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        loginRef.current &&
-        !loginRef.current.contains(event.target as Node)
-      ) {
-        setShowLogin(false);
-      }
-    };
-
-    if (showLogin) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showLogin]);
-
-  // 알림 창 외부 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target as Node)
-      ) {
-        setShowNotificationBox(false);
-      }
-    };
-
-    if (showNotificationBox) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showNotificationBox]);
 
   const handleNotificationClick = () => {
     setShowNotificationBox((prev) => !prev);
     setNewNotification(false);
+    messages.forEach((message) => {
+      if (!message.isRead) {
+        console.log(`🔵 알림 ${message.notificationId} 읽음 처리 요청`);
+        markAsRead({ notificationId: String(message.notificationId) });
+      }
+    });
   };
 
   const menuItems: {
     type: 'search' | 'bell' | 'mail' | 'home' | 'star';
-    label: string;
+    label?: string;
     onClick?: () => void;
     hasNotification?: boolean;
   }[] = [
@@ -127,23 +124,11 @@ const SideMenu = () => {
       type: 'bell',
       label: '알림',
       onClick: handleNotificationClick,
-      hasNotification: newNotification, // 🔔 알림 여부 추가
+      hasNotification: newNotification,
     },
-    {
-      type: 'mail',
-      label: '메세지',
-      onClick: () => navigate('/chat'),
-    },
-    {
-      type: 'home',
-      label: '피드',
-      onClick: () => navigate('/'),
-    },
-    {
-      type: 'search',
-      label: '검색',
-      onClick: openSearchModal,
-    },
+    { type: 'mail', label: '메세지', onClick: () => navigate('/chat') },
+    { type: 'home', label: '피드', onClick: () => navigate('/') },
+    { type: 'search', label: '검색', onClick: openSearchModal },
     {
       type: 'star',
       label: '커넥션 허브',
@@ -151,50 +136,10 @@ const SideMenu = () => {
     },
   ];
 
-  const handleAvatarClick = () => {
-    setShowLogin((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        loginRef.current &&
-        !loginRef.current.contains(event.target as Node)
-      ) {
-        setShowLogin(false);
-      }
-    };
-
-    if (showLogin) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showLogin]);
-
-  // 알림 창 외부 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target as Node)
-      ) {
-        setShowNotificationBox(false);
-      }
-    };
-
-    if (showNotificationBox) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showNotificationBox]);
-
   return (
     <>
       {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
+
       <div className='flex flex-col justify-between items-center h-full py-[20px]'>
         <div className='mb-8 cursor-pointer' onClick={() => navigate('/')}>
           <Logo />
@@ -230,7 +175,6 @@ const SideMenu = () => {
           </div>
         )}
 
-        {/* 프로필 아바타 */}
         <div className='relative' ref={loginRef}>
           <Avatar
             size='sm'
@@ -238,46 +182,41 @@ const SideMenu = () => {
             className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
             onClick={() => setShowLogin((prev) => !prev)}
           />
-
           {showLogin && (
             <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
               <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
-                <div className='flex w-full flex-col gap-[10px]'>
-                  <button
-                    onClick={() =>
-                      navigate(
-                        isLoggedIn ? `/@${userInfo?.nickname}` : '/login'
-                      )
-                    }
-                    className='group flex w-full rounded-lg px-1 py-2 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                  >
-                    <Icon
-                      type='user'
-                      color='gray'
-                      className='w-[30px] h-[30px]'
-                    />
-                    <div className='text-[18px] text-[#48484a]'>
-                      {isLoggedIn ? '마이페이지' : '로그인'}
-                    </div>
-                  </button>
-                  <button
-                    onClick={() =>
-                      isLoggedIn
-                        ? mutate(undefined, { onSuccess: logout })
-                        : navigate('/signup')
-                    }
-                    className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                  >
-                    <Icon
-                      type={isLoggedIn ? 'logout' : 'join'}
-                      color='gray'
-                      className='w-[30px] h-[30px]'
-                    />
-                    <div className='text-[18px] text-[#48484a]'>
-                      {isLoggedIn ? '로그아웃' : '회원가입'}
-                    </div>
-                  </button>
-                </div>
+                <button
+                  onClick={() =>
+                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')
+                  }
+                  className='group flex w-full rounded-lg px-1 py-2 items-center gap-[20px] hover:bg-[#f3f4f6]'
+                >
+                  <Icon
+                    type='user'
+                    color='gray'
+                    className='w-[30px] h-[30px]'
+                  />
+                  <div className='text-[18px] text-[#48484a]'>
+                    {isLoggedIn ? '마이페이지' : '로그인'}
+                  </div>
+                </button>
+                <button
+                  onClick={() =>
+                    isLoggedIn
+                      ? mutate(undefined, { onSuccess: logout })
+                      : navigate('/signup')
+                  }
+                  className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] hover:bg-[#f3f4f6]'
+                >
+                  <Icon
+                    type={isLoggedIn ? 'logout' : 'join'}
+                    color='gray'
+                    className='w-[30px] h-[30px]'
+                  />
+                  <div className='text-[18px] text-[#48484a]'>
+                    {isLoggedIn ? '로그아웃' : '회원가입'}
+                  </div>
+                </button>
               </div>
             </div>
           )}

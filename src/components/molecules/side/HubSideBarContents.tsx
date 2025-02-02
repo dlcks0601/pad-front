@@ -36,6 +36,7 @@ const HubSideBarContents = () => {
                 src={item.user.profileUrl || undefined}
                 alt={item.user.nickname}
                 size='xxs'
+                className='object-cover'
               />
               <div className='flex text-[12px] font-medium'>
                 {item.user.nickname}

@@ -23,11 +23,11 @@ const ConnectionHubTemplate = () => {
   const { data, hasNextPage, isFetching, fetchNextPage, error, isLoading } =
     useConnectionHub(active);
 
-//   useEffect(() => {
-//     if (inView && hasNextPage && !isFetching) {
-//       fetchNextPage();
-//     }
-//   }, [inView, hasNextPage, isFetching, fetchNextPage]);
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetching, fetchNextPage]);
 
   return (
     <div className='flex flex-col gap-[30px] w-full mt-3'>
@@ -91,4 +91,4 @@ const ConnectionHubTemplate = () => {
   );
 };
 
-// export default ConnectionHubTemplate;
+export default ConnectionHubTemplate;

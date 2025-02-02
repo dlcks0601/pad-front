@@ -90,16 +90,20 @@ const SideMenu = () => {
     };
   }, [token]);
 
-  // ✅ 알림창을 열 때 읽음 처리
   const handleNotificationClick = () => {
     setShowNotificationBox((prev) => !prev);
     setNewNotification(false);
-    messages.forEach((message) => {
-      if (!message.isRead) {
-        console.log(`🔵 알림 ${message.notificationId} 읽음 처리 요청`);
-        markAsRead({ notificationId: String(message.notificationId) });
-      }
-    });
+  };
+
+  const handleCheckNotificationClick = (notificationId: number) => {
+    console.log(`🔵 알림 ${notificationId} 읽음 처리 요청`);
+    markAsRead({ notificationId: String(notificationId) });
+    // ✅ 상태에서 즉시 제거
+    setMessages((prevMessages) =>
+      prevMessages.filter(
+        (message) => message.notificationId !== notificationId
+      )
+    );
   };
 
   const menuItems: {
@@ -176,6 +180,19 @@ const SideMenu = () => {
                         >
                           <Avatar src={message.senderProfileUrl} size={'xs'} />
                           <div>{message.message}</div>
+                          <div
+                            onClick={() =>
+                              handleCheckNotificationClick(
+                                message.notificationId
+                              )
+                            }
+                          >
+                            <Icon
+                              type={'trash'}
+                              color='black'
+                              className='w-[20px] h-[20px] cursor-pointer'
+                            />
+                          </div>
                         </div>
                       ))}
                     </div>

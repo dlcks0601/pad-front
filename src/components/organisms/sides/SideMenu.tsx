@@ -125,7 +125,7 @@ const SideMenu = () => {
     {
       type: 'star',
       label: '커넥션 허브',
-      onClick: () => navigate('/connectionhub'),
+      onClick: () => navigate('/projects'),
     },
   ];
 

@@ -9,6 +9,8 @@ import SearchModal from '@/components/organisms/modals/SearchModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
+import Popup from '@/components/molecules/Popup';
+
 import {
   useFetchMissedNotifications,
   usePatchNotificationAsRead,
@@ -157,7 +159,7 @@ const SideMenu = () => {
                       key={index}
                       className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                     >
-                      <Avatar src={message.senderProfileUrl} size={'xs'} />
+                      <Avatar src={message.senderProfileUrl} size='xs' />
                       <div>{message.message}</div>
                     </div>
                   ))}
@@ -175,42 +177,52 @@ const SideMenu = () => {
             onClick={() => setShowLogin((prev) => !prev)}
           />
           {showLogin && (
-            <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
-              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
-                <button
-                  onClick={() =>
-                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-2 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type='user'
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '마이페이지' : '로그인'}
-                  </div>
-                </button>
-                <button
-                  onClick={() =>
-                    isLoggedIn
-                      ? mutate(undefined, { onSuccess: logout })
-                      : navigate('/signup')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type={isLoggedIn ? 'logout' : 'join'}
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '로그아웃' : '회원가입'}
-                  </div>
-                </button>
-              </div>
-            </div>
+            <Popup
+              position='right'
+              popupHandler={[
+                {
+                  onClick: () => {
+                    if (isLoggedIn) {
+                      navigate(`/@${userInfo?.nickname}`);
+                    } else {
+                      navigate('/login');
+                    }
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '마이페이지' : '로그인',
+                  icon: (
+                    <Icon
+                      type='user'
+                      color='gray'
+                      className='w-[30px] h-[30px]'
+                    />
+                  ),
+                },
+                {
+                  onClick: () => {
+                    if (isLoggedIn) {
+                      mutate(undefined, {
+                        onSuccess: () => {
+                          logout();
+                        },
+                      });
+                    } else {
+                      navigate('/signup');
+                    }
+
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '로그아웃' : '회원가입',
+                  icon: (
+                    <Icon
+                      type={isLoggedIn ? 'logout' : 'join'}
+                      color='gray'
+                      className='w-[30px] h-[30px]'
+                    />
+                  ),
+                },
+              ]}
+            />
           )}
         </div>
       </div>

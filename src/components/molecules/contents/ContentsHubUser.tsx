@@ -1,9 +1,12 @@
 import Avatar from '@/components/atoms/Avatar';
 import ContentsHubUserTitle from '@/components/atoms/contents/ContentsHubUserTitle';
 import Icon from '@/components/atoms/Icon';
+import Popup from '@/components/molecules/Popup';
 import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import { useDeleteHub } from '@/hooks/queries/hub.query';
+import { useModal } from '@/hooks/useModal';
 import usePostHubModal from '@/hooks/usePostHubModal';
+import useAuthStore from '@/store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +17,7 @@ interface ContentsUserProps {
   role?: string;
   isOwnConnectionHub?: boolean;
   projectId: number;
+  userId?: number;
 }
 
 const ContentsHubUser = ({
@@ -23,22 +27,25 @@ const ContentsHubUser = ({
   profileUrl,
   isOwnConnectionHub,
   projectId,
+  userId,
 }: ContentsUserProps) => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
     usePostHubModal();
   const [clicked, setClicked] = useState<boolean>(false);
   const navigate = useNavigate();
   const { mutate: deleteHub } = useDeleteHub();
+
+  const { isOpen, openModal, closeModal } = useModal();
+  const { userInfo } = useAuthStore();
+
   const handleDelete = () => {
     const confirmDelete = window.confirm('정말 삭제하시겠습니다?');
     if (confirmDelete) {
       deleteHub(projectId, {
         onSuccess: () => {
-          console.log('허브 삭제 성공');
           navigate('/projects');
         },
-        onError: (error) => {
-          console.log('허브 삭제 실패: ', error);
+        onError: () => {
           alert('삭제에 실패했습니다. 다시 시도해주세요.');
         },
       });
@@ -47,7 +54,43 @@ const ContentsHubUser = ({
   return (
     <div className='flex items-center w-full justify-between'>
       <div className='flex space-x-3'>
-        <Avatar src={profileUrl} size='xs' alt={`${nickname} Avatar`} />
+        <div
+          className='cursor-pointer relative'
+          onClick={() =>
+            userId === userInfo?.userId
+              ? navigate(`/@${userInfo?.nickname}`)
+              : isOpen
+                ? closeModal()
+                : openModal()
+          }
+        >
+          <Avatar
+            src={profileUrl}
+            size='xs'
+            alt={`${nickname} Avatar`}
+            className='object-cover'
+          />
+          {isOpen && userId !== userInfo?.userId && (
+            <Popup
+              position='bottom'
+              popupHandler={[
+                {
+                  onClick: () => navigate(`/@${nickname}`),
+                  text: '마이페이지',
+                  icon: <Icon type='user' className='w-4' />,
+                },
+                {
+                  onClick: () => {
+                    navigate('/chat', { state: { targetUserId: userId } });
+                  },
+                  text: '메세지 보내기',
+                  icon: <Icon type='mail' className='w-4' />,
+                },
+              ]}
+              className='text-[13px]'
+            />
+          )}
+        </div>
         <ContentsHubUserTitle
           nickname={nickname}
           role={role}
@@ -91,7 +134,7 @@ const ContentsHubUser = ({
         <PostHubModal
           onClose={closePostModal}
           onSubmit={() => setIsSubmitted(true)}
-          onRevise={true}
+          onRevise
           projectId={projectId}
         />
       )}

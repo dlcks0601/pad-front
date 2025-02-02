@@ -1,13 +1,13 @@
 import DateText from '@/components/atoms/DateText';
-import { useMyPageStore } from '@/store/mypageStore';
-import { useShallow } from 'zustand/shallow';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
-import { useGetConnectionHubs } from '@/hooks/queries/mypage/connection-hub';
 import { useTabs } from '@/hooks/useTabs';
 import HubItem from '@/components/molecules/contents/HubItem';
 import { HubFooter } from '@/components/molecules/contents/ContentsFooter';
 import { useNavigate } from 'react-router-dom';
+import { HubResponse } from '@/apis/mypage';
+import { showDate } from '@/utils/showDate';
+import useConnectionHub from '@/hooks/mypage/useConnectionHub.business';
 
 const TAB_DATA = {
   applied: '지원한 프로젝트',
@@ -15,25 +15,13 @@ const TAB_DATA = {
 } as const;
 
 const ConnectionHubTemplate = () => {
-  const { ref, inView } = useInView();
   const navigate = useNavigate();
+  const { ref, inView } = useInView();
 
   const { tabs, active, setActive } = useTabs(Object.values(TAB_DATA));
 
-  const { ownerId } = useMyPageStore(useShallow((state) => state));
-  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
-    useGetConnectionHubs(
-      ownerId,
-      active.startsWith('내가') ? 'created' : 'applied'
-    );
-
-  const handleTabChange = (item: string) => {
-    setActive(item);
-  };
-
-  useEffect(() => {
-    refetch();
-  }, [active]);
+  const { data, hasNextPage, isFetching, fetchNextPage, error, isLoading } =
+    useConnectionHub(active);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetching) {
@@ -48,7 +36,7 @@ const ConnectionHubTemplate = () => {
           <button
             key={item}
             className={`px-2 h-[46px] text-[14px] flex justify-center items-center ${active === item ? 'border-b-4 border-b-[#FFBA6C] text-[#FFBA6C]' : 'border-b-4 border-b-[#7D7D7D] text-[#7D7D7D]'}`}
-            onClick={() => handleTabChange(item)}
+            onClick={() => setActive(item)}
           >
             {item}
           </button>
@@ -59,18 +47,23 @@ const ConnectionHubTemplate = () => {
           프로젝트가 존재하지 않습니다.
         </div>
       )}
-      {data?.pages.map((page) => {
+      {isLoading && (
+        <div className='flex justify-center text-[13px]'>
+          {isLoading && '프로젝트 가져오는 중..'}
+          {error && <span className='text-red-500'>에러가 발생했습니다.</span>}
+        </div>
+      )}
+      {data?.pages.map((page: HubResponse) => {
         let lastDate = '';
         return page.projects.map((project) => {
-          const currentDate = new Date(project.startDate).toLocaleDateString();
-          const showDate = currentDate !== lastDate;
-          lastDate = currentDate;
+          const [show, date] = showDate(project.createdAt, lastDate);
+          lastDate = date as string;
           return (
             <div key={project.title}>
-              {showDate && (
+              {show && (
                 <DateText
                   hasBg
-                  date={project.startDate}
+                  date={project.createdAt}
                   className='mb-[28px]'
                 />
               )}
@@ -80,8 +73,7 @@ const ConnectionHubTemplate = () => {
                   onClick={() => navigate(`/projects/${project.projectPostId}`)}
                 >
                   <div className='flex flex-col gap-[20px]'>
-                    <HubItem {...project} />
-
+                    <HubItem {...project} projectId={project.projectPostId} />
                     <HubFooter
                       {...project}
                       projectId={project.projectPostId}

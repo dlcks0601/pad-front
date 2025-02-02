@@ -27,14 +27,14 @@ export interface IntroductionSection {
       }[];
   status: string;
   applyCount: number;
-  postCount: number;
+  feedCount: number;
   followerCount: number;
   followingCount: number;
   isOwnProfile: boolean;
 }
 
 export interface FollowUsers {
-  id: number;
+  userId: number;
   nickname: string;
   profileUrl: string;
 }

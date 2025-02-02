@@ -1,38 +1,39 @@
-import { roleItems, roleItemsValue } from '@/constants/hub/roleItems';
-import { roleTagItems, roleTagItemsValue } from '@/constants/hub/roleTagsItems';
+import {
+  roleItems,
+  roleItemsKey,
+  roleItemsValue,
+} from '@/constants/hub/roleItems';
+import {
+  roleTagItemsKey,
+  roleTagItemsValue,
+} from '@/constants/hub/roleTagsItems';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 interface HubSearchState {
   sort: boolean;
-  role: roleItemsValue | 'null';
-  unit: roleTagItemsValue | 'null';
+  role: roleItemsValue | null;
+  unit: roleTagItemsValue | string | null;
 }
 
 interface HubSearchAction {
   setSort: (sort: boolean) => void;
-  setRole: (roleKey: keyof typeof roleItems | null) => void;
-  setUnit: (unitKey: keyof typeof roleTagItems | null) => void;
+  setRole: (roleKey: roleItemsKey | null) => void;
+  setUnit: (unitKey: roleTagItemsKey | string | null) => void;
   reset: () => void;
 }
 
-const initialState: HubSearchState & HubSearchAction = {
+const initialState: HubSearchState = {
   sort: true,
-  role: 'null',
-  unit: 'null',
-  setSort: () => {},
-  setRole: () => {},
-  setUnit: () => {},
-  reset: () => {},
+  role: null,
+  unit: null,
 };
 
 const useHubSearchStore = create<HubSearchState & HubSearchAction>()(
   devtools(
     immer((set) => ({
-      sort: true,
-      role: 'null',
-      unit: 'null',
+      ...initialState,
       setSort: (sort) => {
         set((state) => {
           state.sort = sort;
@@ -40,19 +41,18 @@ const useHubSearchStore = create<HubSearchState & HubSearchAction>()(
       },
       setRole: (roleKey) => {
         set((state) => {
-          state.role = roleKey ? roleItems[roleKey] : 'null';
+          state.role = roleKey ? roleItems[roleKey] : null;
+          state.unit = null;
         });
       },
       setUnit: (unitKey) => {
         set((state) => {
-          state.unit = unitKey ? roleTagItems[unitKey] : 'null';
+          state.unit = unitKey ?? null;
         });
       },
       reset: () => {
         set(() => ({
-          sort: true,
-          role: 'null',
-          unit: 'null',
+          ...initialState,
         }));
       },
     }))

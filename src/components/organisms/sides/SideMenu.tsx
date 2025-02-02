@@ -24,25 +24,19 @@ const SideMenu = () => {
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
   const { mutate } = useLogout();
 
-  // 모달 관련 상태
   const {
     isOpen: isSearchModalOpen,
     openModal: openSearchModal,
     closeModal: closeSearchModal,
   } = useModal();
 
-  // UI 상태
   const [showLogin, setShowLogin] = useState(false);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
-  const [newNotification, setNewNotification] = useState(false); // 🔔 새 알림 감지
-
-  // 알림 상태
+  const [newNotification, setNewNotification] = useState(false);
   const [messages, setMessages] = useState<MessageProp[]>([]);
   const loginRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
 
-  // SSE 연결 및 알림 수신
-  // SSE 연결 및 알림 수신
   useEffect(() => {
     if (!token) return;
 
@@ -120,7 +114,7 @@ const SideMenu = () => {
 
   const handleNotificationClick = () => {
     setShowNotificationBox((prev) => !prev);
-    setNewNotification(false); // 📩 알림 확인 후 뱃지 제거
+    setNewNotification(false);
   };
 
   const menuItems: {
@@ -160,15 +154,11 @@ const SideMenu = () => {
   return (
     <>
       {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
-
       <div className='flex flex-col justify-between items-center h-full py-[20px]'>
         <div className='mb-8 cursor-pointer' onClick={() => navigate('/')}>
           <Logo />
         </div>
-
         <Menu items={menuItems} />
-
-        {/* 알림 박스 */}
         {showNotificationBox && (
           <div
             ref={notificationRef}
@@ -190,13 +180,7 @@ const SideMenu = () => {
                       className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                     >
                       <Avatar src={message.senderProfileUrl} size={'xs'} />
-                      <div>
-                        <strong>{message.senderNickname}</strong>:{' '}
-                        {message.message}
-                      </div>
-                      <small className='text-gray-500'>
-                        {new Date(message.timestamp).toLocaleString()}
-                      </small>
+                      <div>{message.message}</div>
                     </div>
                   ))}
                 </div>

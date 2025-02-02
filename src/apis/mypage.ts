@@ -1,3 +1,8 @@
+import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
+import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { roleItemsKey } from '@/constants/hub/roleItems';
+import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
+import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import {
   FollowUsers,
   MusicResponse,
@@ -15,9 +20,9 @@ type UserId = {
   userId: number;
 };
 
-export const getProfileHeader = async ({ userId }: UserId) => {
+export const getProfileHeader = async ({ nickname }: { nickname: string }) => {
   const response = await fetcher<ProfileHeader>({
-    url: `/users/${userId}/headers`,
+    url: `/users/${nickname}/headers`,
     method: 'GET',
   });
   return response.data;
@@ -210,11 +215,17 @@ export interface Project {
   title: string;
   content: string;
   thumbnailUrl: string;
+  role: roleItemsKey;
+  skills: string[];
+  detailRoles: roleTagItemsKey[];
+  hubType: HubTagItemsKey;
   startDate: string;
   duration: string;
-  recruiting: boolean;
-  view: number;
-  tags: string[];
+  workType: meetingTagItemskey;
+  applyCount: number;
+  bookmarkCount: number;
+  viewCount: number;
+  status: statusTagItemskey;
 }
 
 export interface HubResponse {
@@ -290,11 +301,11 @@ export const updateIntroduction = async ({
   return response.data;
 };
 
-export const updateStatus = async ({ statusId }: { statusId: number }) => {
+export const updateStatus = async ({ id }: { id: number }) => {
   const response = await fetcher({
     url: `/users/profile/status`,
     method: 'PATCH',
-    data: { statusId },
+    data: { statusId: id },
   });
   return response.data;
 };
@@ -335,20 +346,38 @@ export const deleteSkill = async ({ skillData }: { skillData: string[] }) => {
   return response.data;
 };
 
-export const addLink = async ({ links }: { links: string[] }) => {
+export const addLink = async ({ link }: { link: string }) => {
   const response = await fetcher({
     url: `/users/profile/links`,
     method: 'POST',
-    data: { links },
+    data: { url: link },
   });
   return response.data;
 };
 
-export const deleteLink = async ({ linkIds }: { linkIds: number[] }) => {
+export const deleteLink = async ({ linkId }: { linkId: number }) => {
   const response = await fetcher({
     url: `/users/profile/links`,
     method: 'DELETE',
-    data: { linkIds },
+    data: { linkId },
+  });
+  return response.data;
+};
+
+export const updateLink = async ({
+  linkId,
+  url,
+}: {
+  linkId: number;
+  url: string;
+}) => {
+  const response = await fetcher({
+    url: `/users/profile/links`,
+    method: 'PATCH',
+    data: {
+      linkId,
+      url,
+    },
   });
   return response.data;
 };

@@ -24,11 +24,13 @@ import {
   PencilSquareIcon,
   ArrowLongUpIcon,
   ChatBubbleOvalLeftEllipsisIcon,
+  ArrowRightStartOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 import {
   UserCircleIcon,
   UserGroupIcon,
   HeartIcon as HeartSolidIcon,
+  BookmarkIcon as BookmarkSolidIcon,
 } from '@heroicons/react/24/solid';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
@@ -60,7 +62,9 @@ type IconType =
   | 'trash'
   | 'pencilSquare'
   | 'arrowLongUp'
-  | 'chatBubbleOvalLeftEllipsis';
+  | 'chatBubbleOvalLeftEllipsis'
+  | 'bookmarkSolid'
+  | 'exit';
 
 const iconVariants = cva('', {
   variants: {
@@ -143,8 +147,16 @@ const Icon = ({ type, className = '', color }: IconProps) => {
         className={cn(iconVariants({ color }), className)}
       />
     ),
+    exit: (
+      <ArrowRightStartOnRectangleIcon
+        className={cn(iconVariants({ color }), className)}
+      />
+    ),
     likeSolid: (
       <HeartSolidIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    bookmarkSolid: (
+      <BookmarkSolidIcon className={cn(iconVariants({ color }), className)} />
     ),
   };
 

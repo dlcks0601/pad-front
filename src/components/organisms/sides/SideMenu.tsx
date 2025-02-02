@@ -9,6 +9,8 @@ import SearchModal from '@/components/organisms/modals/SearchModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
+import { useSearchModal } from '@/store/modals/searchModalstore';
+import { useShallow } from 'zustand/shallow';
 
 interface MessageProp {
   type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
@@ -22,6 +24,9 @@ const SideMenu = () => {
   const navigate = useNavigate();
   const token = useAuthStore.getState().accessToken;
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
+  // const { isModalOpen, openModal, closeModal } = useSearchModal(
+  //   useShallow((state) => state)
+  // );
   const { mutate } = useLogout();
 
   const {
@@ -150,6 +155,47 @@ const SideMenu = () => {
       onClick: () => navigate('/connectionhub'),
     },
   ];
+
+  const handleAvatarClick = () => {
+    setShowLogin((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        loginRef.current &&
+        !loginRef.current.contains(event.target as Node)
+      ) {
+        setShowLogin(false);
+      }
+    };
+
+    if (showLogin) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLogin]);
+
+  // 알림 창 외부 클릭 시 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
+        setShowNotificationBox(false);
+      }
+    };
+
+    if (showNotificationBox) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotificationBox]);
 
   return (
     <>

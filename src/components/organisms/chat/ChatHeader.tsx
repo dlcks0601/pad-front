@@ -1,32 +1,11 @@
-import Title from '@/components/atoms/Title';
-import ChatHeaderInfo from '@/components/molecules/chat/ChatHeaderInfo';
-import SearchMessage from '@/components/organisms/chat/SearchMessage';
-import { ChatState } from '@/store/chatStore';
+import { PropsWithChildren } from 'react';
 
-interface ChatHeaderProps {
-  currentChannelId: ChatState['currentChannelId'];
-}
+interface ChatHeaderProps extends PropsWithChildren {}
 
-const ChatHeader = ({ currentChannelId }: ChatHeaderProps) => {
+const ChatHeader = ({ children }: ChatHeaderProps) => {
   return (
     <div className='flex justify-between items-center min-h-[76px] pl-[40px] pr-[20px] border-b-[2px] border-solid border-b-[#CCCCCC] mb-[20px]'>
-      <div className='flex flex-col h-full'>
-        {currentChannelId ? (
-          <ChatHeaderInfo currentChannelId={currentChannelId} />
-        ) : (
-          <>
-            <Title size='md' fontWeight='bold' lineClamp={1}>
-              채널을 선택해주세요
-            </Title>
-            <div className='text-caption1 text-[#838383]'>
-              선택된 채널이 없습니다
-            </div>
-          </>
-        )}
-      </div>
-      {currentChannelId && (
-        <SearchMessage currentChannelId={currentChannelId} />
-      )}
+      <div className='flex flex-col h-full'>{children}</div>
     </div>
   );
 };

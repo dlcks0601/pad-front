@@ -1,59 +1,131 @@
 import { API_PATH } from '@/apis/api-path';
 import { hubTagItems } from '@/constants/hub/hubTagItems';
 import { meetingTagItems } from '@/constants/hub/meetingTagItems';
+import { roleItems } from '@/constants/hub/roleItems';
 import { roleTagItems } from '@/constants/hub/roleTagsItems';
 import { skillTagItems } from '@/constants/hub/skillTagItems';
 import { statusTagItems } from '@/constants/hub/statusTagItems';
 import fetcher from '@/utils/fetcher';
-import { title } from 'process';
 
-export interface HubPosts {
-  userId?: number;
-  userName?: string;
-  userNickname: string;
-  userJob: string;
-  userProfileUrl: string;
-  postId: number;
-  thumbnailUrl?: string;
-  title: string;
-  startDate: string;
-  duration: string;
-  role: 'PROGRAMMER' | 'DESIGNER' | 'ARTIST';
-  roleTags: (keyof typeof roleTagItems)[];
-  meetingTags: (keyof typeof meetingTagItems)[];
-  statusTags: (keyof typeof statusTagItems)[];
-  hubTags: (keyof typeof hubTagItems)[];
-  bookmarkCount: number;
-  applyCount: number;
-  viewCount: number;
-  createdAt: string;
+export interface HubsResponse {
+  message: {
+    code: number;
+    text: string;
+  };
+  projects: {
+    projectId: number;
+    title: string;
+    content: string;
+    thumbnailUrl?: string;
+    role: keyof typeof roleItems;
+    skills: (keyof typeof skillTagItems)[];
+    detailRoles: (keyof typeof roleTagItems)[];
+    hubType: keyof typeof hubTagItems;
+    startDate: string;
+    duration: string;
+    workType: keyof typeof meetingTagItems;
+    applyCount: number;
+    bookMarkCount: number;
+    viewCount: number;
+    status: keyof typeof statusTagItems;
+    createdAt: string;
+    user: {
+      userId: number;
+      nickname: string;
+      name: string;
+      profileUrl: string;
+      role: string;
+    };
+  }[];
+  pagination: {
+    lastCursor?: number;
+  };
+}
+
+export interface HubResponse {
+  message: {
+    code: number;
+    text: string;
+  };
+  project: {
+    projectId: number;
+    title: string;
+    content: string;
+    role: keyof typeof roleItems;
+    skills: (keyof typeof skillTagItems)[];
+    detailRoles: (keyof typeof roleTagItems)[];
+    hubType: keyof typeof hubTagItems;
+    startDate: string;
+    duration: string;
+    workType: keyof typeof meetingTagItems;
+    applyCount?: number;
+    bookMarkCount?: number;
+    viewCount: number;
+    status: keyof typeof statusTagItems;
+    createdAt: string;
+    manager: {
+      userId: number;
+      nickname: string;
+      name: string;
+      profileUrl: string;
+      introduce: string;
+    };
+  };
+  isOwnConnectionHub: boolean;
+}
+
+export interface HubDeleteResponse {
+  message: {
+    code: number;
+    text: string;
+  };
+}
+
+export interface HubWeeklyResponse {
+  message: {
+    code: number;
+    text: string;
+  };
+  popularProjects: {
+    projectId: number;
+    title: string;
+    user: {
+      userId: number;
+      name: string;
+      nickname: string;
+      profileUrl: string;
+      role: keyof typeof roleItems;
+    };
+    hubType: keyof typeof hubTagItems;
+  }[];
+}
+
+export interface HubsRequest {
+  cursor: number;
+  role?: string;
+  unit?: string;
+  sort: boolean;
 }
 
 export interface HubPost {
   title: string;
-  hubTags: (keyof typeof hubTagItems)[];
-  roleTags: (keyof typeof roleTagItems)[];
-  meetingTags: (keyof typeof meetingTagItems)[];
-  statusTags: (keyof typeof statusTagItems)[];
-  skillTags: (keyof typeof skillTagItems)[];
-  role: 'PROGRAMMER' | 'ARTIST' | 'DESIGNER';
-  startDate: string;
+  content: string;
+  role: keyof typeof roleItems;
+  hub_type: keyof typeof hubTagItems;
+  start_date: string;
   duration: string;
-  contents: string;
-  user: {
-    userIntroduce: string;
-    userProfileUrl: string;
-    userNickname: string;
-    userRole: string;
+  work_type: keyof typeof meetingTagItems;
+  recruiting: boolean;
+  skills: (keyof typeof skillTagItems)[];
+  detail_roles: (keyof typeof roleTagItems)[];
+}
+
+export interface BookmarkResponse {
+  message: {
+    code: number;
+    text: string;
   };
-}
-
-export interface HubsResponse {
-  hubposts: HubPosts[];
-}
-
-export interface HubResponse {
-  hubpost: HubPost[];
+  bookmarked: boolean;
 }
 
 export interface HubRequest {
@@ -97,36 +169,4 @@ export const fetchHub = async () => {
     console.log('허브 디테일 페이지 데이터 조회 실패', error);
     throw error;
   }
-};
-
-export const postHub = async ({
-  title,
-  content,
-  role,
-  hub_type,
-  start_date,
-  duration,
-  work_type,
-  recruiting,
-  skills,
-  detail_roles,
-}: HubRequest) => {
-  const apiPath = API_PATH.project;
-  const response = await fetcher({
-    url: apiPath,
-    method: 'POST',
-    data: {
-      title,
-      content,
-      role,
-      hub_type,
-      start_date,
-      duration,
-      work_type,
-      recruiting,
-      skills,
-      detail_roles,
-    } as HubRequest,
-  });
-  return response.data;
 };

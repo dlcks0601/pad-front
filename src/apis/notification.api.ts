@@ -1,7 +1,7 @@
 import { API_PATH } from '@/apis/api-path';
 import fetcher from '@/utils/fetcher';
 
-type NotificationTypes =
+export type NotificationTypes =
   | 'follow'
   | 'comment'
   | 'like'

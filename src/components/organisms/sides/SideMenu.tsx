@@ -28,7 +28,6 @@ interface NotificationProp {
 const SideMenu = () => {
   const navigate = useNavigate();
   const token = useAuthStore.getState().accessToken;
-
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
   const { mutate } = useLogout();
   const [showLogin, setShowLogin] = useState(false);

@@ -43,9 +43,9 @@ const ProfileAvatar = () => {
     <div className='flex gap-[22px] py-[10px]'>
       <Avatar
         src={
-          settingsForm.profileUrl instanceof File
+          (settingsForm.profileUrl instanceof File
             ? URL.createObjectURL(settingsForm.profileUrl)
-            : (settingsForm.profileUrl as string)
+            : (settingsForm.profileUrl as string)) || undefined
         }
         size='md'
         className='bg-[#EDEDED] object-cover'

@@ -39,7 +39,7 @@ const ContentsUser = ({
         }
       >
         <Avatar
-          src={userProfileUrl}
+          src={userProfileUrl || undefined}
           size='xs'
           alt={`${name} Avatar`}
           className='object-cover'

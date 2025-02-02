@@ -17,10 +17,7 @@ const getListItemComponent = (children: ReactNode, type: any) => {
 
 // 서브 컴포넌트
 
-const ListItemSubtitle = ({
-  children = '설명',
-  className,
-}: ItemSubtitleProps) => {
+const ListItemSubtitle = ({ children, className }: ItemSubtitleProps) => {
   return <div className={className}>{children}</div>;
 };
 

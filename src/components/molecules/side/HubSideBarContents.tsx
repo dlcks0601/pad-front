@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 const HubSideBarContents = () => {
   const [data, setData] = useState<HubSideBarItemType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isError, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getHubWeeklyBest = async () => {
@@ -33,9 +33,10 @@ const HubSideBarContents = () => {
             <div className='flex items-center gap-[10px]'>
               <div className='flex text-[12px]'>{index + 1}</div>
               <Avatar
-                src={item.user.profileUrl}
+                src={item.user.profileUrl || undefined}
                 alt={item.user.nickname}
                 size='xxs'
+                className='object-cover'
               />
               <div className='flex text-[12px] font-medium'>
                 {item.user.nickname}

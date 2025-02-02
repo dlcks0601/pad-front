@@ -101,7 +101,7 @@ const HubDetail = ({
                 <div className='flex w-full mx-[20px] my-[30px]'>
                   <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center gap-[20px]'>
-                      <Avatar src={manager.profileUrl} size='sm' />
+                      <Avatar src={manager.profileUrl || undefined} size='sm' />
                       <div className='flex'>
                         <HubDetailUser
                           nickname={manager.nickname}

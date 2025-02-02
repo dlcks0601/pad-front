@@ -1,11 +1,20 @@
 import { API_PATH } from '@/apis/api-path';
 import fetcher from '@/utils/fetcher';
 
+type NotificationTypes =
+  | 'follow'
+  | 'comment'
+  | 'like'
+  | 'application'
+  | 'applicationStatus'
+  | 'privateChat'
+  | 'groupChat';
+
 interface Notification {
   notificationId: number;
   userId: number;
   senderId: number;
-  type: 'follow' | 'comment' | 'like' | 'application' | 'applicationStatus';
+  type: NotificationTypes;
   message: string;
   isRead: boolean;
   createdAt: string;

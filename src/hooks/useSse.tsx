@@ -14,6 +14,7 @@ const SSEClient: React.FC = () => {
   useEffect(() => {
     const eventSource = new EventSource(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`
+      // `${import.meta.env.VITE_LOCAL_URL}/notifications/stream`
     );
 
     eventSource.onmessage = (event: MessageEvent) => {

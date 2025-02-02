@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { ImgHTMLAttributes } from 'react';
 import defaultAvatar from '@/assets/images/avatar.svg';
 
-export const AvatarVariants = cva(`rounded-full object-contain`, {
+export const AvatarVariants = cva(`rounded-full object-cover`, {
   variants: {
     size: {
       xxs: 'w-[25px] h-[25px]',

@@ -108,7 +108,7 @@ const SideBarApplicantList = () => {
           <div className='flex items-center gap-[10px]'>
             <div className='text-[14px]'>{index + 1}</div>
             <Avatar
-              src={applicant.profileUrl}
+              src={applicant.profileUrl || undefined}
               alt={applicant.nickname}
               size='xxs'
             />

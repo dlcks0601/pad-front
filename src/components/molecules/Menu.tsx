@@ -30,7 +30,7 @@ const Menu = ({ items }: MenuProps) => {
           </div>
 
           {item.label && (
-            <span className='ml-2 text-[14px] whitespace-nowrap text-black transition-all duration-200 ease-in-out opacity-0 w-0 -translate-x-0 group-hover:opacity-100 group-hover:w-auto group-hover:translate-x-0 group-hover:text-black'>
+            <span className='absolute left-[30px] ml-2 text-[14px] whitespace-nowrap text-black transition-all duration-200 ease-in-out opacity-0 w-0 -translate-x-0 group-hover:opacity-100 group-hover:w-auto group-hover:translate-x-0 group-hover:text-black'>
               {item.label}
             </span>
           )}

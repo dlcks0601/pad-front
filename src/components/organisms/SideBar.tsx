@@ -20,7 +20,7 @@ const SideBar = () => {
 
       <Menu items={menuItems} />
 
-      <Avatar src='/src/assets/images/example.svg' alt='User Avatar' />
+      <Avatar alt='User Avatar' />
     </div>
   );
 };

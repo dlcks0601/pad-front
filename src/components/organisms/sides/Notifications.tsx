@@ -24,6 +24,7 @@ const Notifications = () => {
 
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
+      // `${import.meta.env.VITE_LOCAL_URL}/notifications/stream`,
       {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
@@ -83,7 +84,7 @@ const Notifications = () => {
           ) : (
             messages.map((msg, index) => (
               <div key={index} className='flex items-center gap-2 text-sm'>
-                <Avatar src={msg.senderProfileUrl} size='xs' />
+                <Avatar src={msg.senderProfileUrl || undefined} size='xs' />
                 <span>
                   <strong>{msg.senderNickname}</strong>: {msg.message}
                 </span>

@@ -3,12 +3,12 @@ import FeedDetailUserInfo from '@/components/molecules/FeedDetailUserInfo';
 import FeedDetail from '@/components/molecules/contents/FeedDetail';
 import FeedDetailSkeleton from '@/components/molecules/skeletons/FeedDetailSkeleton';
 import { useFetchFeed, useFetchFeedChat } from '@/hooks/queries/feed.query';
-import useHandlePopState from '@/hooks/useHandlePopState';
 import useAuthStore from '@/store/authStore';
-import { useSearchModal } from '@/store/modals/searchModalstore';
+// import { useSearchModal } from '@/store/modals/searchModalstore';
+// import { useShallow } from 'zustand/shallow';
+// import useHandlePopState from '@/hooks/useHandlePopState';
 import { Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
-import { useShallow } from 'zustand/shallow';
 
 const FeedDetailChat = lazy(() => {
   return import('@/components/organisms/FeedDetailChat');
@@ -27,10 +27,9 @@ const FeedDetailPage = () => {
   const userId = useAuthStore((state) => state.userInfo?.userId);
 
   // NOTE: 검색 모달 관련 코드
-  const { openModal, keyword, setKeyword } = useSearchModal(
-    useShallow((state) => state)
-  );
-  useHandlePopState(keyword, openModal, setKeyword);
+  // const { isModalOpen, openModal, closeModal, keyword, setKeyword } =
+  //   useSearchModal(useShallow((state) => state));
+  // useHandlePopState(keyword, openModal, setKeyword);
 
   if (FeedLoading) {
     return <div>피드 로딩중</div>;

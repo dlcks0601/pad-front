@@ -1,14 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { useNavigate } from 'react-router-dom';
-import { EventSourcePolyfill } from 'event-source-polyfill';
 import Logo from '@/components/atoms/Logo';
 import Menu from '@/components/molecules/Menu';
 import Avatar from '@/components/atoms/Avatar';
 import Icon from '@/components/atoms/Icon';
 import SearchModal from '@/components/organisms/modals/SearchModal';
-import { useModal } from '@/hooks/useModal';
 import { useModal } from '@/hooks/useModal';
 import useAuthStore from '@/store/authStore';
 import { useLogout } from '@/hooks/queries/auth.query';
@@ -17,6 +14,7 @@ import {
   usePatchNotificationAsRead,
 } from '@/hooks/queries/notification.query';
 import { createPortal } from 'react-dom';
+import Popup from '@/components/molecules/Popup';
 
 interface NotificationProp {
   notificationId: number;
@@ -30,8 +28,6 @@ interface NotificationProp {
 
 const SideMenu = () => {
   const navigate = useNavigate();
-  const token = useAuthStore.getState().accessToken;
-
   const token = useAuthStore.getState().accessToken;
 
   const { logout, isLoggedIn, userInfo } = useAuthStore((state) => state);
@@ -183,7 +179,7 @@ const SideMenu = () => {
                           key={index}
                           className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                         >
-                          <Avatar src={message.senderProfileUrl} size={'xs'} />
+                          <Avatar src={message.senderProfileUrl} size='xs' />
                           <div>{message.message}</div>
                           <div
                             onClick={() =>
@@ -193,7 +189,7 @@ const SideMenu = () => {
                             }
                           >
                             <Icon
-                              type={'trash'}
+                              type='trash'
                               color='black'
                               className='w-[20px] h-[20px] cursor-pointer'
                             />
@@ -216,42 +212,40 @@ const SideMenu = () => {
             onClick={() => setShowLogin((prev) => !prev)}
           />
           {showLogin && (
-            <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
-              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
-                <button
-                  onClick={() =>
-                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-2 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type='user'
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '마이페이지' : '로그인'}
-                  </div>
-                </button>
-                <button
-                  onClick={() =>
-                    isLoggedIn
-                      ? mutate(undefined, { onSuccess: logout })
-                      : navigate('/signup')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type={isLoggedIn ? 'logout' : 'join'}
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '로그아웃' : '회원가입'}
-                  </div>
-                </button>
-              </div>
-            </div>
+            <Popup
+              popupHandler={[
+                {
+                  onClick: () => {
+                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login');
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '마이페이지' : '로그인',
+                  icon: <Icon type='user' className='w-6' />,
+                },
+                {
+                  onClick: () => {
+                    if (isLoggedIn) {
+                      mutate(undefined, {
+                        onSuccess: () => {
+                          logout();
+                        },
+                      });
+                    } else {
+                      navigate('/signup');
+                    }
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '로그아웃' : '회원가입',
+                  icon: (
+                    <Icon
+                      type={isLoggedIn ? 'logout' : 'user'}
+                      className='w-6'
+                    />
+                  ),
+                },
+              ]}
+              position='right'
+            />
           )}
         </div>
       </div>

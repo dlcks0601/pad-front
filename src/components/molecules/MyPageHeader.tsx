@@ -72,7 +72,7 @@ const MyPageHeader = () => {
         </div>
       ) : (
         <div className='w-[120px] h-[120px] rounded-full bg-[#EDEDED] flex justify-center items-center'>
-          <Avatar size='lg' src='/src/assets/logos/PAD.svg' alt='profile' />
+          <Avatar size='lg' alt='profile' />
         </div>
       )}
 

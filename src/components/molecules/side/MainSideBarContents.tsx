@@ -22,7 +22,7 @@ const MainSideBarContents = () => {
               <div className='flex items-center gap-[10px]'>
                 <div className='flex text-[12px]'>{item.rank}</div>
                 <Avatar
-                  src={item.userProfileUrl}
+                  src={item.userProfileUrl || undefined}
                   alt={item.userNickname}
                   size='xxs'
                 />

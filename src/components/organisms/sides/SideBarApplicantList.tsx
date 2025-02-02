@@ -1,9 +1,12 @@
 import Avatar from '@/components/atoms/Avatar';
 import {
   applicantsStatus,
+  changeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import { useParams } from 'react-router-dom';
+import useAuthStore from '@/store/authStore';
+import { useProjectStore } from '@/store/hubDetailStore';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBarApplicantList = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -14,7 +17,12 @@ const SideBarApplicantList = () => {
     refetch,
   } = useFetchApplicants(Number(projectId));
 
+  const writeUserId = useAuthStore((state) => state.userInfo.userId);
+
+  const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
+  const hubTitle = useProjectStore((state) => state.project?.title);
+  const hubStatusMutation = changeHubStatus();
 
   const handleStatusChange = (
     userId: number,
@@ -37,6 +45,43 @@ const SideBarApplicantList = () => {
     );
   };
 
+  const handleInvite = () => {
+    if (
+      window.confirm(
+        '초대를 진행하면 허브 모집이 마감됩니다. 계속하시겠습니까?'
+      )
+    ) {
+      // ✅ 허브 마감 (recruiting: false)
+      hubStatusMutation.mutate(
+        {
+          projectId: Number(projectId),
+          recruiting: false,
+        },
+        {
+          onSuccess: () => {
+            refetch(); // ✅ 허브 상태 변경 후 지원자 목록 갱신
+
+            const acceptedApplicants =
+              ApplicantData?.applicants.filter(
+                (applicant) => applicant.status === 'Accepted'
+              ) || [];
+            const userIds = [
+              ...acceptedApplicants.map((applicant) => applicant.userId),
+              writeUserId,
+            ];
+
+            console.log('초대된 사용자:', userIds); // ✅ 초대된 사용자 확인
+
+            // ✅ 초대된 사용자와 함께 채팅으로 이동
+            navigate('/chat', {
+              state: { userIds, title: hubTitle },
+            });
+          },
+        }
+      );
+    }
+  };
+
   if (ApplicantLoading) {
     return <div className='text-center text-gray-500'>지원자 로딩 중...</div>;
   }
@@ -44,6 +89,14 @@ const SideBarApplicantList = () => {
   if (isError || !ApplicantData?.applicants.length) {
     return <div className='text-center text-gray-500'>지원자가 없습니다.</div>;
   }
+
+  // const acceptedApplicants = ApplicantData.applicants.filter(
+  //   (applicant) => applicant.status === 'Accepted'
+  // );
+  // const userIds = [
+  //   ...acceptedApplicants.map((applicant) => applicant.userId),
+  //   writeUserId,
+  // ];
 
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
@@ -62,7 +115,6 @@ const SideBarApplicantList = () => {
             <div className='text-[14px] font-medium'>{applicant.nickname}</div>
           </div>
           <div className='flex gap-[10px]'>
-            {/* ✅ 상태에 따라 버튼 또는 상태 표시 */}
             {applicant.status === 'Pending' ? (
               <>
                 <button
@@ -90,6 +142,14 @@ const SideBarApplicantList = () => {
           </div>
         </div>
       ))}
+      <div className='flex flex-col'>
+        <button
+          onClick={handleInvite}
+          className='flex w-full items-center justify-center h-[40px] text-[14px] bg-gradient-to-r from-[#e7acff] to-[#6eddff] text-white rounded-md'
+        >
+          {hubTitle} 초대
+        </button>
+      </div>
     </div>
   );
 };

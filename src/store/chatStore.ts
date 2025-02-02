@@ -212,6 +212,8 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
         const { joinChannel } = get();
         const user = useAuthStore.getState().userInfo;
         if (!user) return alertLoginRequired();
+        console.log('channel: ', channel);
+
         joinChannel(user.userId, channel.channelId);
       },
       // 채팅방 나가기 완료 시 채팅방 목록에서 해당 채널 삭제

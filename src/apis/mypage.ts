@@ -43,11 +43,16 @@ export const getFollows = async ({
   userId,
   type,
 }: UserId & { type: 'followers' | 'following' }) => {
-  const response = await fetcher<{ followerUsers: FollowUsers[] }>({
+  const response = await fetcher<{
+    followingUsers?: FollowUsers[];
+    followerUsers?: FollowUsers[];
+  }>({
     url: `/users/${userId}/${type}`,
     method: 'GET',
   });
-  return response.data;
+  return type === 'followers'
+    ? response.data?.followerUsers
+    : response.data.followingUsers;
 };
 
 export const addProject = async ({
@@ -226,6 +231,7 @@ export interface Project {
   bookmarkCount: number;
   viewCount: number;
   status: statusTagItemskey;
+  createdAt: string;
 }
 
 export interface HubResponse {

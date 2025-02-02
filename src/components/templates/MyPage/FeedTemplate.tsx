@@ -14,11 +14,11 @@ const FeedTemplate = () => {
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading, error } =
     useMyFeed();
 
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetching) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetching, fetchNextPage]);
+//   useEffect(() => {
+//     if (inView && hasNextPage && !isFetching) {
+//       fetchNextPage();
+//     }
+//   }, [inView, hasNextPage, isFetching, fetchNextPage]);
 
   return (
     <div className='flex flex-col gap-[30px] w-full mt-3'>
@@ -66,4 +66,4 @@ const FeedTemplate = () => {
   );
 };
 
-export default FeedTemplate;
+// export default FeedTemplate;

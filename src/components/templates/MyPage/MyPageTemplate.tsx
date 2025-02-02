@@ -1,8 +1,8 @@
 import MyPageHeader from '@/components/molecules/MyPageHeader';
 import Tabs from '@/components/organisms/Tabs';
 import ApplyTemplate from '@/components/templates/MyPage/ApplyTemplate';
-import ConnectionHubTemplate from '@/components/templates/MyPage/ConnectionHubTemplate';
-import FeedTemplate from '@/components/templates/MyPage/FeedTemplate';
+// import ConnectionHubTemplate from '@/components/templates/MyPage/ConnectionHubTemplate';
+// import FeedTemplate from '@/components/templates/MyPage/FeedTemplate';
 import IntroductionTemplate from '@/components/templates/MyPage/IntroductionTemplate';
 import { useApplyFormStore } from '@/store/applyFormStore';
 import { useMyPageTabsStore } from '@/store/myTabsStore';
@@ -12,8 +12,8 @@ import { useShallow } from 'zustand/shallow';
 const MyPageTabs = Object.assign({
   소개: IntroductionTemplate,
   지원서: ApplyTemplate,
-  피드: FeedTemplate,
-  '커넥션 허브': ConnectionHubTemplate,
+  // 피드: FeedTemplate,
+  // '커넥션 허브': ConnectionHubTemplate,
 });
 
 const MyPageTemplate = () => {

@@ -178,7 +178,10 @@ const SideMenu = () => {
                           key={index}
                           className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                         >
-                          <Avatar src={message.senderProfileUrl} size='xs' />
+                          <Avatar
+                            src={message.senderProfileUrl || undefined}
+                            size='xs'
+                          />
                           <div>{message.message}</div>
                           <div
                             onClick={() =>
@@ -212,7 +215,7 @@ const SideMenu = () => {
           />
           {showLogin && (
             <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
-              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
+              <div className='flex flex-col ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
                 <button
                   onClick={() =>
                     navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')

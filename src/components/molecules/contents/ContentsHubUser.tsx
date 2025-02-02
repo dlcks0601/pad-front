@@ -65,7 +65,7 @@ const ContentsHubUser = ({
           }
         >
           <Avatar
-            src={profileUrl}
+            src={profileUrl || undefined}
             size='xs'
             alt={`${nickname} Avatar`}
             className='object-cover'

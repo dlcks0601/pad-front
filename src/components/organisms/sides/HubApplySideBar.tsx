@@ -60,7 +60,6 @@ const HubApplySideBar = () => {
         <div className='text-[14px] font-medium text-black'>👥 지원자 목록</div>
         <SideBarApplicantList key={projectId} />
       </div>
-
       <div className='flex gap-[10px]'>
         {hubStatus === 'OPEN' && (
           <button

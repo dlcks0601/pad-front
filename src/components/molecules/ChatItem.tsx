@@ -90,7 +90,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
       })}
     >
       <Avatar
-        src={chat.userProfileUrl}
+        src={chat.userProfileUrl || undefined}
         alt={chat.userName}
         className='w-[40px] h-[40px] rounded-full'
       />

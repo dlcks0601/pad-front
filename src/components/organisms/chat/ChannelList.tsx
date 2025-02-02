@@ -36,7 +36,6 @@ const ChannelList = ({ channels }: ChannelListProps) => {
       switchChannel(channelId);
     }
   };
-
   return (
     <ul className='grow flex flex-col gap-[24px] pb-[50px] overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'>
       {Object.entries(channels).map(([_, channel]) => {

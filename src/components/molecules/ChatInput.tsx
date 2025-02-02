@@ -54,7 +54,7 @@ const ChatInput = ({
     <>
       <div className='w-full h-[40px] flex gap-[10px] mb-[20px]'>
         <Avatar
-          src={userImage}
+          src={userImage || undefined}
           alt='User Avatar'
           className='w-[40px] h-[40px] rounded-full'
         />

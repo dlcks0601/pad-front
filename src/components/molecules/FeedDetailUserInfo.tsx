@@ -26,6 +26,7 @@ const FeedDetailUserInfo = ({
   createdAt,
   isWriter,
   postId,
+  userId: _,
 }: FeedDetailUserInfoProps) => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
     usePostModal();
@@ -50,7 +51,7 @@ const FeedDetailUserInfo = ({
     <div className='w-full flex justify-between items-center'>
       <div className='w-fit h-[40px] flex gap-[10px]'>
         <Avatar
-          src={userProfileUrl}
+          src={userProfileUrl || undefined}
           className='w-[40px] h-[40px] rounded-full'
         />
         <div className='flex flex-col justify-between'>

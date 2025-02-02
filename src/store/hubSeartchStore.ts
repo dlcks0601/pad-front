@@ -34,8 +34,8 @@ const useHubSearchStore = create<HubSearchState & HubSearchAction>()(
   devtools(
     immer((set) => ({
       sort: true,
-      role: 'null',
-      unit: 'null',
+      role: null,
+      unit: null,
       setSort: (sort) => {
         set((state) => {
           state.sort = sort;
@@ -54,9 +54,7 @@ const useHubSearchStore = create<HubSearchState & HubSearchAction>()(
       },
       reset: () => {
         set(() => ({
-
           ...initialState,
-
         }));
       },
     }))

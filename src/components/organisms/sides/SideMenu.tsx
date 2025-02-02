@@ -67,6 +67,7 @@ const SideMenu = () => {
     if (!token) return;
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
+      // `${import.meta.env.VITE_LOCAL_URL}/notifications/stream`,
       {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
@@ -157,7 +158,7 @@ const SideMenu = () => {
                       key={index}
                       className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                     >
-                      <Avatar src={message.senderProfileUrl} size={'xs'} />
+                      <Avatar src={message.senderProfileUrl} size='xs' />
                       <div>{message.message}</div>
                     </div>
                   ))}
@@ -176,7 +177,7 @@ const SideMenu = () => {
           />
           {showLogin && (
             <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
-              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
+              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg flex-col'>
                 <button
                   onClick={() =>
                     navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')

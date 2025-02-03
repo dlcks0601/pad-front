@@ -179,7 +179,10 @@ const SideMenu = () => {
                           key={index}
                           className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                         >
-                          <Avatar src={message.senderProfileUrl} size='xs' />
+                          <Avatar
+                            src={message.senderProfileUrl || undefined}
+                            size='xs'
+                          />
                           <div>{message.message}</div>
                           <div
                             onClick={() =>

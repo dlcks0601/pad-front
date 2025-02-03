@@ -4,7 +4,6 @@ import {
   changeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import useAuthStore from '@/store/authStore';
 import { useProjectStore } from '@/store/hubDetailStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -17,7 +16,6 @@ const SideBarApplicantList = () => {
     refetch,
   } = useFetchApplicants(Number(projectId));
 
-  const writeUserId = useAuthStore((state) => state.userInfo.userId);
   const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
   const hubTitle = useProjectStore((state) => state.project?.title);
@@ -66,12 +64,10 @@ const SideBarApplicantList = () => {
               ) || [];
             const userIds = [
               ...acceptedApplicants.map((applicant) => applicant.userId),
-              writeUserId,
             ];
 
-            console.log('초대된 사용자:', userIds); // ✅ 초대된 사용자 확인
+            console.log('초대된 사용자:', userIds);
 
-            // ✅ 초대된 사용자와 함께 채팅으로 이동
             navigate('/chat', {
               state: { userIds, title: hubTitle },
             });

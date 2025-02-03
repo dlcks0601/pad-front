@@ -1,7 +1,4 @@
-import { RoleProps } from '@/components/atoms/Role';
 import { HubContents } from '@/components/molecules/contents/ContentsItem';
-import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
-import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import { useSearchConnectionHub } from '@/hooks/queries/search.query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -31,6 +28,8 @@ const ProjectView = ({ keyword }: { keyword: string }) => {
     return <div className='text-[14px]'>검색 결과가 존재하지 않습니다.</div>;
   }
 
+  console.log(hubs?.pages[0].projects);
+
   return (
     <div className='flex flex-col gap-10'>
       {hubs?.pages[0].projects?.map((project) => (
@@ -42,12 +41,6 @@ const ProjectView = ({ keyword }: { keyword: string }) => {
             nickname: project.userNickname,
             role: project.userRole,
           }}
-          title={project.title}
-          workType={project.workType === '온라인' ? 'ONLINE' : 'OFFLINE'}
-          hubType={project.hubType === '프로젝트' ? 'PROJECT' : 'OUTSOURCING'}
-          detailRoles={project.detailRoles as roleTagItemsKey[]}
-          role={project.role as RoleProps['role']}
-          status={project.status as statusTagItemskey}
           createdAt={new Date().toISOString()}
         />
       ))}

@@ -3,7 +3,7 @@ import HubBody from '@/components/molecules/contents/HubBody';
 import HubTitle from '@/components/molecules/contents/HubTitle';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ interface HubItemProps {
   workType: meetingTagItemskey;
   detailRoles: roleTagItemsKey[];
   status: statusTagItemskey;
-  role: roleItemsKey;
+  role: RoleItemKeys;
   thumbnailUrl?: string;
   startDate: string;
   duration: string;

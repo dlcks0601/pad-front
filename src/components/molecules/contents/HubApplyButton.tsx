@@ -1,13 +1,8 @@
-import { fetchStatus } from '@/apis/hub.api';
 import Button from '@/components/atoms/Button';
-import { changeHubStatus, useFetchHub } from '@/hooks/queries/hub.query';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 interface ApplyButtonProps {
   text: string;
   gradient?: string;
-  onClick?: () => void;
 }
 
 const ApplyButton = ({ text, gradient }: ApplyButtonProps) => {

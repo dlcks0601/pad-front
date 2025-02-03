@@ -6,21 +6,21 @@ import { useEffect, useState } from 'react';
 
 const HubSideBarContents = () => {
   const [data, setData] = useState<HubSideBarItemType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setError] = useState<string | null>(null);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isError, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getHubWeeklyBest = async () => {
-      setIsLoading(true);
-      setError(null);
+      // setIsLoading(true);
+      // setError(null);
       try {
         const response = await fetchBestHubs();
 
         setData(response.popularProjects);
-      } catch (err: any) {
-        setError(err.message || '데이터를 불러오는 중 오류가 발생했습니다.');
+      } catch (_) {
+        // setError(err.message || '데이터를 불러오는 중 오류가 발생했습니다.');
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     getHubWeeklyBest();

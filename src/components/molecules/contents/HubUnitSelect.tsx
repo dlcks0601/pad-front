@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/Select';
 import { cn } from '@/utils/cn';
 import useHubSearchStore from '@/store/hubSeartchStore';
-import { roleItems, roleValueToKeyMap } from '@/constants/hub/roleItems';
+import { roleValueToKeyMap } from '@/constants/hub/roleItems';
 
 const jobRoles: Record<'Programmer' | 'Artist' | 'Designer', string[]> = {
   Programmer: [

@@ -1,21 +1,21 @@
-import Role, { RoleProps } from '@/components/atoms/Role';
+import Role from '@/components/atoms/Role';
 import {
   meetingTagItemsColors,
   meetingTagItemskey,
 } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import {
   statusTagItemsColors,
   statusTagItemskey,
 } from '@/constants/hub/statusTagItems';
 
-interface HubInfoTag {
+interface HubInfoTagProps {
   workType: meetingTagItemskey;
   status: statusTagItemskey;
-  role: roleItemsKey;
+  role: RoleItemKeys;
 }
 
-const HubInfoTag = ({ workType, status, role }: HubInfoTag) => {
+const HubInfoTag = ({ workType, status, role }: HubInfoTagProps) => {
   return (
     <div className='flex gap-[20px] items-center'>
       <div className='flex'>

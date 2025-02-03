@@ -8,7 +8,7 @@ const InputDropdown = () => {
   const [selectedTag, setSelectedTag] = useState<TagItemKey[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const setTag = useFeedStore((state) => state.setTag);
-  const { tag } = useFeedStore((state) => state);
+  const tag = useFeedStore((state) => state.tag);
   const onClick = () => {
     setOpen(!open);
   };

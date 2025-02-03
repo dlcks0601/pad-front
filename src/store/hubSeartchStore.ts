@@ -1,7 +1,7 @@
 import {
   roleItems,
-  roleItemsKey,
-  roleItemsValue,
+  RoleItemKeys,
+  RoleItemValues,
 } from '@/constants/hub/roleItems';
 import {
   roleTagItemsKey,
@@ -13,13 +13,13 @@ import { immer } from 'zustand/middleware/immer';
 
 interface HubSearchState {
   sort: boolean;
-  role: roleItemsValue | null;
+  role: RoleItemValues | null;
   unit: roleTagItemsValue | string | null;
 }
 
 interface HubSearchAction {
   setSort: (sort: boolean) => void;
-  setRole: (roleKey: roleItemsKey | null) => void;
+  setRole: (roleKey: RoleItemKeys | null) => void;
   setUnit: (unitKey: roleTagItemsKey | string | null) => void;
   reset: () => void;
 }

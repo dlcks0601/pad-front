@@ -4,10 +4,10 @@ export const roleItems = {
   Designer: 'DESIGNER',
 } as const;
 
-export type roleItemsKey = keyof typeof roleItems;
-export type roleItemsValue = (typeof roleItems)[roleItemsKey];
+export type RoleItemKeys = keyof typeof roleItems;
+export type RoleItemValues = (typeof roleItems)[RoleItemKeys];
 
-export const roleValueToKeyMap: Record<roleItemsValue, roleItemsKey> = {
+export const roleValueToKeyMap: Record<RoleItemValues, RoleItemKeys> = {
   PROGRAMMER: 'Programmer',
   ARTIST: 'Artist',
   DESIGNER: 'Designer',

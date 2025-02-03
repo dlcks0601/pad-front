@@ -1,10 +1,10 @@
 import WorkList from '@/components/organisms/WorkList';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import useIntroduction from '@/hooks/mypage/useIntroduction.business';
 import { IntroductionSection } from '@/types/mypage.type';
 
 interface IProps {
-  role: roleItemsKey;
+  role: RoleItemKeys;
   isMusicWorkValid: (work: any) => work is {
     musicUrl: string;
   };

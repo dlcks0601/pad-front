@@ -1,7 +1,7 @@
 import { RoleProps } from '@/components/atoms/Role';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 
@@ -20,7 +20,7 @@ export interface FeedResult extends User {
 }
 
 export interface ProjectResult extends User {
-  userRole: roleItemsKey;
+  userRole: RoleItemKeys;
   projectId: number;
   title: string;
   role: RoleProps['role'];

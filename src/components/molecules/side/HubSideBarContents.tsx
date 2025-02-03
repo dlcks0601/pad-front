@@ -26,14 +26,6 @@ const HubSideBarContents = () => {
     getHubWeeklyBest();
   }, []);
 
-  if (isLoading) {
-    return <div>데이터 불러오는 중...</div>;
-  }
-
-  if (isError) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {data.map((item, index) => (

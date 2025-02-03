@@ -8,7 +8,8 @@ import {
 } from '@/components/ui/Select';
 import { cn } from '@/utils/cn';
 import useHubSearchStore from '@/store/hubSeartchStore';
-import { roleValueToKeyMap } from '@/constants/hub/roleItems';
+import { RoleItemValues, roleValueToKeyMap } from '@/constants/hub/roleItems';
+import { roleTagItems } from '@/constants/hub/roleTagsItems';
 
 const jobRoles: Record<'Programmer' | 'Artist' | 'Designer', string[]> = {
   Programmer: [
@@ -69,12 +70,12 @@ const HubUnitSelect = () => {
   const { role, unit, setUnit } = useHubSearchStore();
 
   const handleUnitChange = (value: string) => {
-    const selectedUnit = value === 'All' ? null : value;
-    setUnit(selectedUnit);
+    setUnit(value === 'All' ? '' : (value as keyof typeof roleTagItems));
   };
 
-  const roleKey = role ? roleValueToKeyMap[role] : null;
-  const units = roleKey ? jobRoles[roleKey] : [];
+  const roleKey = role ? roleValueToKeyMap[role as RoleItemValues] : '';
+
+  const units = roleKey ? jobRoles[roleKey as keyof typeof jobRoles] : [];
 
   return (
     <div className={cn('flex items-center gap-4')}>

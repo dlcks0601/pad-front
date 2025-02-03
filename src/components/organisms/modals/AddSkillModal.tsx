@@ -49,7 +49,11 @@ const AddSkillModal = ({ onClose }: ModalProps) => {
   };
 
   const handleAddSkill = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+    if (
+      e.key === 'Enter' &&
+      !e.nativeEvent.isComposing &&
+      inputValue.length > 0
+    ) {
       setSelectedSkills([...selectedSkills, inputValue]);
       setInputValue('');
     }

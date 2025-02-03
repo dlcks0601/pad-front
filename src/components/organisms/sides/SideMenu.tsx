@@ -16,7 +16,6 @@ import {
 import { createPortal } from 'react-dom';
 import { NotificationTypes } from '@/apis/notification.api';
 import Popup from '@/components/molecules/Popup';
-import logo from '@/assets/logos/PAD.svg';
 
 interface NotificationProp {
   notificationId: number;
@@ -147,6 +146,8 @@ const SideMenu = () => {
     };
   }, [showNotificationBox]);
 
+  console.log(userInfo?.profileUrl);
+
   return (
     <>
       {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
@@ -204,22 +205,13 @@ const SideMenu = () => {
           )}
 
         <div className='relative' ref={loginRef}>
-          {userInfo?.profileUrl ? (
-            <Avatar
-              size='sm'
-              alt='User Avatar'
-              className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
-              src={userInfo?.profileUrl}
-              onClick={() => setShowLogin((prev) => !prev)}
-            />
-          ) : (
-            <div
-              className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300 rounded-full w-[50px] h-[50px] flex justify-center items-center overflow-hidden'
-              onClick={() => setShowLogin((prev) => !prev)}
-            >
-              <img src={logo} className='w-11 h-11' />
-            </div>
-          )}
+          <Avatar
+            size='sm'
+            alt='User Avatar'
+            className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
+            src={userInfo?.profileUrl || undefined}
+            onClick={() => setShowLogin((prev) => !prev)}
+          />
           {showLogin && (
             <Popup
               position='right'

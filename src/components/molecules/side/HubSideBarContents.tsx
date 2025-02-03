@@ -1,5 +1,5 @@
 import { fetchBestHubs } from '@/apis/hub.api';
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import { hubTagItemsColors } from '@/constants/hub/hubTagItems';
 import { HubSideBarItemType } from '@/types/hubSideBarItem.type';
 import { useEffect, useState } from 'react';
@@ -25,6 +25,15 @@ const HubSideBarContents = () => {
     };
     getHubWeeklyBest();
   }, []);
+
+  if (isLoading) {
+    return <div>데이터 불러오는 중...</div>;
+  }
+
+  if (isError) {
+    return <div>에러가 발생했습니다.</div>;
+  }
+
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {data.map((item, index) => (
@@ -32,11 +41,11 @@ const HubSideBarContents = () => {
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-[10px]'>
               <div className='flex text-[12px]'>{index + 1}</div>
-              <Avatar
-                src={item.user.profileUrl || undefined}
-                alt={item.user.nickname}
-                size='xxs'
-                className='object-cover'
+              <AvatarPopup
+                {...item.user}
+                avatarSize='xxs'
+                popupClassname='top-4'
+                avatarClassname=''
               />
               <div className='flex text-[12px] font-medium'>
                 {item.user.nickname}

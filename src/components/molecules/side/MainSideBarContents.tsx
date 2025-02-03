@@ -1,4 +1,4 @@
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import { useFetchFeedRank } from '@/hooks/queries/feed.query';
 
 const MainSideBarContents = () => {
@@ -21,11 +21,12 @@ const MainSideBarContents = () => {
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-[10px]'>
                 <div className='flex text-[12px]'>{item.rank}</div>
-                <Avatar
-                  src={item.userProfileUrl || undefined}
-                  alt={item.userNickname}
-                  size='xxs'
-                  className='object-cover'
+                <AvatarPopup
+                  profileUrl={item.userProfileUrl}
+                  avatarSize='xxs'
+                  nickname={item.userNickname}
+                  userId={item.userId}
+                  popupClassname='top-4'
                 />
                 <div className='flex text-[12px] font-medium'>
                   {item.userNickname}

@@ -9,7 +9,7 @@ import { useShallow } from 'zustand/shallow';
 interface IProps {
   nickname: string;
   userId: number;
-  profileUrl: string;
+  profileUrl: string | null;
   avatarSize?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
   avatarClassname?: string;
   popupClassname?: string;

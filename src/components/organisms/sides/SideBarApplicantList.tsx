@@ -4,7 +4,6 @@ import {
   changeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import useAuthStore from '@/store/authStore';
 import { useProjectStore } from '@/store/hubDetailStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -16,8 +15,6 @@ const SideBarApplicantList = () => {
     isError,
     refetch,
   } = useFetchApplicants(Number(projectId));
-
-  const writeUserId = useAuthStore((state) => state.userInfo.userId);
 
   const navigate = useNavigate();
   const changeStatusMutation = applicantsStatus();
@@ -67,10 +64,8 @@ const SideBarApplicantList = () => {
               ) || [];
             const userIds = [
               ...acceptedApplicants.map((applicant) => applicant.userId),
-              writeUserId,
             ];
 
-            // ✅ 초대된 사용자와 함께 채팅으로 이동
             navigate('/chat', {
               state: { userIds, title: hubTitle },
             });
@@ -88,14 +83,6 @@ const SideBarApplicantList = () => {
     return <div className='text-center text-gray-500'>지원자가 없습니다.</div>;
   }
 
-  // const acceptedApplicants = ApplicantData.applicants.filter(
-  //   (applicant) => applicant.status === 'Accepted'
-  // );
-  // const userIds = [
-  //   ...acceptedApplicants.map((applicant) => applicant.userId),
-  //   writeUserId,
-  // ];
-
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {ApplicantData.applicants.map((applicant, index) => (
@@ -110,7 +97,12 @@ const SideBarApplicantList = () => {
               avatarSize='xxs'
               popupClassname='top-4'
             />
-            <div className='text-[14px] font-medium'>{applicant.nickname}</div>
+            <div
+              className='text-[14px] font-medium cursor-pointer'
+              onClick={() => navigate(`/@${applicant.nickname}`)}
+            >
+              {applicant.nickname}
+            </div>
           </div>
           <div className='flex gap-[10px]'>
             {applicant.status === 'Pending' ? (

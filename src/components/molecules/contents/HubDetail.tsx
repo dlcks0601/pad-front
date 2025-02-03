@@ -117,7 +117,7 @@ const HubDetail = ({
                       </div>
                     </div>
                     <div className='flex'>
-                      <HubIntroduce />
+                      <HubIntroduce nickname={manager.nickname} />
                     </div>
                   </div>
                 </div>

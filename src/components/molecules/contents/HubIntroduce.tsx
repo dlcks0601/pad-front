@@ -1,13 +1,39 @@
 import Button from '@/components/atoms/Button';
+import { useFollow } from '@/hooks/queries/follow.query';
+import { useGetProfileHeader } from '@/hooks/queries/mypage/introduce';
 import { useProjectStore } from '@/store/hubDetailStore';
-import { Plus, Send } from 'lucide-react';
+import { Minus, Plus, Send } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const HubIntroduce = () => {
+interface IProps {
+  nickname: string;
+}
+
+const HubIntroduce = ({ nickname }: IProps) => {
   const navigate = useNavigate();
   const targetUserId = useProjectStore(
     (state) => state.project?.manager.userId
   );
+  const { mutate } = useFollow();
+  const { data: mangerData, refetch } = useGetProfileHeader(nickname);
+
+  const isFollowing = mangerData?.isFollowing;
+  const userId = mangerData?.userId;
+
+  const handleFollow = () => {
+    if (!userId) return;
+    mutate(
+      { targetId: userId },
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: (error) => {
+          console.error('팔로우 실패:', error);
+        },
+      }
+    );
+  };
   return (
     <div className='flex gap-[10px]'>
       <Button
@@ -16,8 +42,17 @@ const HubIntroduce = () => {
         variants='filled'
         radius='md'
         className='bg-white text-black shadow-xl'
+        onClick={handleFollow}
       >
-        <Plus className='mr-2 w-5 h-5' /> 팔로우
+        {isFollowing ? (
+          <>
+            <Minus className='mr-2 w-5 h-5' /> 팔로잉
+          </>
+        ) : (
+          <>
+            <Plus className='mr-2 w-5 h-5' /> 팔로우
+          </>
+        )}
       </Button>
       <Button
         width='90px'

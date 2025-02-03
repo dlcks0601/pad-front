@@ -11,17 +11,17 @@ interface PopupData {
 interface IProps {
   popupHandler: PopupData[];
   position: 'right' | 'bottom';
-  className?: string;
+  innerClassname?: string;
 }
 
-const Popup = ({ popupHandler, position, className }: IProps) => {
+const Popup = ({ popupHandler, position, innerClassname }: IProps) => {
   const popupStyle = cva(
     'inline-flex items-center justify-center cursor-pointer',
     {
       variants: {
         position: {
           right: 'top-[-30%] transform -translate-y-1/2 text-[18px] ',
-          bottom: 'left-0 mt-3 text-[15px]',
+          bottom: 'left-0 mt-3 text-[15px] z-20',
         },
       },
       defaultVariants: {
@@ -33,7 +33,7 @@ const Popup = ({ popupHandler, position, className }: IProps) => {
   return (
     <div
       className={cn(
-        'absolute w-max left-full transition-opacity duration-300 z-50',
+        `absolute w-max left-full transition-opacity duration-300 z-50 ${innerClassname}`,
         popupStyle({ position })
       )}
     >
@@ -41,7 +41,7 @@ const Popup = ({ popupHandler, position, className }: IProps) => {
         className={`flex w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg ${position === 'right' && 'ml-4'}`}
       >
         <div
-          className={`flex w-full flex-col ${position === 'right' ? 'gap-[10px]' : 'gap-1'} ${className}`}
+          className={`flex w-full flex-col ${position === 'right' ? 'gap-[10px]' : 'gap-1'}`}
         >
           {popupHandler.map((item) => (
             <button

@@ -1,12 +1,9 @@
-import Avatar from '@/components/atoms/Avatar';
 import ContentsHubUserTitle from '@/components/atoms/contents/ContentsHubUserTitle';
 import Icon from '@/components/atoms/Icon';
-import Popup from '@/components/molecules/Popup';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import { useDeleteHub } from '@/hooks/queries/hub.query';
-import { useModal } from '@/hooks/useModal';
 import usePostHubModal from '@/hooks/usePostHubModal';
-import useAuthStore from '@/store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,9 +32,6 @@ const ContentsHubUser = ({
   const navigate = useNavigate();
   const { mutate: deleteHub } = useDeleteHub();
 
-  const { isOpen, openModal, closeModal } = useModal();
-  const { userInfo } = useAuthStore();
-
   const handleDelete = () => {
     const confirmDelete = window.confirm('정말 삭제하시겠습니다?');
     if (confirmDelete) {
@@ -54,43 +48,13 @@ const ContentsHubUser = ({
   return (
     <div className='flex items-center w-full justify-between'>
       <div className='flex space-x-3'>
-        <div
-          className='cursor-pointer relative'
-          onClick={() =>
-            userId === userInfo?.userId
-              ? navigate(`/@${userInfo?.nickname}`)
-              : isOpen
-                ? closeModal()
-                : openModal()
-          }
-        >
-          <Avatar
-            src={profileUrl || undefined}
-            size='xs'
-            alt={`${nickname} Avatar`}
-            className='object-cover'
-          />
-          {isOpen && userId !== userInfo?.userId && (
-            <Popup
-              position='bottom'
-              popupHandler={[
-                {
-                  onClick: () => navigate(`/@${nickname}`),
-                  text: '마이페이지',
-                  icon: <Icon type='user' className='w-4' />,
-                },
-                {
-                  onClick: () => {
-                    navigate('/chat', { state: { targetUserId: userId } });
-                  },
-                  text: '메세지 보내기',
-                  icon: <Icon type='mail' className='w-4' />,
-                },
-              ]}
-              className='text-[13px]'
-            />
-          )}
-        </div>
+        <AvatarPopup
+          profileUrl={profileUrl!}
+          avatarSize='xs'
+          nickname={nickname}
+          userId={userId!}
+          popupClassname='top-10'
+        />
         <ContentsHubUserTitle
           nickname={nickname}
           role={role}

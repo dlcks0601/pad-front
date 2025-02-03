@@ -29,7 +29,6 @@ const ChatInput = ({ currentChannelId }: ChatInputProps) => {
 
   const handleSubmitFile = (fileUploader: FileUploader) => {
     if (!fileUploader.file) return;
-    console.log('handleSubmitFile');
     // let type: string;
     // switch(fileUploader.accept) {
     //   case 'image/*':

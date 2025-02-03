@@ -14,7 +14,7 @@ const ChannelExitButton = ({ currentChannelId }: Props) => {
       const userId = useAuthStore.getState().userInfo.userId;
       exitChannel(userId, currentChannelId!);
     } else {
-      console.log('나가기 취소');
+      // 나가기 취소
     }
   };
 

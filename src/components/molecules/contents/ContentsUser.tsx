@@ -1,11 +1,5 @@
-import Avatar from '@/components/atoms/Avatar';
-import Icon from '@/components/atoms/Icon';
-import Popup from '@/components/molecules/Popup';
-import { useModal } from '@/hooks/useModal';
-import useAuthStore from '@/store/authStore';
-import { useNavigate } from 'react-router-dom';
-import { useShallow } from 'zustand/shallow';
 import FeedContentsUserTitle from '@/components/atoms/contents/FeedContentsUserTitle';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 
 interface ContentsUserProps {
   userProfileUrl: string;
@@ -22,48 +16,15 @@ const ContentsUser = ({
   userProfileUrl,
   userId,
 }: ContentsUserProps) => {
-  const navigate = useNavigate();
-  const { isOpen, openModal, closeModal } = useModal();
-  const { userInfo } = useAuthStore(useShallow((state) => state));
-
   return (
     <div className='flex items-start space-x-3'>
-      <div
-        className='cursor-pointer relative'
-        onClick={() =>
-          userId === userInfo?.userId
-            ? navigate(`/@${userInfo?.nickname}`)
-            : isOpen
-              ? closeModal()
-              : openModal()
-        }
-      >
-        <Avatar
-          src={userProfileUrl || undefined}
-          size='xs'
-          alt={`${name} Avatar`}
-          className='object-cover'
-        />
-        {isOpen && (
-          <Popup
-            position='bottom'
-            popupHandler={[
-              {
-                onClick: () => navigate(`/@${name}`),
-                text: '마이페이지',
-                icon: <Icon type='user' className='w-4' />,
-              },
-              {
-                onClick: () =>
-                  navigate('/chat', { state: { targetUserId: userId } }),
-                text: '메세지 보내기',
-                icon: <Icon type='mail' className='w-4' />,
-              },
-            ]}
-            className='text-[13px]'
-          />
-        )}
-      </div>
+      <AvatarPopup
+        profileUrl={userProfileUrl}
+        avatarSize='xs'
+        userId={userId!}
+        nickname={name}
+        popupClassname='top-10'
+      />
       <FeedContentsUserTitle
         userNickname={name}
         userRole={userRole}

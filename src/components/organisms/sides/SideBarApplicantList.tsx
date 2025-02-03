@@ -1,4 +1,4 @@
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import {
   applicantsStatus,
   changeHubStatus,
@@ -70,8 +70,6 @@ const SideBarApplicantList = () => {
               writeUserId,
             ];
 
-            console.log('초대된 사용자:', userIds); // ✅ 초대된 사용자 확인
-
             // ✅ 초대된 사용자와 함께 채팅으로 이동
             navigate('/chat', {
               state: { userIds, title: hubTitle },
@@ -107,10 +105,10 @@ const SideBarApplicantList = () => {
         >
           <div className='flex items-center gap-[10px]'>
             <div className='text-[14px]'>{index + 1}</div>
-            <Avatar
-              src={applicant.profileUrl || undefined}
-              alt={applicant.nickname}
-              size='xxs'
+            <AvatarPopup
+              {...applicant}
+              avatarSize='xxs'
+              popupClassname='top-4'
             />
             <div className='text-[14px] font-medium'>{applicant.nickname}</div>
           </div>

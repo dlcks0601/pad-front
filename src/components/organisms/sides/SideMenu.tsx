@@ -15,6 +15,7 @@ import {
 } from '@/hooks/queries/notification.query';
 import { createPortal } from 'react-dom';
 import { NotificationTypes } from '@/apis/notification.api';
+import Popup from '@/components/molecules/Popup';
 
 interface NotificationProp {
   notificationId: number;
@@ -77,7 +78,6 @@ const SideMenu = () => {
       console.log('✅ SSE 연결 성공');
     });
     eventSource.addEventListener('message', (event) => {
-      console.log('📩 새 알림 도착');
       const data: NotificationProp = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
       setNewNotification(true);
@@ -96,7 +96,6 @@ const SideMenu = () => {
   };
 
   const handleCheckNotificationClick = (notificationId: number) => {
-    console.log(`🔵 알림 ${notificationId} 읽음 처리 요청`);
     markAsRead({ notificationId: String(notificationId) });
     // ✅ 상태에서 즉시 제거
     setMessages((prevMessages) =>
@@ -124,7 +123,7 @@ const SideMenu = () => {
     {
       type: 'star',
       label: '커넥션 허브',
-      onClick: () => navigate('/connectionhub'),
+      onClick: () => navigate('/projects'),
     },
   ];
 
@@ -146,6 +145,8 @@ const SideMenu = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showNotificationBox]);
+
+  console.log(userInfo?.profileUrl);
 
   return (
     <>
@@ -178,7 +179,10 @@ const SideMenu = () => {
                           key={index}
                           className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                         >
-                          <Avatar src={message.senderProfileUrl} size={'xs'} />
+                          <Avatar
+                            src={message.senderProfileUrl || undefined}
+                            size='xs'
+                          />
                           <div>{message.message}</div>
                           <div
                             onClick={() =>
@@ -188,7 +192,7 @@ const SideMenu = () => {
                             }
                           >
                             <Icon
-                              type={'trash'}
+                              type='trash'
                               color='black'
                               className='w-[20px] h-[20px] cursor-pointer'
                             />
@@ -208,46 +212,44 @@ const SideMenu = () => {
             size='sm'
             alt='User Avatar'
             className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
-            src={userInfo.profileUrl}
+            src={userInfo?.profileUrl || undefined}
             onClick={() => setShowLogin((prev) => !prev)}
           />
           {showLogin && (
-            <div className='absolute top-[-30%] w-max left-full transform -translate-y-1/2 z-50'>
-              <div className='flex ml-4 w-full bg-white rounded-xl items-center px-[10px] py-[10px] drop-shadow-lg'>
-                <button
-                  onClick={() =>
-                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-2 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type='user'
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '마이페이지' : '로그인'}
-                  </div>
-                </button>
-                <button
-                  onClick={() =>
-                    isLoggedIn
-                      ? mutate(undefined, { onSuccess: logout })
-                      : navigate('/signup')
-                  }
-                  className='group flex w-full rounded-lg px-1 py-1.5 items-center gap-[20px] hover:bg-[#f3f4f6]'
-                >
-                  <Icon
-                    type={isLoggedIn ? 'logout' : 'join'}
-                    color='gray'
-                    className='w-[30px] h-[30px]'
-                  />
-                  <div className='text-[18px] text-[#48484a]'>
-                    {isLoggedIn ? '로그아웃' : '회원가입'}
-                  </div>
-                </button>
-              </div>
-            </div>
+            <Popup
+              position='right'
+              popupHandler={[
+                {
+                  onClick: () => {
+                    navigate(
+                      isLoggedIn ? `/@/${userInfo?.nickname}` : '/login'
+                    );
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '마이페이지' : '로그인',
+                  icon: <Icon type='user' className='w-6' />,
+                },
+                {
+                  onClick: () => {
+                    if (isLoggedIn) {
+                      mutate(undefined, {
+                        onSuccess: () => logout(),
+                      });
+                    } else {
+                      navigate('/signup');
+                    }
+                    setShowLogin(false);
+                  },
+                  text: isLoggedIn ? '로그아웃' : '회원가입',
+                  icon: (
+                    <Icon
+                      type={isLoggedIn ? 'logout' : 'user'}
+                      className='w-6'
+                    />
+                  ),
+                },
+              ]}
+            />
           )}
         </div>
       </div>

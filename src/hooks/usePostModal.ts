@@ -4,7 +4,7 @@ import { useState } from 'react';
 const usePostModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { resetFeed } = useFeedStore();
+  const resetFeed = useFeedStore((state) => state.resetFeed);
 
   const openPostModal = () => {
     setIsModalOpen(true);

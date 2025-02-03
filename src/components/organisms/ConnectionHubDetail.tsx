@@ -35,7 +35,6 @@ const ConnectionHubDetail = () => {
   useEffect(() => {
     if (ProjectData?.project) {
       setProject(ProjectData.project, currentUserId);
-      console.log('data: ', ProjectData);
     }
   }, [ProjectData, currentUserId, setProject]);
 

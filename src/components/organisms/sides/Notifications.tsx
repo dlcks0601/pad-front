@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import Avatar from '@/components/atoms/Avatar';
 import useAuthStore from '@/store/authStore';
+import { NotificationTypes } from '@/apis/notification.api';
 
 interface MessageProp {
-  type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
+  type: NotificationTypes;
   message: string;
   senderNickname: string;
   senderProfileUrl: string;
@@ -83,7 +84,10 @@ const Notifications = () => {
             <p className='text-gray-500'>새로운 알림이 없습니다.</p>
           ) : (
             messages.map((msg, index) => (
-              <div key={index} className='flex items-center gap-2 text-sm'>
+              <div
+                key={index}
+                className='flex items-center gap-2 text-sm cursor-pointer'
+              >
                 <Avatar src={msg.senderProfileUrl || undefined} size='xs' />
                 <span>
                   <strong>{msg.senderNickname}</strong>: {msg.message}

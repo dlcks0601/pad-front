@@ -22,20 +22,18 @@ const TiptapBubbleMenu = ({ editor }: TiptapBubbleMenuProps) => {
       className='bubble-menu'
     >
       <div className='flex flex-col'>
-        {BubbleMenuItems.map(
-          ({ label, icon: Icon, action, isActive }, index) => (
-            <button
-              key={index}
-              onClick={() => action(editor)}
-              className={`flex items-center px-3 py-2 w-full text-left hover:bg-gray-100 ${
-                isActive(editor) ? 'is-active' : ''
-              }`}
-            >
-              <Icon className='w-4 h-4 mr-2' />
-              <span className='text-sm'>{label}</span>
-            </button>
-          )
-        )}
+        {BubbleMenuItems.map(({ label, icon: Icon, action, isActive }) => (
+          <button
+            key={label}
+            onClick={() => action(editor)}
+            className={`flex items-center px-3 py-2 w-full text-left hover:bg-gray-100 ${
+              isActive(editor) ? 'is-active' : ''
+            }`}
+          >
+            <Icon className='w-4 h-4 mr-2' />
+            <span className='text-sm'>{label}</span>
+          </button>
+        ))}
       </div>
     </BubbleMenu>
   );

@@ -23,7 +23,12 @@ const AddProjectModal = ({
   onClose,
   isOpen,
   isForUpdate,
-}: ModalProps & { isOpen: boolean; isForUpdate: boolean }) => {
+  onRefetch,
+}: ModalProps & {
+  isOpen: boolean;
+  isForUpdate: boolean;
+  onRefetch: () => void;
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { projectForm, setSingleProjectForm, resetProjectForm } =
@@ -43,6 +48,7 @@ const AddProjectModal = ({
 
   const successHandler = () => {
     querySuccessHandler('profile-info', [nickname]);
+    onRefetch();
     resetProjectForm();
     onClose();
   };
@@ -90,9 +96,16 @@ const AddProjectModal = ({
   };
 
   const handleDeleteProject = () => {
-    deleteProject({ projectId: projectForm.id });
-    resetProjectForm();
-    onClose();
+    deleteProject(
+      { projectId: projectForm.id },
+      {
+        onSuccess: () => {
+          onRefetch();
+          resetProjectForm();
+          onClose();
+        },
+      }
+    );
   };
 
   if (!isOpen) return null;

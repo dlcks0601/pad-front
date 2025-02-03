@@ -19,8 +19,8 @@ interface HubSearchState {
 
 interface HubSearchAction {
   setSort: (sort: boolean) => void;
-  setRole: (roleKey: RoleItemKeys | null) => void;
-  setUnit: (unitKey: roleTagItemsKey | string | null) => void;
+  setRole: (roleKey: RoleItemKeys | '') => void;
+  setUnit: (unitKey: roleTagItemsKey | '') => void;
   reset: () => void;
 }
 

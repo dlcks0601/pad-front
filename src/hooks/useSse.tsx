@@ -36,8 +36,8 @@ const SSEClient: React.FC = () => {
     <div>
       <h1>SSE 알림</h1>
       <ul>
-        {messages.map((message, index) => (
-          <li key={index}>
+        {messages.map((message) => (
+          <li key={message.timestamp}>
             <div>
               <img
                 src={message.senderProfileUrl}

@@ -39,7 +39,7 @@ const ProjectView = ({ keyword }: { keyword: string }) => {
             nickname: project.userNickname,
             role: project.userRole,
           }}
-          createdAt={new Date().toISOString()}
+          createdAt={project.createdAT}
         />
       ))}
       <div ref={ref} className='h-1' />

@@ -47,7 +47,7 @@ const HubInfo = ({
             <div className='flex gap-[10px] text-[14px]'>
               {detailRoles.map((tag, index) => (
                 <div
-                  key={index}
+                  key={tag}
                   className='hover:text-[#525252] hover:cursor-pointer'
                   onClick={() => {
                     navigate(`/search?q=${tag}`);

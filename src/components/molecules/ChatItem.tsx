@@ -4,6 +4,7 @@ import { HandThumbUpIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 import notifyToast from '@/utils/notifyToast';
+import Avatar from '@/components/atoms/Avatar';
 
 interface ChatItemProps {
   chat: {
@@ -40,7 +41,6 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
       { id: chat.commentId },
       {
         onSuccess: () => {
-          console.log(`댓글 ${chat.commentId} 좋아요 상태 변경 성공`);
           setIsLoading(false);
         },
         onError: (error) => {
@@ -89,8 +89,8 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         'flex-row-reverse': isCurrentUser,
       })}
     >
-      <img
-        src={chat.userProfileUrl}
+      <Avatar
+        src={chat.userProfileUrl || undefined}
         alt={chat.userName}
         className='w-[40px] h-[40px] rounded-full'
       />
@@ -104,14 +104,14 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
           <p className='text-caption2 text-gray'>{chat.userRole}</p>
         </div>
         {isEditing ? (
-          <div className='flex gap-2 items-center'>
+          <div className='flex flex-row gap-2 items-center'>
             <input
               className='px-2 py-1 rounded-[10px] bg-[#EAFBFF] max-w-96 w-full focus:outline-none'
               value={editedComment}
               onChange={(e) => setEditedComment(e.target.value)}
             />
             <button
-              className='text-sm text-blue-500 hover:underline'
+              className='text-sm text-blue-500 hover:underline w-[200px]'
               onClick={handleEditSubmit}
             >
               저장
@@ -126,8 +126,8 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         ) : (
           <div
             className={clsx(
-              'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#EAFBFF]',
-              { 'bg-[#ffdfe7]': isCurrentUser }
+              'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#ffdfe7]',
+              { 'bg-[#EAFBFF]': isCurrentUser }
             )}
           >
             {chat.comment}

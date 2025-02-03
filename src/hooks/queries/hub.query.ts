@@ -54,6 +54,8 @@ export const useInfiniteFetchHubs = (
       }
       return lastPage.pagination.lastCursor;
     },
+    staleTime: 0,
+    gcTime: 0,
     initialPageParam: 0,
   });
 };
@@ -79,7 +81,6 @@ export const useDeleteHub = () => {
       queryClient.invalidateQueries({
         queryKey: ['project', projectId],
       });
-      console.log(`허브 ${projectId} 삭제 성공`);
     },
     onError: (error) => {
       console.error('허브 삭제 중 오류 발생', error);
@@ -92,16 +93,13 @@ export const useTogledHubBookmark = () => {
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return togledBookmark(projectId);
     },
-    onSuccess: () => {
-      console.log('허브 북마크 변경 성공');
-    },
     onError: (error) => {
       console.error('허브 북마크 처리중 오류 발생:', error);
     },
   });
 };
 
-export const changeHubStatus = () => {
+export const useChangeHubStatus = () => {
   return useMutation({
     mutationFn: async ({
       projectId,
@@ -112,22 +110,16 @@ export const changeHubStatus = () => {
     }) => {
       return fetchStatus(projectId, recruiting);
     },
-    onSuccess: () => {
-      console.log('허브 상태 변경 성공');
-    },
     onError: (error) => {
       console.error('허브 상태 변경 중 오류 발생:', error);
     },
   });
 };
 
-export const applyHub = () => {
+export const useApplyHub = () => {
   return useMutation({
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return fetchApply(projectId);
-    },
-    onSuccess: () => {
-      console.log('허브 지원 성공');
     },
     onError: (error) => {
       console.error('허브 지원 실패', error);
@@ -135,13 +127,10 @@ export const applyHub = () => {
   });
 };
 
-export const applyCancel = () => {
+export const useApplyCancel = () => {
   return useMutation({
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return fetchCancelApply(projectId);
-    },
-    onSuccess: () => {
-      console.log('허브 지원 취소');
     },
     onError: (error) => {
       console.error('허브 지원 취소 실패', error);
@@ -159,7 +148,7 @@ export const useFetchApplicants = (projectId: number) => {
   });
 };
 
-export const applicantsStatus = () => {
+export const useApplicantsStatus = () => {
   return useMutation({
     mutationFn: async ({
       projectId,
@@ -172,11 +161,8 @@ export const applicantsStatus = () => {
     }) => {
       return fetchApplicantsStatus(projectId, userId, status);
     },
-    onSuccess: () => {
-      console.log('지원 상태 변경');
-    },
     onError: (error) => {
-      console.log('지원 상태 변경 실패', error);
+      console.error('지원 상태 변경 실패', error);
     },
   });
 };
@@ -233,9 +219,6 @@ export const usePostHub = (): UseMutationResult<
         detail_roles,
       });
     },
-    onSuccess: () => {
-      console.log('허브 작성 성공');
-    },
     onError: (error) => {
       console.error('허브 작성 중 오류 발생:', error);
     },
@@ -287,7 +270,6 @@ export const usePutHub = () => {
       queryClient.invalidateQueries({
         queryKey: ['project', projectId],
       });
-      console.log(`허브 ${projectId} 수정 성공`);
     },
     onError: (error) => {
       console.error('허브 수정 중 오류 발생:', error);
@@ -311,9 +293,6 @@ export const useHubPostImage = (): UseMutationResult<
   return useMutation({
     mutationFn: async ({ file }: UsePostImageParams) => {
       return uploadHubImage(file);
-    },
-    onSuccess: (data) => {
-      console.log('이미지 업로드 성공:', data);
     },
     onError: (error) => {
       console.error('이미지 업로드 실패:', error);

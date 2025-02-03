@@ -11,8 +11,8 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 const StartDateSelect = () => {
-  const { start_date, setStartDate } = useHubStore((state) => ({
-    start_date: state.start_date,
+  const { startDate, setStartDate } = useHubStore((state) => ({
+    startDate: state.startDate,
     setStartDate: state.setStartDate,
   }));
 
@@ -29,17 +29,17 @@ const StartDateSelect = () => {
           variant='outline'
           className={cn(
             'w-[280px] h-[44px] justify-start text-left font-normal bg-white border-black',
-            !start_date && 'text-muted-foreground'
+            !startDate && 'text-muted-foreground'
           )}
         >
           <CalendarIcon className='mr-2 h-4 w-4' />
-          {start_date || <span>날짜를 선택해주세요.</span>}
+          {startDate || <span>날짜를 선택해주세요.</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0'>
         <Calendar
           mode='single'
-          selected={start_date ? new Date(start_date) : undefined}
+          selected={startDate ? new Date(startDate) : undefined}
           onSelect={handleDateSelect}
           initialFocus
         />

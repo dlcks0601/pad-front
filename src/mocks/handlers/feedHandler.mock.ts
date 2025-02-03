@@ -20,7 +20,6 @@ export const feedHandler = [
     }
     const data = generateFeedsMockData();
     const post = data.posts.find((post: Post) => post.postId === Number(id));
-    console.log('msw post: ', post);
     if (!post) {
       return new HttpResponse('Feed Not Found', {
         status: 404,

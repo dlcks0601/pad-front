@@ -1,6 +1,6 @@
-import Avatar from '@/components/atoms/Avatar';
 import ContentsHubUserTitle from '@/components/atoms/contents/ContentsHubUserTitle';
 import Icon from '@/components/atoms/Icon';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import PostHubModal from '@/components/organisms/modals/PostHubModal';
 import { useDeleteHub } from '@/hooks/queries/hub.query';
 import usePostHubModal from '@/hooks/usePostHubModal';
@@ -14,6 +14,7 @@ interface ContentsUserProps {
   role?: string;
   isOwnConnectionHub?: boolean;
   projectId: number;
+  userId?: number;
 }
 
 const ContentsHubUser = ({
@@ -23,31 +24,42 @@ const ContentsHubUser = ({
   profileUrl,
   isOwnConnectionHub,
   projectId,
+  userId,
 }: ContentsUserProps) => {
-  const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
-    usePostHubModal();
+  const {
+    isModalOpen,
+    openPostModal,
+    closePostModal,
+    handleSubmitConfirmation,
+  } = usePostHubModal();
   const [clicked, setClicked] = useState<boolean>(false);
   const navigate = useNavigate();
   const { mutate: deleteHub } = useDeleteHub();
+
   const handleDelete = () => {
     const confirmDelete = window.confirm('정말 삭제하시겠습니다?');
     if (confirmDelete) {
       deleteHub(projectId, {
         onSuccess: () => {
-          console.log('허브 삭제 성공');
           navigate('/projects');
         },
-        onError: (error) => {
-          console.log('허브 삭제 실패: ', error);
+        onError: () => {
           alert('삭제에 실패했습니다. 다시 시도해주세요.');
         },
       });
     }
   };
+
   return (
     <div className='flex items-center w-full justify-between'>
       <div className='flex space-x-3'>
-        <Avatar src={profileUrl} size='xs' alt={`${nickname} Avatar`} />
+        <AvatarPopup
+          profileUrl={profileUrl!}
+          avatarSize='xs'
+          nickname={nickname}
+          userId={userId!}
+          popupClassname='top-10'
+        />
         <ContentsHubUserTitle
           nickname={nickname}
           role={role}
@@ -90,8 +102,8 @@ const ContentsHubUser = ({
       {isModalOpen && (
         <PostHubModal
           onClose={closePostModal}
-          onSubmit={() => setIsSubmitted(true)}
-          onRevise={true}
+          onSubmit={handleSubmitConfirmation}
+          onRevise
           projectId={projectId}
         />
       )}

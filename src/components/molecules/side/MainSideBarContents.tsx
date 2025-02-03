@@ -1,7 +1,10 @@
 import Avatar from '@/components/atoms/Avatar';
 import { useFetchFeedRank } from '@/hooks/queries/feed.query';
+import { useNavigate } from 'react-router-dom';
 
 const MainSideBarContents = () => {
+  const navigate = useNavigate();
+
   const { data: FeedRankData, isLoading } = useFetchFeedRank();
 
   const FormattedContents = FeedRankData?.contents.map((item, index) => ({
@@ -17,15 +20,15 @@ const MainSideBarContents = () => {
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
       {FormattedContents &&
         FormattedContents.map((item) => (
-          <div key={item.postId} className='flex flex-col w-full gap-[10px]'>
+          <div
+            key={item.postId}
+            className='flex flex-col w-full gap-[10px] cursor-pointer'
+            onClick={() => navigate(`/feed/${item.postId}`)}
+          >
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-[10px]'>
                 <div className='flex text-[12px]'>{item.rank}</div>
-                <Avatar
-                  src={item.userProfileUrl}
-                  alt={item.userNickname}
-                  size='xxs'
-                />
+                <Avatar size='xxs' src={item.userProfileUrl || undefined} />
                 <div className='flex text-[12px] font-medium'>
                   {item.userNickname}
                 </div>

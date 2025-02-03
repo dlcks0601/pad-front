@@ -30,10 +30,10 @@ const ModalInput = ({
   };
 
   return (
-    <div className='flex flex-col flex-col w-full items-start w-full gap-[10px]'>
+    <div className='flex flex-col items-start w-full gap-[10px]'>
       <Input
-        spacing={'none'}
-        radius={'none'}
+        spacing='none'
+        radius='none'
         placeholder={placeholder}
         className={`border-none text-heading1 rounded-md h-[40px] bg-white w-full ${
           error && 'border-red-600'

@@ -5,6 +5,7 @@ import { useDeleteFeed } from '@/hooks/queries/feed.query';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
 import usePostModal from '@/hooks/usePostModal';
 import formatTimeAgo from '@/utils/formatTimeAgo';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 
 interface FeedDetailUserInfoProps {
   userId: number;
@@ -25,6 +26,7 @@ const FeedDetailUserInfo = ({
   createdAt,
   isWriter,
   postId,
+  userId,
 }: FeedDetailUserInfoProps) => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
     usePostModal();
@@ -48,10 +50,13 @@ const FeedDetailUserInfo = ({
   return (
     <div className='w-full flex justify-between items-center'>
       <div className='w-fit h-[40px] flex gap-[10px]'>
-        <img
-          src={userProfileUrl}
-          alt='/src/assets/logos/PAD.svg'
-          className='w-[40px] h-[40px] rounded-full'
+        <AvatarPopup
+          profileUrl={userProfileUrl}
+          avatarSize='xs'
+          avatarClassname='rounded-full'
+          nickname={userNickname}
+          userId={userId}
+          popupClassname='top-10'
         />
         <div className='flex flex-col justify-between'>
           <div className='flex text-caption1'>
@@ -105,7 +110,7 @@ const FeedDetailUserInfo = ({
         <PostFeedModal
           onClose={closePostModal}
           onSubmit={() => setIsSubmitted(true)}
-          onRevise={true}
+          onRevise
         />
       )}
     </div>

@@ -58,8 +58,8 @@ export interface HubResponse {
     startDate: string;
     duration: string;
     workType: keyof typeof meetingTagItems;
-    applyCount?: number;
-    bookMarkCount?: number;
+    applyCount: number;
+    bookmarkCount: number;
     viewCount: number;
     status: keyof typeof statusTagItems;
     createdAt: string;
@@ -148,8 +148,8 @@ export const fetchHubs = async ({
   sort,
 }: {
   cursor: number;
-  role?: string | null;
-  unit?: string | null;
+  role?: string;
+  unit?: string;
   sort: boolean;
 }) => {
   const apiPath = API_PATH.projects;
@@ -159,12 +159,12 @@ export const fetchHubs = async ({
   };
 
   // role이 유효한 경우에만 추가
-  if (role && role !== 'null') {
+  if (role && role !== '') {
     params.role = role;
   }
 
   // unit이 유효한 경우에만 추가
-  if (unit && unit !== 'null') {
+  if (unit && unit !== '') {
     params.unit = unit;
   }
 
@@ -174,7 +174,6 @@ export const fetchHubs = async ({
     params,
   });
 
-  console.log('fetchHubs 응답 데이터:', response.data);
   return response.data;
 };
 

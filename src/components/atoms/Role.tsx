@@ -1,7 +1,7 @@
-import { roleItems, roleItemsKey } from '@/constants/hub/roleItems';
+import { roleItems, RoleItemKeys } from '@/constants/hub/roleItems';
 
 export interface RoleProps {
-  role: roleItemsKey;
+  role: RoleItemKeys;
 }
 
 const Role = ({ role }: RoleProps) => {

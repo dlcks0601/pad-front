@@ -5,7 +5,7 @@ import { delayForDevelopment } from '@/mocks/handlers';
 
 export const hubsHandlers = [
   http.get(
-    `${import.meta.env.VITE_BASE_SERVER_URL}${API_PATH.connectionhub}`,
+    `${import.meta.env.VITE_BASE_SERVER_URL}${API_PATH.projects}`,
     async () => {
       await delayForDevelopment();
       const hub = generateSingleHub();

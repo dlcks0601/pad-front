@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import SideMenu from '@/components/organisms/sides/SideMenu';
 import HubSideBar from '@/components/organisms/sides/HubSideBar';
 
@@ -7,7 +7,7 @@ const HubLayout = () => {
   const location = useLocation();
 
   return (
-    <div className='min-h-screen flex'>
+    <div className='min-h-screen flex px-[10px]'>
       <div className='sticky top-0 h-screen w-[68px] z-10'>
         <SideMenu />
       </div>

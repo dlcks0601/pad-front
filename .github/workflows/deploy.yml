@@ -30,10 +30,12 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USER@$EC2_HOST << 'EOF'
             cd /home/ubuntu/front
             export NODE_OPTIONS=--max_old_space_size=2048
+            git stash
             git pull origin main
             pnpm install
-            npm run build
+            pnpm run build
             cd /home/ubuntu
+            pm2 kill
             pm2 start server.js
           EOF
 

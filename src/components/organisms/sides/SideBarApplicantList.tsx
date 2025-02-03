@@ -1,9 +1,11 @@
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import {
-  applicantsStatus,
+  useApplicantsStatus,
+  useChangeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import { useParams } from 'react-router-dom';
+import { useProjectStore } from '@/store/hubDetailStore';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBarApplicantList = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -14,7 +16,10 @@ const SideBarApplicantList = () => {
     refetch,
   } = useFetchApplicants(Number(projectId));
 
-  const changeStatusMutation = applicantsStatus();
+  const navigate = useNavigate();
+  const changeStatusMutation = useApplicantsStatus();
+  const hubTitle = useProjectStore((state) => state.project?.title);
+  const hubStatusMutation = useChangeHubStatus();
 
   const handleStatusChange = (
     userId: number,
@@ -37,6 +42,39 @@ const SideBarApplicantList = () => {
     );
   };
 
+  const handleInvite = () => {
+    if (
+      window.confirm(
+        '초대를 진행하면 허브 모집이 마감됩니다. 계속하시겠습니까?'
+      )
+    ) {
+      // ✅ 허브 마감 (recruiting: false)
+      hubStatusMutation.mutate(
+        {
+          projectId: Number(projectId),
+          recruiting: false,
+        },
+        {
+          onSuccess: () => {
+            refetch(); // ✅ 허브 상태 변경 후 지원자 목록 갱신
+
+            const acceptedApplicants =
+              ApplicantData?.applicants.filter(
+                (applicant) => applicant.status === 'Accepted'
+              ) || [];
+            const userIds = [
+              ...acceptedApplicants.map((applicant) => applicant.userId),
+            ];
+
+            navigate('/chat', {
+              state: { userIds, title: hubTitle },
+            });
+          },
+        }
+      );
+    }
+  };
+
   if (ApplicantLoading) {
     return <div className='text-center text-gray-500'>지원자 로딩 중...</div>;
   }
@@ -54,15 +92,19 @@ const SideBarApplicantList = () => {
         >
           <div className='flex items-center gap-[10px]'>
             <div className='text-[14px]'>{index + 1}</div>
-            <Avatar
-              src={applicant.profileUrl}
-              alt={applicant.nickname}
-              size='xxs'
+            <AvatarPopup
+              {...applicant}
+              avatarSize='xxs'
+              popupClassname='top-4'
             />
-            <div className='text-[14px] font-medium'>{applicant.nickname}</div>
+            <div
+              className='text-[14px] font-medium cursor-pointer'
+              onClick={() => navigate(`/@${applicant.nickname}`)}
+            >
+              {applicant.nickname}
+            </div>
           </div>
           <div className='flex gap-[10px]'>
-            {/* ✅ 상태에 따라 버튼 또는 상태 표시 */}
             {applicant.status === 'Pending' ? (
               <>
                 <button
@@ -90,6 +132,14 @@ const SideBarApplicantList = () => {
           </div>
         </div>
       ))}
+      <div className='flex flex-col'>
+        <button
+          onClick={handleInvite}
+          className='flex w-full items-center justify-center h-[40px] text-[14px] bg-gradient-to-r from-[#e7acff] to-[#6eddff] text-white rounded-md'
+        >
+          {hubTitle} 초대
+        </button>
+      </div>
     </div>
   );
 };

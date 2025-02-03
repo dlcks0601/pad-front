@@ -10,10 +10,14 @@ import {
 } from '@/hooks/queries/mypage/introduce';
 import { useAddProjectFormStore } from '@/store/addProjectFormStore';
 import { useMyPageStore } from '@/store/mypageStore';
-import queryClient from '@/utils/queryClient';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { CameraIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { ChangeEvent, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
+
+import androidIcon from '@/assets/icons/android.svg';
+import appleIcon from '@/assets/icons/apple.svg';
+import githubIcon from '@/assets/icons/github.svg';
 
 const AddProjectModal = ({
   onClose,
@@ -38,9 +42,7 @@ const AddProjectModal = ({
   };
 
   const successHandler = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['profile-info', nickname],
-    });
+    querySuccessHandler('profile-info', [nickname]);
     resetProjectForm();
     onClose();
   };
@@ -141,7 +143,7 @@ const AddProjectModal = ({
       <div className='w-full mt-4 bg-[#EAEAEA] p-5 rounded-[10px]'>
         <div className='flex flex-col gap-[13px] text-[15px]'>
           <UrlInput
-            icon={<img src='/src/assets/icons/github.svg' width={16} />}
+            icon={<img src={githubIcon} width={16} />}
             category='Github'
             placeholder='Github URL을 입력해주세요'
             name='github'
@@ -157,7 +159,7 @@ const AddProjectModal = ({
             onChange={handleChange}
           />
           <UrlInput
-            icon={<img src='/src/assets/icons/apple.svg' width={17} />}
+            icon={<img src={appleIcon} width={17} />}
             category='iOS'
             placeholder='iOS 앱 URL을 입력해주세요'
             name='ios'
@@ -165,7 +167,7 @@ const AddProjectModal = ({
             onChange={handleChange}
           />
           <UrlInput
-            icon={<img src='/src/assets/icons/android.svg' width={16} />}
+            icon={<img src={androidIcon} width={16} />}
             category='Android'
             placeholder='안드로이드 앱 URL을 입력해주세요'
             name='android'

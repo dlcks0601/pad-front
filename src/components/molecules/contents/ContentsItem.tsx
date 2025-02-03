@@ -4,7 +4,7 @@ import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import ContentsHubUser from '@/components/molecules/contents/ContentsHubUser';
 
 // 허브 컨텐츠
@@ -14,7 +14,7 @@ interface HubContentsProps {
   workType: meetingTagItemskey;
   detailRoles: roleTagItemsKey[];
   status: statusTagItemskey;
-  role: roleItemsKey;
+  role: RoleItemKeys;
   startDate: string;
   duration: string;
   bookMarkCount: number;
@@ -63,6 +63,7 @@ export const HubContents = ({
           createdAt={createdAt}
           isOwnConnectionHub={isOwnConnectionHub}
           projectId={projectId}
+          userId={user.userId}
         />
       )}
       <div className='w-full'>
@@ -78,6 +79,7 @@ export const HubContents = ({
               thumbnailUrl={thumbnailUrl}
               startDate={startDate}
               duration={duration}
+              projectId={projectId}
             />
 
             <HubFooter

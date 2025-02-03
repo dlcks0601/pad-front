@@ -13,7 +13,7 @@ const ShortFeed = ({ onClick, ...props }: IProps) => {
       className='w-full flex gap-[10px] cursor-pointer hover:bg-[#fafafa] hover:rounded-lg py-4'
       onClick={onClick}
     >
-      <Avatar size='sm' src={props.userProfileUrl} />
+      <Avatar size='sm' src={props.userProfileUrl || undefined} />
       <div className='flex flex-col ite gap-[5px] w-full'>
         <div className='flex items-center gap-[5px] relative w-full'>
           <span className='text-[16px] font-medium'>{props.userNickname}</span>

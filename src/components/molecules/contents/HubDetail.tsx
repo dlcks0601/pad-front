@@ -1,6 +1,6 @@
-import Avatar from '@/components/atoms/Avatar';
 import HubDetailUser from '@/components/atoms/contents/HubDetailUser';
-import ContentsUser from '@/components/molecules/contents/ContentsUser';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
+import ContentsHubUser from '@/components/molecules/contents/ContentsHubUser';
 import DetailContents from '@/components/molecules/contents/DetailContents';
 import HubDetailTitle from '@/components/molecules/contents/HubDetailTitle';
 import HubInfo from '@/components/molecules/contents/HubInfo';
@@ -8,9 +8,10 @@ import HubInfoTag from '@/components/molecules/contents/HubInfoTag';
 import HubIntroduce from '@/components/molecules/contents/HubIntroduce';
 import HubSkill from '@/components/molecules/contents/HubSkill';
 import HubTitle from '@/components/molecules/contents/HubTitle';
+import HubDetailFooter from '@/components/molecules/HubDetailFooter';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { skillTagItemsKey } from '@/constants/hub/skillTagItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
@@ -22,12 +23,15 @@ interface HubDetailProps {
   status: statusTagItemskey;
   detailRoles: roleTagItemsKey[];
   skills: skillTagItemsKey[];
-  role: roleItemsKey;
+  role: RoleItemKeys;
   startDate: string;
   duration: string;
   content: string;
   createdAt: string;
   projectId: number;
+  bookmarkCount: number;
+  applyCount: number;
+  viewCount: number;
   manager: {
     userId?: number;
     profileUrl: string;
@@ -53,16 +57,20 @@ const HubDetail = ({
   createdAt,
   isOwnConnectionHub,
   projectId,
+  bookmarkCount,
+  applyCount,
+  viewCount,
 }: HubDetailProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
-      <ContentsUser
+      <ContentsHubUser
         profileUrl={manager.profileUrl}
         nickname={manager.nickname}
         role={manager.role}
         createdAt={createdAt}
-        isOwnConnectionHub={isOwnConnectionHub}
+        userId={manager.userId}
         projectId={projectId}
+        isOwnConnectionHub={isOwnConnectionHub}
       />
 
       <div className='flex flex-col w-full bg-white rounded-[20px] p-[20px]'>
@@ -94,7 +102,13 @@ const HubDetail = ({
                 <div className='flex w-full mx-[20px] my-[30px]'>
                   <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center gap-[20px]'>
-                      <Avatar src={manager.profileUrl} size='sm' />
+                      <AvatarPopup
+                        profileUrl={manager.profileUrl}
+                        avatarSize='sm'
+                        nickname={manager.nickname}
+                        userId={manager.userId!}
+                        popupClassname='top-10'
+                      />
                       <div className='flex'>
                         <HubDetailUser
                           nickname={manager.nickname}
@@ -112,6 +126,12 @@ const HubDetail = ({
           )}
         </div>
       </div>
+      <HubDetailFooter
+        bookmarkCount={bookmarkCount}
+        applyCount={applyCount}
+        viewCount={viewCount}
+        projectId={projectId}
+      />
     </div>
   );
 };

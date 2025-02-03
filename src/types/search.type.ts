@@ -1,3 +1,10 @@
+import { RoleProps } from '@/components/atoms/Role';
+import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
+import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
+import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
+import { statusTagItemskey } from '@/constants/hub/statusTagItems';
+
 interface User {
   userId: number;
   userName: string;
@@ -13,16 +20,16 @@ export interface FeedResult extends User {
 }
 
 export interface ProjectResult extends User {
-  userRole: string;
+  userRole: RoleItemKeys;
   projectId: number;
   title: string;
-  role: string;
-  detailRoles: string[];
+  role: RoleProps['role'];
+  detailRoles: roleTagItemsKey[];
   skills: string[];
   startDate: string;
   duration: string;
-  hubType: '프로젝트' | '외주';
-  workType: '온라인' | '오프라인';
+  hubType: HubTagItemsKey;
+  workType: meetingTagItemskey;
 }
 
 export interface SearchModalResponse {
@@ -40,7 +47,7 @@ interface ConnectionHubResponse extends ProjectResult {
   applyCount: number;
   bookMarkCount: number;
   viewCount: number;
-  status: string;
+  status: statusTagItemskey;
   createdAt: string;
   isMarked: boolean;
 }

@@ -1,5 +1,5 @@
 import { ListItem } from '@/components/molecules/ListItem';
-import avatar from '@/assets/images/avatar.png';
+import avatar from '@/assets/images/avatar.svg';
 import Avatar from '@/components/atoms/Avatar';
 import Title from '@/components/atoms/Title';
 import clsx from 'clsx';
@@ -35,7 +35,7 @@ const UserList = () => {
         <li key={room.id} className='h-[40px]'>
           <ListItem>
             <ListItem.Col>
-              <Avatar size='xs' src={room.avatar} />
+              <Avatar size='xs' src={room.avatar || undefined} />
             </ListItem.Col>
             <ListItem.Col>
               <Title

@@ -9,8 +9,8 @@ import {
 } from '@/hooks/queries/feed.query';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import queryClient from '@/utils/queryClient';
 import usePostModal from '@/hooks/usePostModal';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 
 interface PostFeedModalProps {
   onClose: () => void;
@@ -18,7 +18,7 @@ interface PostFeedModalProps {
   onRevise?: boolean;
 }
 
-const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
+const PostFeedModal = ({ onClose, onRevise }: PostFeedModalProps) => {
   const {
     title,
     content,
@@ -28,7 +28,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     setTag,
     resetFeed,
   } = useFeedStore();
-  console.log('content: ', content);
+
   const { id } = useParams<{ id: string }>();
   const {
     data: feedData,
@@ -38,7 +38,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
     enabled: false,
   });
 
-  const { handleSubmitConfirmation } = usePostModal();
+  const { handleSubmitConfirmation, setIsSubmitted } = usePostModal();
 
   useEffect(() => {
     if (onRevise && id) {
@@ -64,28 +64,27 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
   });
 
   const handleSubmit = () => {
-    const isContentEmpty = (html: string) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const textContent = doc.body.textContent?.trim() || '';
-      return textContent === '';
-    };
+    const plainText = content.replace(/<[^>]*>?/g, '').trim() === '';
+
     const hasError = {
       title: title.trim() === '',
       tags: tags.length === 0,
-      content: isContentEmpty(content),
+      content: plainText,
     };
+
     setErrors(hasError);
 
     if (!hasError.title && !hasError.tags && !hasError.content) {
+      setIsSubmitted(true);
       if (onRevise && id) {
-        onSubmit();
         putFeed(
           { id: Number(id), title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onClose();
+              setTimeout(() => {
+                onClose();
+              }, 0);
             },
             onError: (error) => {
               console.error('피드 수정 중 오류 발생:', error);
@@ -93,16 +92,15 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
           }
         );
       } else {
-        onSubmit();
         postFeed(
           { title, tags, content },
           {
             onSuccess: () => {
               resetFeed();
-              onClose();
-              queryClient.invalidateQueries({
-                queryKey: ['feeds', true, 'null'],
-              });
+              setTimeout(() => {
+                onClose();
+                querySuccessHandler('feeds', [true, 'null']);
+              }, 0);
             },
             onError: (error) => {
               console.error('폼 제출 실패:', error);
@@ -111,7 +109,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
         );
       }
     } else {
-      console.log('폼 검증 실패:', hasError);
+      console.error('폼 검증 실패:', hasError);
     }
   };
 

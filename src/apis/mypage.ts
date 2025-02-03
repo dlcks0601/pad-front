@@ -1,3 +1,8 @@
+import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
+import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
+import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
+import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import {
   FollowUsers,
   MusicResponse,
@@ -38,11 +43,16 @@ export const getFollows = async ({
   userId,
   type,
 }: UserId & { type: 'followers' | 'following' }) => {
-  const response = await fetcher<{ followerUsers: FollowUsers[] }>({
+  const response = await fetcher<{
+    followingUsers?: FollowUsers[];
+    followerUsers?: FollowUsers[];
+  }>({
     url: `/users/${userId}/${type}`,
     method: 'GET',
   });
-  return response.data;
+  return type === 'followers'
+    ? response.data?.followerUsers
+    : response.data.followingUsers;
 };
 
 export const addProject = async ({
@@ -210,11 +220,18 @@ export interface Project {
   title: string;
   content: string;
   thumbnailUrl: string;
+  role: RoleItemKeys;
+  skills: string[];
+  detailRoles: roleTagItemsKey[];
+  hubType: HubTagItemsKey;
   startDate: string;
   duration: string;
-  recruiting: boolean;
-  view: number;
-  tags: string[];
+  workType: meetingTagItemskey;
+  applyCount: number;
+  bookmarkCount: number;
+  viewCount: number;
+  status: statusTagItemskey;
+  createdAt: string;
 }
 
 export interface HubResponse {
@@ -290,11 +307,11 @@ export const updateIntroduction = async ({
   return response.data;
 };
 
-export const updateStatus = async ({ statusId }: { statusId: number }) => {
+export const updateStatus = async ({ id }: { id: number }) => {
   const response = await fetcher({
     url: `/users/profile/status`,
     method: 'PATCH',
-    data: { statusId },
+    data: { statusId: id },
   });
   return response.data;
 };

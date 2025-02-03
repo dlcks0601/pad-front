@@ -3,20 +3,26 @@ import {
   skillTagItemsKey,
   skillTagItmesColors,
 } from '@/constants/hub/skillTagItems';
+import { useNavigate } from 'react-router-dom';
 
 interface HubSkillProps {
-  skillTags: skillTagItemsKey[];
+  skills: skillTagItemsKey[];
 }
 
-const HubSkill = ({ skillTags }: HubSkillProps) => {
+const HubSkill = ({ skills }: HubSkillProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className='flex gap-[10px] flex-wrap'>
-      {skillTags.map((skillTag) => (
+      {skills.map((skills) => (
         <div
-          key={skillTag}
-          className={`${skillTagItmesColors[skillTag]} px-[10px] py-[5px] border rounded-full bg-[#eaeaea]`}
+          key={skills}
+          className={`${skillTagItmesColors[skills]} px-[10px] py-[5px] border rounded-full bg-[#eaeaea] hover:text-[#525252] hover:cursor-pointer`}
+          onClick={() => {
+            navigate(`/search?q=${skillTagItems[skills].slice(1)}`);
+          }}
         >
-          {skillTagItems[skillTag]}
+          {skillTagItems[skills]}
         </div>
       ))}
     </div>

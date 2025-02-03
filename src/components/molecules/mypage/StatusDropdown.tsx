@@ -1,18 +1,20 @@
 import Label from '@/components/atoms/Label';
 import Dropdown from '@/components/molecules/Dropdown';
 import { STATUS_EMOJI } from '@/constants/userStatus';
-import {
-  successHandler,
-  useUpdateStatus,
-} from '@/hooks/queries/mypage/settings';
+import { useUpdateStatus } from '@/hooks/queries/mypage/settings';
 import { IDropdown, useDropdown } from '@/hooks/useDropdown';
 import { useSettingsStore } from '@/store/settingsStore';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
+export interface StatusOption extends IDropdown {
+  statusId: string;
+}
+
 const StatusDropdown = () => {
-  const options: IDropdown[] = STATUS_EMOJI;
+  const options: StatusOption[] = STATUS_EMOJI;
 
   const {
     openDropdown,
@@ -23,12 +25,12 @@ const StatusDropdown = () => {
     // onKeyDown,
     // focusedIndex,
     // setFocusedIndex,
-  } = useDropdown({ data: options, initialValue: options[0] });
+  } = useDropdown<StatusOption>({ data: options, initialValue: options[0] });
 
   const [settingsForm] = useSettingsStore(
     useShallow((state) => [state.settingsForm])
   );
-  console.log({ selectedOption });
+
   useEffect(() => {
     if (settingsForm.status) {
       setSelectedOption(
@@ -39,14 +41,14 @@ const StatusDropdown = () => {
 
   const { mutate } = useUpdateStatus();
 
-  const handleClickItem = ({ statusId }: Pick<IDropdown, 'statusId'>) => {
-    if (!statusId) return;
+  const handleClickItem = ({ id }: Pick<StatusOption, 'id'>) => {
+    if (!id) return;
     mutate(
-      { statusId },
+      { id },
       {
         onSuccess: () => {
-          successHandler();
-          onClickOption();
+          querySuccessHandler('settings-info');
+          onClickOption({ id });
         },
       }
     );
@@ -64,6 +66,7 @@ const StatusDropdown = () => {
       </button>
       {openDropdown && (
         <Dropdown
+          type='status'
           options={options}
           // focusedIndex={focusedIndex!}
           // setFocusedIndex={setFocusedIndex}

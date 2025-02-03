@@ -1,43 +1,50 @@
 import ContentsThumbnail from '@/components/atoms/contents/ContentsThumbnail';
 import HubBody from '@/components/molecules/contents/HubBody';
-import { RoleProps } from '@/components/atoms/Role';
 import HubTitle from '@/components/molecules/contents/HubTitle';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
+import { useNavigate } from 'react-router-dom';
 
 interface HubItemProps {
   title: string;
-  hubTags: HubTagItemsKey;
-  meetingTags: meetingTagItemskey;
-  roleTags: roleTagItemsKey[];
-  statusTags: statusTagItemskey;
-  role: RoleProps['role'];
+  hubType: HubTagItemsKey;
+  workType: meetingTagItemskey;
+  detailRoles: roleTagItemsKey[];
+  status: statusTagItemskey;
+  role: RoleItemKeys;
   thumbnailUrl?: string;
   startDate: string;
   duration: string;
+  projectId: number;
 }
-
 const HubItem = ({
-  hubTags,
-  meetingTags,
-  roleTags,
-  statusTags,
+  hubType,
+  workType,
+  detailRoles,
+  status,
   role,
   thumbnailUrl,
   title,
   startDate,
   duration,
+  projectId,
 }: HubItemProps) => {
+  const navigate = useNavigate();
+
   return (
-    <div className='flex flex-col gap-[20px]'>
-      <HubTitle hubTags={hubTags} title={title} />
+    <div
+      className='flex flex-col gap-[20px] cursor-pointer'
+      onClick={() => navigate(`/projects/${projectId}`)}
+    >
+      <HubTitle hubType={hubType} title={title} />
       <div className='flex justify-between'>
         <HubBody
-          statusTags={statusTags}
-          meetingTags={meetingTags}
-          roleTags={roleTags}
+          status={status}
+          workType={workType}
+          detailRoles={detailRoles}
           role={role}
           startDate={startDate}
           duration={duration}

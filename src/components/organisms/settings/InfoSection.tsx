@@ -7,13 +7,11 @@ import LinkBox from '@/components/organisms/LinkBox';
 import AddSkillModal from '@/components/organisms/modals/AddSkillModal';
 import SelectDetailJobModal from '@/components/organisms/modals/SelectDetailJobModal';
 import SettingsSection from '@/components/organisms/settings/SettingsSection';
-import {
-  successHandler,
-  useDeleteSkills,
-} from '@/hooks/queries/mypage/settings';
+import { useDeleteSkills } from '@/hooks/queries/mypage/settings';
 import { useModal } from '@/hooks/useModal';
 import { useSettingsStore } from '@/store/settingsStore';
 import { SettingsResponse } from '@/types/mypage.type';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
@@ -39,7 +37,6 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
   useEffect(() => {
     setSettingsForm({
       ...settingsInfo,
-      links: settingsInfo?.links?.map((el) => el.url),
     });
   }, [settingsInfo]);
 
@@ -47,7 +44,7 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
     deleteSkills(
       { skillData: [skill] },
       {
-        onSuccess: successHandler,
+        onSuccess: () => querySuccessHandler('settings-info'),
       }
     );
   };
@@ -104,14 +101,10 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
                 <PlusIcon width={24} />
               </button>
             </SettingsSection.InputWithLabel>
+            {/* 링크 */}
             <div className='flex flex-col gap-2'>
               <label className='text-[15px] font-medium'>링크</label>
-              <LinkBox
-                links={settingsForm.links}
-                setLinks={(value) =>
-                  setSettingsForm({ ...settingsForm, links: value })
-                }
-              />
+              <LinkBox links={settingsForm.links} />
             </div>
           </div>
         </SettingsSection.Content>

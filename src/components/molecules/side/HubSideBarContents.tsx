@@ -1,34 +1,56 @@
-import Avatar from '@/components/atoms/Avatar';
+import { fetchBestHubs } from '@/apis/hub.api';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import { hubTagItemsColors } from '@/constants/hub/hubTagItems';
-import { generateHubSideBarList } from '@/mocks/mock-data/hubSideBar.mock';
+import { HubSideBarItemType } from '@/types/hubSideBarItem.type';
+import { useEffect, useState } from 'react';
 
 const HubSideBarContents = () => {
-  const HubSideBarItems = generateHubSideBarList(5);
+  const [data, setData] = useState<HubSideBarItemType[]>([]);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isError, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getHubWeeklyBest = async () => {
+      // setIsLoading(true);
+      // setError(null);
+      try {
+        const response = await fetchBestHubs();
+
+        setData(response.popularProjects);
+      } catch (_) {
+        // setError(err.message || '데이터를 불러오는 중 오류가 발생했습니다.');
+      } finally {
+        // setIsLoading(false);
+      }
+    };
+    getHubWeeklyBest();
+  }, []);
 
   return (
     <div className='flex flex-col bg-white rounded-[10px] py-[20px] px-[20px] gap-[30px]'>
-      {HubSideBarItems.map((item) => (
-        <div key={item.rank} className='flex flex-col w-full gap-[10px]'>
+      {data.map((item, index) => (
+        <div key={item.projectId} className='flex flex-col w-full gap-[10px]'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-[10px]'>
-              <div className='flex text-[12px]'>{item.rank}</div>
-              <Avatar
-                src={item.userProfileUrl}
-                alt={item.userNickname}
-                size='xxs'
+              <div className='flex text-[12px]'>{index + 1}</div>
+              <AvatarPopup
+                {...item.user}
+                avatarSize='xxs'
+                popupClassname='top-4'
+                avatarClassname=''
               />
               <div className='flex text-[12px] font-medium'>
-                {item.userNickname}
+                {item.user.nickname}
               </div>
               <div className='flex text-[12px] font-semibold'>
-                {item.userRole}
+                {item.user.role}
               </div>
             </div>
             <div className='flex'>
               <div
-                className={`${hubTagItemsColors[item.hubTags]} text-white text-[10px] px-[5px] py-[2px] rounded-full`}
+                className={`${hubTagItemsColors[item.hubType]} text-white text-[10px] px-[5px] py-[2px] rounded-full`}
               >
-                {item.hubTags}
+                {item.hubType}
               </div>
             </div>
           </div>

@@ -17,10 +17,7 @@ const getListItemComponent = (children: ReactNode, type: any) => {
 
 // 서브 컴포넌트
 
-const ListItemSubtitle = ({
-  children = '설명',
-  className,
-}: ItemSubtitleProps) => {
+const ListItemSubtitle = ({ children, className }: ItemSubtitleProps) => {
   return <div className={className}>{children}</div>;
 };
 
@@ -49,9 +46,13 @@ const ListItemCol = ({ children, className }: ListItemColProps) => {
 };
 
 // 메인 컴포넌트
-const ListItemMain = ({ children, className }: ItemMainProps) => {
+const ListItemMain = ({ children, className, onClick }: ItemMainProps) => {
   const cols = getListItemComponent(children, (<ListItemCol />).type);
-  return <div className={cn('flex', className)}>{cols}</div>;
+  return (
+    <div className={cn('flex', className)} onClick={onClick}>
+      {cols}
+    </div>
+  );
 };
 
 export const ListItem = Object.assign(ListItemMain, {

@@ -1,4 +1,5 @@
 import { API_PATH } from '@/apis/api-path';
+import { Post } from '@/apis/feed.api';
 import { delayForDevelopment } from '@/mocks/handlers';
 import {
   generateCommentsMockData,
@@ -18,8 +19,7 @@ export const feedHandler = [
       });
     }
     const data = generateFeedsMockData();
-    const post = data.posts.find((post) => post.postId === Number(id));
-    console.log('msw post: ', post);
+    const post = data.posts.find((post: Post) => post.postId === Number(id));
     if (!post) {
       return new HttpResponse('Feed Not Found', {
         status: 404,
@@ -42,7 +42,6 @@ export const feedHandler = [
       });
     }
     const comments = generateCommentsMockData();
-    console.log('msw comments: ', comments);
     if (!comments) {
       return new HttpResponse('Feed Not Found', {
         status: 404,

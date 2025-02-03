@@ -3,16 +3,21 @@ import SearchChannel from '@/components/organisms/chat/SearchChannel';
 import useDebounce from '@/hooks/useDebounce';
 import { useChatStore } from '@/store/chatStore';
 import { filterChannels } from '@/utils/filter';
-import { useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 const ChatSidebar = () => {
-  const [keyword, setKeyword] = useState('');
+  const { channels, keyword, setKeyword } = useChatStore(
+    useShallow((state) => ({
+      channels: state.channels,
+      keyword: state.channelSearchKeyword,
+      setKeyword: state.setChannelSearchKeyword,
+    }))
+  );
   const debouncedKeyword = useDebounce(keyword, 300);
-  const channels = useChatStore((state) => state.channels);
   const filteredChannels = filterChannels(debouncedKeyword, channels);
 
   return (
-    <div className='flex flex-col gap-[24px] flex-1'>
+    <div className='flex flex-col gap-[24px] flex-1 mb-[120px]'>
       <SearchChannel
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}

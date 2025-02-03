@@ -59,11 +59,11 @@ const router = [
     element: <HubLayout />,
     children: [
       {
-        path: '/connectionhub',
+        path: '/projects',
         element: <ConnectionHubPage />,
       },
       {
-        path: '/connectionhubdetailpage',
+        path: '/projects/:projectId',
         element: <ConnetcionHubDetailPage />,
       },
     ],
@@ -73,11 +73,16 @@ const router = [
     element: <SubLayout />,
     children: [
       {
-        path: '/chat',
+        index: true,
+        element: <ChatPage />,
+      },
+      {
+        path: '/chat/channels/:channelId',
         element: <ChatPage />,
       },
     ],
   },
+
   {
     path: '/login/pad',
     element: <PadLoginPage />,

@@ -9,8 +9,8 @@ import {
   statusTagItems,
   statusTagItemskey,
 } from '@/constants/hub/statusTagItems';
-import { DetailItemType } from '@/mocks/mock-data/detailItem';
-import { faker } from '@faker-js/faker';
+import { DetailItem } from '@/mocks/mock-data/detailItem';
+import { fakerKO as faker } from '@faker-js/faker';
 
 const skillTagOptions = Object.keys(skillTagItems) as skillTagItemsKey[];
 const meetingTagOptions = Object.keys(meetingTagItems) as meetingTagItemskey[];
@@ -23,44 +23,46 @@ const getRandomElements = <T>(array: T[], min: number, max: number): T[] => {
   return faker.helpers.shuffle(array).slice(0, count);
 };
 
-const calculateTimeAgo = (createdAt: Date): string => {
-  const now = new Date();
-  const diffInMs = now.getTime() - createdAt.getTime();
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+// const calculateTimeAgo = (createdAt: Date): string => {
+//   const now = new Date();
+//   const diffInMs = now.getTime() - createdAt.getTime();
+//   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-  if (diffInHours < 24) {
-    return `${diffInHours}시간 전`;
-  }
+//   if (diffInHours < 24) {
+//     return `${diffInHours}시간 전`;
+//   }
 
-  const diffInDays = Math.floor(diffInHours / 24);
-  return `${diffInDays}일 전`;
-};
+//   const diffInDays = Math.floor(diffInHours / 24);
+//   return `${diffInDays}일 전`;
+// };
 
-const createdAt = faker.date.recent({ days: 7 }); // 최근 7일 이내
-const timeAgo = calculateTimeAgo(createdAt);
+// const createdAt = faker.date.recent({ days: 7 }); // 최근 7일 이내
+// const timeAgo = calculateTimeAgo(createdAt);
 
-export const generatesingleHubDetail = (): DetailItemType => {
+let projectId = 0;
+
+export const generatesingleHubDetail = (): DetailItem => {
   return {
+    applyCount: faker.helpers.rangeToNumber({ min: 1, max: 10 }),
+    bookMarkCount: faker.helpers.rangeToNumber({ min: 1, max: 100 }),
+    projectId: ++projectId,
+    viewCount: faker.helpers.rangeToNumber({ min: 1, max: 1000 }),
     title: faker.lorem.sentence(),
-    role: faker.helpers.arrayElement(['PROGRAMMER', 'DESIGNER', 'ARTIST']),
+    role: faker.helpers.arrayElement(['Programmer', 'Designer', 'Artist']),
     startDate: faker.date.future().toISOString().split('T')[0],
     duration: `${faker.number.int({ min: 1, max: 12 })}개월`,
-    hubTags: faker.helpers.arrayElement(hubTagOptions),
-    meetingTags: faker.helpers.arrayElement(meetingTagOptions),
-    statusTags: faker.helpers.arrayElement(statusTagOptions),
-    roleTags: getRandomElements(roleTagOptions, 1, 3),
-    skillTags: getRandomElements(skillTagOptions, 1, 3),
+    hubType: faker.helpers.arrayElement(hubTagOptions),
+    workType: faker.helpers.arrayElement(meetingTagOptions),
+    status: faker.helpers.arrayElement(statusTagOptions),
+    detailRoles: getRandomElements(roleTagOptions, 1, 3),
+    skills: getRandomElements(skillTagOptions, 1, 3),
     contents: faker.lorem.lines(),
     user: {
-      userProfileUrl: faker.image.avatar(),
-      userNickname: faker.internet.userName(),
-      userRole: faker.helpers.arrayElement([
-        'Programmer',
-        'Artist',
-        'Designer',
-      ]),
-      userIntroduce: faker.person.jobDescriptor(),
-      createdAt: timeAgo,
+      createdAt: faker.date.recent({ days: 7 }).toISOString(),
+      profileUrl: faker.image.avatar(),
+      nickname: faker.internet.userName(),
+      role: faker.helpers.arrayElement(['Programmer', 'Artist', 'Designer']),
+      introduce: faker.person.jobDescriptor(),
     },
   };
 };
@@ -68,7 +70,7 @@ export const generatesingleHubDetail = (): DetailItemType => {
 // 목데이터 생성
 const ITEM_COUNT = 1;
 
-export const hubDetailMocks: DetailItemType[] = Array.from(
+export const hubDetailMocks: DetailItem[] = Array.from(
   { length: ITEM_COUNT },
   () => generatesingleHubDetail()
 );

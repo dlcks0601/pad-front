@@ -13,6 +13,7 @@ interface RefreshResopnse {
 }
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_SERVER_URL;
+// axios.defaults.baseURL = import.meta.env.VITE_LOCAL_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -38,7 +39,6 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
-        console.log('updateToken 패칭 요청됨.');
         const userId = getUserId();
         if (!userId) {
           console.error('User ID가 존재하지 않습니다. 로그아웃 처리 중...');
@@ -51,9 +51,7 @@ axiosInstance.interceptors.response.use(
         );
         const { accessToken } = refreshResponse.data;
         useAuthStore.getState().setAccessToken(accessToken);
-        console.log('zustand에 업데이트');
         error.config.headers.Authorization = `Bearer ${accessToken}`;
-        console.log('원래 요청 다시 실행됨.');
         return await axiosInstance.request(error.config);
       } catch (refreshError) {
         console.error('Refresh Token 만료:', refreshError);

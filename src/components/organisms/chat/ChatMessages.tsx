@@ -1,99 +1,115 @@
+import LoadingDots from '@/components/molecules/LoadingDots';
 import Messages from '@/components/organisms/chat/Messages';
-import { useInfiniteMessages } from '@/hooks/useInfiniteMessages';
-import { ChatState, useChatStore } from '@/store/chatStore';
-import { SearchState } from '@/store/searchStore';
-import { UIEvent, useEffect, useRef } from 'react';
+import { useInfiniteMessagesQuery } from '@/hooks/chat/useMessages';
+import { useScroll } from '@/hooks/useScroll';
+import { useChatStore } from '@/store/chatStore';
+import { Channel } from '@/types/channel.type';
+import { ReceiveMessage } from '@/types/message.type';
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useShallow } from 'zustand/shallow';
 
 interface ChatMessagesProps {
-  currentChannelId: NonNullable<ChatState['currentChannelId']>;
+  currentChannelId: Channel['channelId'];
 }
 
 const ChatMessages = ({ currentChannelId }: ChatMessagesProps) => {
   const {
-    isLoading,
-    setState,
-    isFetching,
-    fetchNextPage,
-    fetchPreviousPage,
+    data,
+    // hasPreviousPage,
+    // fetchPreviousPage,
     hasNextPage,
-    hasPreviousPage,
-    direction: lastDirection,
-    mode,
-  } = useInfiniteMessages(currentChannelId);
+    fetchNextPage,
+    isLoading,
+    refetch,
+    isFetching,
+  } = useInfiniteMessagesQuery(currentChannelId);
 
-  const messages = useChatStore((state) => state.messages[currentChannelId]);
-  const previousHeightRef = useRef(0);
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const { socketMessages, updatedNeeded, setState } = useChatStore(
+    useShallow((state) => ({
+      socketMessages: state.messages[currentChannelId!],
+      updatedNeeded: state.updateNeeded,
+      setState: state.setState,
+    }))
+  );
 
-  const loadMore = (direction: SearchState['direction']) => {
-    if (isFetching) return;
-    if (direction === lastDirection) {
-      switch (direction) {
-        case 'forward':
-          if (!hasNextPage) return;
-          fetchNextPage();
-          break;
-        case 'backward':
-          if (!hasPreviousPage) return;
-          fetchPreviousPage();
-          break;
-      }
-    } else {
-      setState({ direction });
-    }
-  };
+  const { ref: loadPrevRef, inView: isTopInView } = useInView({
+    threshold: 1,
+  });
 
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    if (mode === 'search') return;
-    const scrollContainer = e.currentTarget;
-    const { scrollTop, clientHeight, scrollHeight } = scrollContainer;
-    const top = 0;
-    const bottom = scrollTop + clientHeight;
-    if (scrollTop === top) {
-      loadMore('backward');
-    } else if (scrollHeight === bottom) {
-      loadMore('forward');
-    }
-  };
+  const messages = useMemo(() => {
+    const infiniteMessages = data
+      ? data.pages?.flatMap((page) => page.messages)
+      : [];
+    const messages = [
+      ...(infiniteMessages ? infiniteMessages : []),
+      ...(socketMessages ? socketMessages : []),
+    ];
 
-  // 스크롤 위치 조정
+    return deduplicateAndSortMessages(messages);
+  }, [data, socketMessages]);
+
+  const totalImages = messages.filter((message) => message.type === 'image');
+
+  const { handleImageLoad, scrollContainerRef } = useScroll<ReceiveMessage>({
+    datas: messages,
+    totalImageCount: totalImages.length,
+  });
+
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
+    refetch();
+  }, [currentChannelId]);
 
-    if (
-      !scrollContainer ||
-      isFetching ||
-      messages.length === 0 ||
-      mode === 'search'
-    ) {
-      return;
+  useEffect(() => {
+    if (updatedNeeded) {
+      refetch();
+      setState({ updateNeeded: false });
     }
+  }, [updatedNeeded]);
 
-    const newHeight = scrollContainer.scrollHeight;
-    scrollContainer.scrollTop =
-      scrollContainer.scrollTop + (newHeight - previousHeightRef.current);
-    previousHeightRef.current = scrollContainer.scrollHeight;
-  }, [messages]);
+  useEffect(() => {
+    if (isTopInView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isTopInView, hasNextPage]);
 
   if (isLoading) {
-    return <div>메시지 불러오는중...</div>;
+    return (
+      <div className='flex justify-center grow'>
+        <LoadingDots />
+      </div>
+    );
   }
 
   return (
     <div
       ref={scrollContainerRef}
-      onScroll={handleScroll}
-      // onWheel={() => setState({ mode: 'scroll' })}
-      // onMouseDown={() => setState({ mode: 'scroll' })}
-      // onMouseUp={() => setState({ mode: 'search' })}
-      // onTouchStart={() => setState({ mode: 'scroll' })}
-      // onTouchEnd={() => setState({ mode: 'search' })}
+      // onScroll={() => setState({ searchMode: false })}
       className='grow pl-[56px] pr-[46px] flex flex-col overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'
     >
-      <Messages messages={messages} />
+      {messages && (
+        <>
+          {hasNextPage && <div ref={loadPrevRef}></div>}
+          {isFetching && <LoadingDots />}
+          <Messages messages={messages} handleImageLoad={handleImageLoad} />
+        </>
+      )}
     </div>
   );
 };
+
+function deduplicateAndSortMessages(
+  messages: ReceiveMessage[]
+): ReceiveMessage[] {
+  // 1. messageId 기준으로 정렬
+  const sortedMessages = messages.toSorted((a, b) => a.messageId - b.messageId);
+
+  // 2. 중복 제거 (messageId가 동일한 경우 첫 번째 메시지만 유지)
+  const uniqueMessages = sortedMessages.filter((message, index, arr) => {
+    return index === 0 || message.messageId !== arr[index - 1].messageId;
+  });
+
+  return uniqueMessages;
+}
 
 export default ChatMessages;

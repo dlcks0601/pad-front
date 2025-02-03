@@ -9,7 +9,7 @@ const ApplyButton = ({ text, gradient }: ApplyButtonProps) => {
   return (
     <div className='flex items-center text-[18px] font-semibold'>
       <Button
-        width='280px'
+        width='314px'
         height='50px'
         variants='filled'
         radius='md'
@@ -52,11 +52,3 @@ export const CloseButton = () => (
 export const ClosedButton = () => (
   <ApplyButton text='마감' gradient='bg-#cccccc' />
 );
-
-export default {
-  ProjectApplyButton,
-  OutsourcingApplyButton,
-  CompleteApplyButton,
-  CloseButton,
-  ClosedButton,
-};

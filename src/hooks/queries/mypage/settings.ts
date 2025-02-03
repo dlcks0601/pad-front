@@ -9,12 +9,13 @@ import {
   Notification,
   updateDetailJob,
   updateIntroduction,
+  updateLink,
   updateNickname,
   updateNotification,
   updateProfileImage,
   updateStatus,
 } from '@/apis/mypage';
-import queryClient from '@/utils/queryClient';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGetSettingsInfo = () => {
@@ -24,8 +25,8 @@ export const useGetSettingsInfo = () => {
   });
 };
 
-export const successHandler = () => {
-  queryClient.invalidateQueries({ queryKey: ['settings-info'] });
+const successHandler = () => {
+  querySuccessHandler('settings-info');
 };
 
 export const useUpdateNickname = () => {
@@ -51,8 +52,7 @@ export const useUpdateIntroduction = () => {
 
 export const useUpdateStatus = () => {
   return useMutation({
-    mutationFn: ({ statusId }: { statusId: number }) =>
-      updateStatus({ statusId }),
+    mutationFn: ({ id }: { id: number }) => updateStatus({ id }),
     onSuccess: successHandler,
   });
 };
@@ -81,16 +81,24 @@ export const useDeleteSkills = () => {
   });
 };
 
-export const useAddLinks = () => {
+export const useAddLink = () => {
   return useMutation({
-    mutationFn: ({ links }: { links: string[] }) => addLink({ links }),
+    mutationFn: ({ link }: { link: string }) => addLink({ link }),
     onSuccess: successHandler,
   });
 };
 
 export const useDeleteLink = () => {
   return useMutation({
-    mutationFn: ({ linkIds }: { linkIds: number[] }) => deleteLink({ linkIds }),
+    mutationFn: ({ linkId }: { linkId: number }) => deleteLink({ linkId }),
+    onSuccess: successHandler,
+  });
+};
+
+export const useUpdateLink = () => {
+  return useMutation({
+    mutationFn: ({ linkId, url }: { linkId: number; url: string }) =>
+      updateLink({ linkId, url }),
     onSuccess: successHandler,
   });
 };

@@ -1,10 +1,8 @@
 import Avatar from '@/components/atoms/Avatar';
 import Button from '@/components/atoms/Button';
-import {
-  successHandler,
-  useUpdateImage,
-} from '@/hooks/queries/mypage/settings';
+import { useUpdateImage } from '@/hooks/queries/mypage/settings';
 import { useSettingsStore } from '@/store/settingsStore';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { ChangeEvent, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 
@@ -26,7 +24,7 @@ const ProfileAvatar = () => {
       },
       {
         onSuccess: () => {
-          successHandler();
+          querySuccessHandler('settings-info');
           setSettingsForm({ ...settingsForm, profileUrl: file });
           alert('파일이 저장되었습니다.');
         },
@@ -45,9 +43,9 @@ const ProfileAvatar = () => {
     <div className='flex gap-[22px] py-[10px]'>
       <Avatar
         src={
-          settingsForm.profileUrl instanceof File
+          (settingsForm.profileUrl instanceof File
             ? URL.createObjectURL(settingsForm.profileUrl)
-            : (settingsForm.profileUrl as string)
+            : (settingsForm.profileUrl as string)) || undefined
         }
         size='md'
         className='bg-[#EDEDED] object-cover'

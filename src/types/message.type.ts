@@ -1,7 +1,7 @@
 import { Channel } from '@/types/channel.type';
 import { User } from '@/types/user.type';
 
-type MessageTypes = 'image' | 'text';
+export type MessageTypes = 'image' | 'text' | 'exit';
 
 export interface Message {
   type: MessageTypes;
@@ -13,10 +13,16 @@ export interface SendMessage extends Message {
   userId: User['userId'];
 }
 
+export interface FileMessage extends Omit<SendMessage, 'content'> {
+  content: File;
+}
+
 export interface ReceiveMessage extends Message {
   messageId: number;
   date: string;
   user: User;
+  userId: User['userId'];
+  readCount: number;
 }
 
 export interface LastMessage extends Message {
@@ -28,7 +34,7 @@ export interface LastMessage extends Message {
 export interface FetchChannelMessagesRequest {
   channelId: Channel['channelId'];
   limit: number;
-  cursor: ReceiveMessage['messageId'] | null;
+  cursor: number | null;
   direction: 'forward' | 'backward';
 }
 
@@ -43,7 +49,7 @@ export interface FetchChannelMessagesResponse {
 export interface SearchChannelMessagesRequest {
   channelId: Channel['channelId'];
   limit: number;
-  cursor: ReceiveMessage['messageId'] | null;
+  cursor: number | null;
   keyword: string;
   direction: 'forward' | 'backward';
 }

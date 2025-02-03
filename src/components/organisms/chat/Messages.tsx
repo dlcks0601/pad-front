@@ -1,4 +1,5 @@
 import Date from '@/components/atoms/Date';
+import ExitMessage from '@/components/molecules/chat/ExitMessage';
 import WelcomeMessage from '@/components/molecules/chat/WelcomeMessage';
 import Message from '@/components/organisms/chat/Message';
 import useAuthStore from '@/store/authStore';
@@ -7,13 +8,14 @@ import { formatDateMessages } from '@/utils/format';
 import { Fragment } from 'react/jsx-runtime';
 interface MessagesProps {
   messages: ReceiveMessage[];
+  handleImageLoad: () => void;
 }
 
-const Messages = ({ messages }: MessagesProps) => {
+const Messages = ({ messages, handleImageLoad }: MessagesProps) => {
   const dateMessages = Object.entries(formatDateMessages(messages));
 
   // 유저 정보 관련 로직
-  const user = useAuthStore.getState().userInfo!;
+  const user = useAuthStore.getState().userInfo;
   const myUserId = user.userId;
 
   return dateMessages?.length ? (
@@ -24,15 +26,20 @@ const Messages = ({ messages }: MessagesProps) => {
             {date}
           </Date>
           {messages.map((message, i) => {
+            if (message.type === 'exit') {
+              return <ExitMessage key={message.messageId} message={message} />;
+            }
+
             const isMyMessage = message.user.userId === myUserId;
             const sameBefore =
-              i > 0 && message.user.userId === messages[i - 1].user.userId;
+              i > 0 && message.user.userId === messages[i - 1]?.user?.userId;
             return (
               <Message
                 key={message.messageId}
                 message={message}
                 sameBefore={sameBefore}
                 isMyMessage={isMyMessage}
+                handleImageLoad={handleImageLoad}
               />
             );
           })}

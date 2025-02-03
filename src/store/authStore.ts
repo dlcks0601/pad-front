@@ -16,7 +16,7 @@ const useAuthStore = create(
             email: '',
             name: '',
             nickname: '',
-            userImage: '',
+            profileUrl: '',
             roleId: 0,
             userId: 0,
           },
@@ -28,7 +28,6 @@ const useAuthStore = create(
             sessionStorage.setItem('@token', token);
           },
           login: (user: User, token: string) => {
-            console.log('zustand login 호출됨.');
             set({
               isLoggedIn: true,
               accessToken: token,
@@ -46,12 +45,12 @@ const useAuthStore = create(
                 email: '',
                 name: '',
                 nickname: '',
-                userImage: '',
+                profileUrl: '',
                 roleId: 0,
                 userId: 0,
               },
             });
-            // localStorage.removeItem('@token');
+            sessionStorage.removeItem('auth-storage');
             sessionStorage.removeItem('@token');
           },
           setUserRole: (userRole: number) => {

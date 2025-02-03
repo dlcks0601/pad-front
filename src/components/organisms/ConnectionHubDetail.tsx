@@ -3,9 +3,6 @@ import { useFetchHub } from '@/hooks/queries/hub.query';
 import useAuthStore from '@/store/authStore';
 import { useProjectStore } from '@/store/hubDetailStore';
 import { useParams } from 'react-router-dom';
-// import useHandlePopState from '@/hooks/useHandlePopState';
-// import { useSearchModal } from '@/store/modals/searchModalstore';
-// import { useShallow } from 'zustand/shallow';
 import { useEffect } from 'react';
 
 const ConnectionHubDetail = () => {
@@ -21,12 +18,6 @@ const ConnectionHubDetail = () => {
     (state) => state.isOwnConnectionHub
   );
   const currentUserId = useAuthStore((state) => state.userInfo.userId);
-
-  // NOTE: 검색 모달 관련 코드
-  // const { openModal, keyword, setKeyword } = useSearchModal(
-  //   useShallow((state) => state)
-  // );
-  // useHandlePopState(keyword, openModal, setKeyword);
 
   useEffect(() => {
     setProject(null, currentUserId);

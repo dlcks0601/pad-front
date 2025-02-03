@@ -21,11 +21,11 @@ const Menu = ({ items }: MenuProps) => {
           <div className='relative flex-shrink-0'>
             <Icon
               type={item.type}
-              className='h-7 w-7 text-[#838383] transition-all duration-200 ease-in-out group-hover:text-black'
+              className='h-6 w-6 text-[#838383] transition-all duration-200 ease-in-out group-hover:text-black'
             />
             {/* 🔔 알림이 있으면 빨간 점 추가 */}
             {item.hasNotification && (
-              <span className='absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse'></span>
+              <span className='absolute top-[1px] left-3 w-2 h-2 bg-red-500 rounded-full animate-pulse'></span>
             )}
           </div>
 

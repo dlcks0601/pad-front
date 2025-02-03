@@ -126,8 +126,8 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         ) : (
           <div
             className={clsx(
-              'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#EAFBFF]',
-              { 'bg-[#ffdfe7]': isCurrentUser }
+              'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#ffdfe7]',
+              { 'bg-[#EAFBFF]': isCurrentUser }
             )}
           >
             {chat.comment}

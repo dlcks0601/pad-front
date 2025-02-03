@@ -93,9 +93,6 @@ export const usePostFeed = (): UseMutationResult<
     mutationFn: async ({ title, tags, content }: FeedRequest) => {
       return postFeed(title, tags, content);
     },
-    // onSuccess: () => {
-    //   console.log('피드 작성 성공');
-    // },
     onError: (error) => {
       console.error('피드 작성 중 오류 발생:', error);
     },
@@ -180,9 +177,6 @@ export const usePutChatLike = () => {
     mutationFn: async ({ id }: { id: number }) => {
       return putChatLike(id);
     },
-    // onSuccess: () => {
-    //   console.log('댓글에 대한 좋아요 변경 성공');
-    // },
     onError: (error) => {
       console.error('댓글 좋아요 처리중 오류 발생:', error);
     },
@@ -194,9 +188,6 @@ export const usePatchFeedLike = () => {
     mutationFn: async ({ id }: { id: number }) => {
       return patchFeedLike(id);
     },
-    // onSuccess: () => {
-    //   console.log('피드에 대한 좋아요 변경 성공');
-    // },
     onError: (error) => {
       console.error('피드 좋아요 처리중 오류 발생:', error);
     },
@@ -250,9 +241,6 @@ export const usePostImage = (): UseMutationResult<
   return useMutation({
     mutationFn: async ({ file }: UsePostImageParams) => {
       return uploadImage(file);
-    },
-    onSuccess: (data) => {
-      console.log('이미지 업로드 성공:', data);
     },
     onError: (error) => {
       console.error('이미지 업로드 실패:', error);

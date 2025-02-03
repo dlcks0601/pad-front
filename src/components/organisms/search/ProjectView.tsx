@@ -28,8 +28,6 @@ const ProjectView = ({ keyword }: { keyword: string }) => {
     return <div className='text-[14px]'>검색 결과가 존재하지 않습니다.</div>;
   }
 
-  console.log(hubs?.pages[0].projects);
-
   return (
     <div className='flex flex-col gap-10'>
       {hubs?.pages[0].projects?.map((project) => (

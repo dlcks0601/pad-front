@@ -70,8 +70,6 @@ const SideBarApplicantList = () => {
               writeUserId,
             ];
 
-            console.log('초대된 사용자:', userIds); // ✅ 초대된 사용자 확인
-
             // ✅ 초대된 사용자와 함께 채팅으로 이동
             navigate('/chat', {
               state: { userIds, title: hubTitle },

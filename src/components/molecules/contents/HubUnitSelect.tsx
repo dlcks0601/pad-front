@@ -71,7 +71,6 @@ const HubUnitSelect = () => {
   const handleUnitChange = (value: string) => {
     const selectedUnit = value === 'All' ? null : value;
     setUnit(selectedUnit);
-    console.log('선택된 유닛:', selectedUnit); // ✅ 선택된 유닛 콘솔 출력
   };
 
   const roleKey = role ? roleValueToKeyMap[role] : null;

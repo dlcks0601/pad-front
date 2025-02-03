@@ -91,9 +91,6 @@ export const useTogledHubBookmark = () => {
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return togledBookmark(projectId);
     },
-    onSuccess: () => {
-      console.log('허브 북마크 변경 성공');
-    },
     onError: (error) => {
       console.error('허브 북마크 처리중 오류 발생:', error);
     },
@@ -111,9 +108,6 @@ export const changeHubStatus = () => {
     }) => {
       return fetchStatus(projectId, recruiting);
     },
-    onSuccess: () => {
-      console.log('허브 상태 변경 성공');
-    },
     onError: (error) => {
       console.error('허브 상태 변경 중 오류 발생:', error);
     },
@@ -125,9 +119,6 @@ export const applyHub = () => {
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return fetchApply(projectId);
     },
-    onSuccess: () => {
-      console.log('허브 지원 성공');
-    },
     onError: (error) => {
       console.error('허브 지원 실패', error);
     },
@@ -138,9 +129,6 @@ export const applyCancel = () => {
   return useMutation({
     mutationFn: async ({ projectId }: { projectId: number }) => {
       return fetchCancelApply(projectId);
-    },
-    onSuccess: () => {
-      console.log('허브 지원 취소');
     },
     onError: (error) => {
       console.error('허브 지원 취소 실패', error);
@@ -171,11 +159,8 @@ export const applicantsStatus = () => {
     }) => {
       return fetchApplicantsStatus(projectId, userId, status);
     },
-    onSuccess: () => {
-      console.log('지원 상태 변경');
-    },
     onError: (error) => {
-      console.log('지원 상태 변경 실패', error);
+      console.error('지원 상태 변경 실패', error);
     },
   });
 };
@@ -231,9 +216,6 @@ export const usePostHub = (): UseMutationResult<
         skills,
         detail_roles,
       });
-    },
-    onSuccess: () => {
-      console.log('허브 작성 성공');
     },
     onError: (error) => {
       console.error('허브 작성 중 오류 발생:', error);
@@ -309,9 +291,6 @@ export const useHubPostImage = (): UseMutationResult<
   return useMutation({
     mutationFn: async ({ file }: UsePostImageParams) => {
       return uploadHubImage(file);
-    },
-    onSuccess: (data) => {
-      console.log('이미지 업로드 성공:', data);
     },
     onError: (error) => {
       console.error('이미지 업로드 실패:', error);

@@ -11,6 +11,7 @@ import {
   MissedNotificationsResponse,
 } from '@/apis/notification.api';
 import useAuthStore from '@/store/authStore';
+import { querySuccessHandler } from '@/utils/querySuccessHandler';
 
 // 읽지 않은 알림 조회
 export const useFetchMissedNotifications = (): UseQueryResult<
@@ -18,7 +19,6 @@ export const useFetchMissedNotifications = (): UseQueryResult<
   Error
 > => {
   const token = useAuthStore.getState().accessToken; // ✅ 토큰 가져오기
-  console.log('useFetchMissedNotifications 요청됨');
   return useQuery<MissedNotificationsResponse>({
     queryKey: ['missedNotifications'],
     queryFn: fetchMissedNotifications,
@@ -40,10 +40,7 @@ export const usePatchNotificationAsRead = (): UseMutationResult<
     mutationFn: async ({ notificationId }: { notificationId: string }) => {
       return patchNotificationsAsRead(notificationId);
     },
-    onSuccess: (_, { notificationId }) => {
-      queryClient.invalidateQueries({ queryKey: ['missedNotifications'] });
-      console.log(`알림 ${notificationId} 읽음 처리 성공`);
-    },
+    onSuccess: () => querySuccessHandler('missedNotifications'),
     onError: (error) => {
       console.error('알림 읽음 처리 중 오류 발생:', error);
     },
@@ -71,10 +68,7 @@ export const usePatchAllNotificationsAsRead = (): UseMutationResult<
         )
       );
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['missedNotifications'] });
-      console.log('모든 알림 읽음 처리 완료');
-    },
+    onSuccess: () => querySuccessHandler('missedNotifications'),
     onError: (error) => {
       console.error('모든 알림 읽음 처리 중 오류 발생:', error);
     },

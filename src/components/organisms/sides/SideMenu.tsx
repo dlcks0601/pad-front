@@ -79,7 +79,6 @@ const SideMenu = () => {
       console.log('✅ SSE 연결 성공');
     });
     eventSource.addEventListener('message', (event) => {
-      console.log('📩 새 알림 도착');
       const data: NotificationProp = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
       setNewNotification(true);
@@ -98,7 +97,6 @@ const SideMenu = () => {
   };
 
   const handleCheckNotificationClick = (notificationId: number) => {
-    console.log(`🔵 알림 ${notificationId} 읽음 처리 요청`);
     markAsRead({ notificationId: String(notificationId) });
     // ✅ 상태에서 즉시 제거
     setMessages((prevMessages) =>

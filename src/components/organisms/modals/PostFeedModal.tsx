@@ -103,7 +103,7 @@ const PostFeedModal = ({ onClose, onSubmit, onRevise }: PostFeedModalProps) => {
         );
       }
     } else {
-      console.log('폼 검증 실패:', hasError);
+      console.error('폼 검증 실패:', hasError);
     }
   };
 

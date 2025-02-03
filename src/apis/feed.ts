@@ -152,11 +152,9 @@ export const deleteFeedChat = async (
   postId: Post['postId'],
   commentId: Comment['commentId']
 ) => {
-  console.log('deleteFeedChat 요청됨');
   const apiPath = API_PATH.feedChatDelete
     .replace(':id', postId.toString())
     .replace(':commentId', commentId.toString());
-  console.log('apiPath: ', apiPath);
   const response = await fetcher({
     url: apiPath,
     method: 'DELETE',

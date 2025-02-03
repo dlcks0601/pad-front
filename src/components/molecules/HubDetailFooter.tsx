@@ -41,10 +41,7 @@ const HubDetailFooter = ({
     toggleBookmark(
       { projectId },
       {
-        onSuccess: () => {
-          console.log('북마크 상태 변경 성공');
-          setIsLoading(false);
-        },
+        onSuccess: () => setIsLoading(false),
         onError: (error) => {
           console.error('북마크 상태 변경 실패:', error);
           setBookmarked((prev) => !prev);

@@ -15,13 +15,24 @@ const HubIntroduce = ({ nickname }: IProps) => {
     (state) => state.project?.manager.userId
   );
   const { mutate } = useFollow();
-  const { data: mangerData, refetch } = useGetProfileHeader(nickname);
+  const {
+    data: mangerData,
+    refetch,
+    isLoading,
+  } = useGetProfileHeader(nickname);
 
-  const isFollowing = mangerData?.isFollowing;
-  const userId = mangerData?.userId;
+  if (isLoading) {
+    return <p>로딩 중...</p>;
+  }
+
+  if (!mangerData) {
+    return <p>데이터를 불러올 수 없습니다.</p>;
+  }
+
+  const isFollowing = mangerData.isFollowing;
+  const userId = mangerData.userId;
 
   const handleFollow = () => {
-    if (!userId) return;
     mutate(
       { targetId: userId },
       {
@@ -34,6 +45,7 @@ const HubIntroduce = ({ nickname }: IProps) => {
       }
     );
   };
+
   return (
     <div className='flex gap-[10px]'>
       <Button
@@ -67,4 +79,5 @@ const HubIntroduce = ({ nickname }: IProps) => {
     </div>
   );
 };
+
 export default HubIntroduce;

@@ -7,7 +7,7 @@ import useIntroduction from '@/hooks/mypage/useIntroduction.business';
 import useIntroductionUI from '@/hooks/mypage/useIntroduction.ui';
 import ArtistWorkList from '@/components/molecules/mypage/ArtistWorkList';
 import ProgrammerWorkList from '@/components/molecules/mypage/ProgrammerWorkList';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import Contribution from '@/components/organisms/mypage/Contribution';
 
 const IntroductionTemplate = () => {
@@ -82,7 +82,7 @@ const IntroductionTemplate = () => {
       ) : (
         <ProgrammerWorkList
           isMusicWorkValid={isMusicWorkValid}
-          role={role as roleItemsKey}
+          role={role as RoleItemKeys}
           handleWorks={handleWorks}
         />
       )}

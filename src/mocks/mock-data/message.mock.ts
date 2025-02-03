@@ -18,6 +18,8 @@ export const createMessage = (
     user: faker.helpers.arrayElement(users),
     type: faker.helpers.arrayElement(['text']),
     date: lastMessageDate.toISOString(),
+    readCount: 2,
+    userId: 1,
   };
 };
 

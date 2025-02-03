@@ -1,5 +1,5 @@
-import Avatar from '@/components/atoms/Avatar';
 import HubDetailUser from '@/components/atoms/contents/HubDetailUser';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import ContentsHubUser from '@/components/molecules/contents/ContentsHubUser';
 import DetailContents from '@/components/molecules/contents/DetailContents';
 import HubDetailTitle from '@/components/molecules/contents/HubDetailTitle';
@@ -11,7 +11,7 @@ import HubTitle from '@/components/molecules/contents/HubTitle';
 import HubDetailFooter from '@/components/molecules/HubDetailFooter';
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { skillTagItemsKey } from '@/constants/hub/skillTagItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
@@ -23,7 +23,7 @@ interface HubDetailProps {
   status: statusTagItemskey;
   detailRoles: roleTagItemsKey[];
   skills: skillTagItemsKey[];
-  role: roleItemsKey;
+  role: RoleItemKeys;
   startDate: string;
   duration: string;
   content: string;
@@ -102,7 +102,13 @@ const HubDetail = ({
                 <div className='flex w-full mx-[20px] my-[30px]'>
                   <div className='flex w-full items-center justify-between'>
                     <div className='flex items-center gap-[20px]'>
-                      <Avatar src={manager.profileUrl || undefined} size='sm' />
+                      <AvatarPopup
+                        profileUrl={manager.profileUrl}
+                        avatarSize='sm'
+                        nickname={manager.nickname}
+                        userId={manager.userId!}
+                        popupClassname='top-10'
+                      />
                       <div className='flex'>
                         <HubDetailUser
                           nickname={manager.nickname}

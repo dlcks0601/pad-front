@@ -9,15 +9,15 @@ import {
 } from '@radix-ui/react-select';
 
 const HubCategorySelect = () => {
-  const { hub_type, setHubType } = useHubStore((state) => ({
-    hub_type: state.hub_type,
+  const { hubType, setHubType } = useHubStore((state) => ({
+    hubType: state.hubType,
     setHubType: state.setHubType,
   }));
 
   return (
     <Select
       onValueChange={(value) => setHubType(value as HubTagItemsKey)}
-      value={hub_type}
+      value={hubType}
     >
       <SelectTrigger className='w-[120px] border border-black h-[44px] px-2'>
         <SelectValue placeholder='허브 유형' />

@@ -1,10 +1,10 @@
 import ContentsTime from '@/components/atoms/contents/ContentsTime';
-import Role, { RoleProps } from '@/components/atoms/Role';
+import Role from '@/components/atoms/Role';
 import {
   meetingTagItemsColors,
   meetingTagItemskey,
 } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import {
   roleTagItems,
   roleTagItemsColors,
@@ -19,7 +19,7 @@ interface HubBodyProps {
   workType: meetingTagItemskey;
   detailRoles: roleTagItemsKey[];
   status: statusTagItemskey;
-  role: roleItemsKey;
+  role: RoleItemKeys;
   startDate: string;
   duration: string;
 }

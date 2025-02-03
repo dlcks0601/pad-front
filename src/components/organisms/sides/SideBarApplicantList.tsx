@@ -1,4 +1,4 @@
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 import {
   applicantsStatus,
   changeHubStatus,
@@ -66,8 +66,6 @@ const SideBarApplicantList = () => {
               ...acceptedApplicants.map((applicant) => applicant.userId),
             ];
 
-            console.log('초대된 사용자:', userIds);
-
             navigate('/chat', {
               state: { userIds, title: hubTitle },
             });
@@ -94,10 +92,10 @@ const SideBarApplicantList = () => {
         >
           <div className='flex items-center gap-[10px]'>
             <div className='text-[14px]'>{index + 1}</div>
-            <Avatar
-              src={applicant.profileUrl || undefined}
-              alt={applicant.nickname}
-              size='xxs'
+            <AvatarPopup
+              {...applicant}
+              avatarSize='xxs'
+              popupClassname='top-4'
             />
             <div
               className='text-[14px] font-medium cursor-pointer'

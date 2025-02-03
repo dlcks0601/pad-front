@@ -1,6 +1,6 @@
 import { HubTagItemsKey } from '@/constants/hub/hubTagItems';
 import { meetingTagItemskey } from '@/constants/hub/meetingTagItems';
-import { roleItemsKey } from '@/constants/hub/roleItems';
+import { RoleItemKeys } from '@/constants/hub/roleItems';
 import { roleTagItemsKey } from '@/constants/hub/roleTagsItems';
 import { statusTagItemskey } from '@/constants/hub/statusTagItems';
 import {
@@ -220,7 +220,7 @@ export interface Project {
   title: string;
   content: string;
   thumbnailUrl: string;
-  role: roleItemsKey;
+  role: RoleItemKeys;
   skills: string[];
   detailRoles: roleTagItemsKey[];
   hubType: HubTagItemsKey;

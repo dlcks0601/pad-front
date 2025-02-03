@@ -12,15 +12,15 @@ import {
 } from '@radix-ui/react-select';
 
 const WorkTypeSelect = () => {
-  const { work_type, setWorkType } = useHubStore((state) => ({
-    work_type: state.work_type,
+  const { workType, setWorkType } = useHubStore((state) => ({
+    workType: state.workType,
     setWorkType: state.setWorkType,
   }));
 
   return (
     <Select
       onValueChange={(value) => setWorkType(value as meetingTagItemskey)}
-      value={work_type}
+      value={workType}
     >
       <SelectTrigger className='w-[120px] border border-black h-[44px] px-2'>
         <SelectValue placeholder='작업 방식' />

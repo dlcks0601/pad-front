@@ -17,7 +17,7 @@ const ChatSidebar = () => {
   const filteredChannels = filterChannels(debouncedKeyword, channels);
 
   return (
-    <div className='flex flex-col gap-[24px] flex-1'>
+    <div className='flex flex-col gap-[24px] flex-1 mb-[120px]'>
       <SearchChannel
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}

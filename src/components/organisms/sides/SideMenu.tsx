@@ -14,8 +14,8 @@ import {
   usePatchNotificationAsRead,
 } from '@/hooks/queries/notification.query';
 import { createPortal } from 'react-dom';
-import Popup from '@/components/molecules/Popup';
 import { NotificationTypes } from '@/apis/notification.api';
+import Popup from '@/components/molecules/Popup';
 
 interface NotificationProp {
   notificationId: number;
@@ -69,7 +69,6 @@ const SideMenu = () => {
     if (!token) return;
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
-      // `${import.meta.env.VITE_LOCAL_URL}/notifications/stream`,
       {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
@@ -79,7 +78,6 @@ const SideMenu = () => {
       console.log('✅ SSE 연결 성공');
     });
     eventSource.addEventListener('message', (event) => {
-      console.log('📩 새 알림 도착');
       const data: NotificationProp = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, data]);
       setNewNotification(true);
@@ -98,7 +96,6 @@ const SideMenu = () => {
   };
 
   const handleCheckNotificationClick = (notificationId: number) => {
-    console.log(`🔵 알림 ${notificationId} 읽음 처리 요청`);
     markAsRead({ notificationId: String(notificationId) });
     // ✅ 상태에서 즉시 제거
     setMessages((prevMessages) =>
@@ -148,6 +145,8 @@ const SideMenu = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showNotificationBox]);
+
+  console.log(userInfo?.profileUrl);
 
   return (
     <>
@@ -213,14 +212,18 @@ const SideMenu = () => {
             size='sm'
             alt='User Avatar'
             className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
+            src={userInfo?.profileUrl || undefined}
             onClick={() => setShowLogin((prev) => !prev)}
           />
           {showLogin && (
             <Popup
+              position='right'
               popupHandler={[
                 {
                   onClick: () => {
-                    navigate(isLoggedIn ? `/@${userInfo?.nickname}` : '/login');
+                    navigate(
+                      isLoggedIn ? `/@/${userInfo?.nickname}` : '/login'
+                    );
                     setShowLogin(false);
                   },
                   text: isLoggedIn ? '마이페이지' : '로그인',
@@ -230,9 +233,7 @@ const SideMenu = () => {
                   onClick: () => {
                     if (isLoggedIn) {
                       mutate(undefined, {
-                        onSuccess: () => {
-                          logout();
-                        },
+                        onSuccess: () => logout(),
                       });
                     } else {
                       navigate('/signup');
@@ -248,7 +249,6 @@ const SideMenu = () => {
                   ),
                 },
               ]}
-              position='right'
             />
           )}
         </div>

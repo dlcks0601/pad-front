@@ -174,9 +174,9 @@ const SideMenu = () => {
                     </div>
                   ) : (
                     <div className='flex w-full flex-col gap-[20px]'>
-                      {messages.map((message, index) => (
+                      {messages.map((message) => (
                         <div
-                          key={index}
+                          key={message.notificationId}
                           className='flex w-full justify-start text-[14px] items-center gap-[10px]'
                         >
                           <Avatar

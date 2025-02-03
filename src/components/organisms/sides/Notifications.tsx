@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import Avatar from '@/components/atoms/Avatar';
 import useAuthStore from '@/store/authStore';
+import { NotificationTypes } from '@/apis/notification.api';
 
 interface MessageProp {
-  type: 'follow' | 'application' | 'applicationStatus' | 'like' | 'comment';
+  type: NotificationTypes;
   message: string;
   senderNickname: string;
   senderProfileUrl: string;

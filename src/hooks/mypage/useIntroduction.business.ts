@@ -15,7 +15,7 @@ const useIntroduction = () => {
     useShallow((state) => state)
   );
 
-  const { data: profileInfo, isLoading } = useGetProfileInfo(ownerId);
+  const { data: profileInfo, isLoading, refetch } = useGetProfileInfo(ownerId);
   const { mutate: deleteMusic } = useDeleteMusicWork(nickname);
 
   const handleProjectUpdate = (
@@ -43,6 +43,7 @@ const useIntroduction = () => {
     profileInfo,
     deleteMusic,
     isLoading,
+    refetch,
   };
 };
 

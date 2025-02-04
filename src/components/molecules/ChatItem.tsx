@@ -104,14 +104,14 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
           <p className='text-caption2 text-gray'>{chat.userRole}</p>
         </div>
         {isEditing ? (
-          <div className='flex gap-2 items-center'>
+          <div className='flex flex-row gap-2 items-center'>
             <input
               className='px-2 py-1 rounded-[10px] bg-[#EAFBFF] max-w-96 w-full focus:outline-none'
               value={editedComment}
               onChange={(e) => setEditedComment(e.target.value)}
             />
             <button
-              className='text-sm text-blue-500 hover:underline'
+              className='text-sm text-blue-500 hover:underline w-[200px]'
               onClick={handleEditSubmit}
             >
               저장

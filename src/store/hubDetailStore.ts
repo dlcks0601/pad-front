@@ -15,6 +15,7 @@ interface Project {
   createdAt: string;
   manager: {
     userId: number;
+    nickname: string;
   };
 }
 

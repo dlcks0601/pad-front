@@ -11,7 +11,7 @@ import { RoleItemKeys } from '@/constants/hub/roleItems';
 import Contribution from '@/components/organisms/mypage/Contribution';
 
 const IntroductionTemplate = () => {
-  const { profileInfo, resetProjectForm } = useIntroduction();
+  const { profileInfo, resetProjectForm, refetch } = useIntroduction();
   const {
     addProjectModal,
     followersModal,
@@ -47,6 +47,7 @@ const IntroductionTemplate = () => {
           isOpen={addProjectModal.isOpen}
           onClose={modalHandlers.closeAddProject}
           isForUpdate={isForUpdate}
+          onRefetch={refetch}
         />
       )}
       <FollowersModal

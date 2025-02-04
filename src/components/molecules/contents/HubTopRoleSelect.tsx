@@ -8,23 +8,35 @@ import {
 } from '@/components/ui/Select';
 import { cn } from '@/utils/cn';
 import useHubSearchStore from '@/store/hubSeartchStore';
-import { roleItems, roleValueToKeyMap } from '@/constants/hub/roleItems';
+import {
+  roleItems,
+  RoleItemValues,
+  roleValueToKeyMap,
+} from '@/constants/hub/roleItems';
 
 const HubTopRoleSelect = () => {
   const { setRole, role } = useHubSearchStore();
 
   const handleRoleChange = (value: string) => {
-    setRole(value === 'All' ? null : (value as keyof typeof roleItems));
+    setRole(value === 'All' ? '' : (value as keyof typeof roleItems));
   };
 
   return (
     <div className={cn('flex items-center gap-4')}>
       <Select
         onValueChange={handleRoleChange}
-        value={role ? roleValueToKeyMap[role] : 'All'}
+        value={
+          role ? roleValueToKeyMap[role as RoleItemValues] || 'All' : 'All'
+        }
       >
         <SelectTrigger className={cn('w-[130px] h-[44px] bg-white')}>
-          <SelectValue placeholder={role ? roleValueToKeyMap[role] : '전체'} />
+          <SelectValue
+            placeholder={
+              role
+                ? roleValueToKeyMap[role as RoleItemValues] || '전체'
+                : '전체'
+            }
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

@@ -83,9 +83,9 @@ const Notifications = () => {
           {messages.length === 0 ? (
             <p className='text-gray-500'>새로운 알림이 없습니다.</p>
           ) : (
-            messages.map((msg, index) => (
+            messages.map((msg) => (
               <div
-                key={index}
+                key={msg.timestamp}
                 className='flex items-center gap-2 text-sm cursor-pointer'
               >
                 <Avatar src={msg.senderProfileUrl || undefined} size='xs' />

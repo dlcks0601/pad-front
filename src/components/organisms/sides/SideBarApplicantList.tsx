@@ -4,7 +4,6 @@ import {
   useChangeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
-import { useProjectStore } from '@/store/hubDetailStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBarApplicantList = () => {
@@ -18,7 +17,6 @@ const SideBarApplicantList = () => {
 
   const navigate = useNavigate();
   const changeStatusMutation = useApplicantsStatus();
-  const hubTitle = useProjectStore((state) => state.project?.title);
   const hubStatusMutation = useChangeHubStatus();
 
   const handleStatusChange = (
@@ -67,7 +65,7 @@ const SideBarApplicantList = () => {
             ];
 
             navigate('/chat', {
-              state: { userIds, title: hubTitle },
+              state: { userIds },
             });
           },
         }
@@ -137,7 +135,7 @@ const SideBarApplicantList = () => {
           onClick={handleInvite}
           className='flex w-full items-center justify-center h-[40px] text-[14px] bg-gradient-to-r from-[#e7acff] to-[#6eddff] text-white rounded-md'
         >
-          {hubTitle} 초대
+          초대
         </button>
       </div>
     </div>

@@ -4,6 +4,7 @@ import {
   useChangeHubStatus,
   useFetchApplicants,
 } from '@/hooks/queries/hub.query';
+import { useProjectStore } from '@/store/hubDetailStore';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBarApplicantList = () => {
@@ -18,6 +19,7 @@ const SideBarApplicantList = () => {
   const navigate = useNavigate();
   const changeStatusMutation = useApplicantsStatus();
   const hubStatusMutation = useChangeHubStatus();
+  const hubTitle = useProjectStore((state) => state.project?.title);
 
   const handleStatusChange = (
     userId: number,
@@ -65,7 +67,7 @@ const SideBarApplicantList = () => {
             ];
 
             navigate('/chat', {
-              state: { userIds },
+              state: { userIds, title: hubTitle },
             });
           },
         }

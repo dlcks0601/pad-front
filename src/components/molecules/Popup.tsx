@@ -33,8 +33,9 @@ const Popup = ({ popupHandler, position, innerClassname }: IProps) => {
   return (
     <div
       className={cn(
-        `absolute w-max left-full transition-opacity duration-300 z-50 ${innerClassname}`,
-        popupStyle({ position })
+        `absolute w-max left-full transition-opacity duration-300 z-50`,
+        popupStyle({ position }),
+        innerClassname
       )}
     >
       <div

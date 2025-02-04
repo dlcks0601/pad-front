@@ -13,7 +13,7 @@ const Introduce = () => {
   );
 
   const { mutate } = useUpdateIntroduction();
-  const debouncedIntroduce = useDebounce(settingsForm.introduce, 300);
+  const debouncedIntroduce = useDebounce(settingsForm.introduce, 1000);
 
   useEffect(() => {
     if (settingsForm?.introduce && isEditing) {
@@ -22,7 +22,7 @@ const Introduce = () => {
         {
           onSuccess: () => {
             querySuccessHandler('settings-info');
-            alert('ok');
+            alert('한 줄 소개가 변경되었습니다.');
           },
         }
       );

@@ -76,6 +76,8 @@ const FeedDetailPage = () => {
               commentCount={post.commentCount}
               likeCount={post.likeCount}
               viewCount={post.viewCount}
+              isLiked={post.isLiked}
+              postId={post.postId}
             />
           </div>
         </>

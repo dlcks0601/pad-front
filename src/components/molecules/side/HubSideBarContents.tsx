@@ -1,5 +1,6 @@
 import { fetchBestHubs } from '@/apis/hub.api';
 import Avatar from '@/components/atoms/Avatar';
+// import AvatarPopup from '@/components/molecules/AvatarPopup';
 import { hubTagItemsColors } from '@/constants/hub/hubTagItems';
 import { HubSideBarItemType } from '@/types/hubSideBarItem.type';
 import { useEffect, useState } from 'react';
@@ -41,10 +42,11 @@ const HubSideBarContents = () => {
             <div className='flex items-center gap-[10px]'>
               <div className='flex text-[12px]'>{index + 1}</div>
               {/* <AvatarPopup
-                {...item.user}
+                userId={item.user.userId}
+                nickname={item.user.nickname}
                 avatarSize='xxs'
-                popupClassname='top-4'
-                avatarClassname=''
+                profileUrl={item.user.profileUrl || null}
+                popupClassname='!left-[20px] top-3'
               /> */}
               <Avatar size='xxs' src={item.user.profileUrl || undefined} />
               <div className='flex text-[12px] font-medium'>
@@ -63,11 +65,7 @@ const HubSideBarContents = () => {
             </div>
           </div>
           <div className='ml-4 relative overflow-hidden h-[20px] group text-[14px] font-normal'>
-            <div
-              className={`absolute whitespace-nowrap transition-transform duration-500 ${
-                item.title.length > 40 ? 'group-hover:animate-slide' : ''
-              }`}
-            >
+            <div className='absolute whitespace-nowrap transition-transform duration-500 group-hover:animate-slide'>
               {item.title}
             </div>
           </div>

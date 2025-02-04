@@ -30,3 +30,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - 커넥션 허브 팔로우 기능 추가
+
+## [0.1.2] - 2025-02-04
+
+### Fixed
+
+- 피드 3줄 넘게 표시되던 문제 수정
+- 피드 자기 자신 댓글 UI 수정
+- 일부 Weekly Best Connection Hub 아이템 애니메이션 적용 안되는 문제 수정
+- 허브 상세 아바타 팝업 위치 수정
+- 한 줄 소개 수정
+- 스킬 작성 시 자동으로 height 늘어나도록 수정
+
+### Added
+
+- 피드 디테일 페이지 좋아요 기능 추가
+- 알림 시간 추가
+- 계정 설정에 이메일 연결
+
+### Changed
+
+- 에디터 이미지 크기 제한
+- 알림 최신순 정렬 (최신 알림이 위로 가게)

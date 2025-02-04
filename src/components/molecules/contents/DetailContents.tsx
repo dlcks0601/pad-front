@@ -5,7 +5,7 @@ interface DetailContentsProps {
 const DetailContents = ({ content }: DetailContentsProps) => {
   return (
     <div
-      className='flex flex-col prose max-w-none border h-[600px] rounded-[10px] p-[10px]'
+      className='flex flex-col prose max-w-none border min-h-[600px] rounded-[10px] p-[10px]'
       dangerouslySetInnerHTML={{ __html: content }}
     ></div>
   );

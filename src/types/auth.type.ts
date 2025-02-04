@@ -26,6 +26,7 @@ export interface AuthAction {
   logout: () => void;
   setUserRole: (userRole: number) => void;
   setAccessToken: (token: string) => void;
+  setUserNickName: (userNickName: string) => void;
 }
 
 export interface SignupBody {

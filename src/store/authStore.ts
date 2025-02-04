@@ -61,6 +61,14 @@ const useAuthStore = create(
               });
             }
           },
+          setUserNickName: (userNickname: string) => {
+            const currentUserInfo = get().userInfo;
+            if (currentUserInfo) {
+              set({
+                userInfo: { ...currentUserInfo, nickname: userNickname },
+              });
+            }
+          },
         })
       ),
       {

@@ -46,5 +46,5 @@ export interface Post {
   commentCount: number;
   likeCount: number;
   viewCount: number;
-  isLiked: number;
+  isLiked: boolean;
 }

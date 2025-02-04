@@ -13,18 +13,17 @@ import {
 import useAuthStore from '@/store/authStore';
 import { querySuccessHandler } from '@/utils/querySuccessHandler';
 
-// 읽지 않은 알림 조회
 export const useFetchMissedNotifications = (): UseQueryResult<
   MissedNotificationsResponse,
   Error
 > => {
-  const token = useAuthStore.getState().accessToken; // ✅ 토큰 가져오기
+  const token = useAuthStore.getState().accessToken;
   return useQuery<MissedNotificationsResponse>({
     queryKey: ['missedNotifications'],
     queryFn: fetchMissedNotifications,
-    enabled: !!token, // ✅ 토큰이 있을 때만 실행
-    staleTime: 60 * 1000, // 1분 캐싱
-    gcTime: 5 * 60 * 1000, // 5분 후 캐시 삭제
+    enabled: !!token,
+    staleTime: 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     retry: 3,
   });
 };

@@ -10,18 +10,16 @@ const ContentsBody = ({ body }: ContentsBodyProps) => {
     tempDiv.innerHTML = DOMPurify.sanitize(html);
     const textContent = tempDiv.textContent || '';
 
-    const sentences = textContent.match(/([^.!?]+[.!?]+)/g) || [];
-
-    const truncatedText =
-      sentences.length > 5
-        ? sentences.slice(0, 5).join(' ') + '...'
-        : textContent;
-
-    tempDiv.innerHTML = DOMPurify.sanitize(truncatedText);
+    tempDiv.innerHTML = DOMPurify.sanitize(textContent);
     return { __html: tempDiv.innerHTML };
   };
 
-  return <div dangerouslySetInnerHTML={getTruncatedContent(body)}></div>;
+  return (
+    <div
+      className='line-clamp-3'
+      dangerouslySetInnerHTML={getTruncatedContent(body)}
+    ></div>
+  );
 };
 
 export default ContentsBody;

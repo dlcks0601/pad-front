@@ -3,9 +3,12 @@ import Label from '@/components/atoms/Label';
 import DeleteAccountModal from '@/components/organisms/modals/DeleteAccountModal';
 import SettingsSection from '@/components/organisms/settings/SettingsSection';
 import { useModal } from '@/hooks/useModal';
+import useAuthStore from '@/store/authStore';
+import { useShallow } from 'zustand/shallow';
 
 const AccountSection = () => {
   const { isOpen, openModal, closeModal } = useModal();
+  const { userInfo } = useAuthStore(useShallow((state) => state));
 
   return (
     <>
@@ -19,7 +22,9 @@ const AccountSection = () => {
           <div className='mb-[-10px]'>
             <div className='flex gap-[100px] items-center'>
               <Label text='연결된 이메일' />
-              <span className='text-[#838383] font-light'>pad@gmail.com</span>
+              <span className='text-[#838383] font-light'>
+                {userInfo?.email}
+              </span>
             </div>
             <span className='text-[10px] text-[#7D7D7D] mt-[-10px]'>
               이메일은 변경할 수 없어요.

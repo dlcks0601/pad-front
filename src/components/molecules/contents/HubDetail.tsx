@@ -107,7 +107,7 @@ const HubDetail = ({
                         avatarSize='sm'
                         nickname={manager.nickname}
                         userId={manager.userId!}
-                        popupClassname='top-10'
+                        popupClassname='!left-16 top-[-70px]'
                       />
                       <div className='flex'>
                         <HubDetailUser

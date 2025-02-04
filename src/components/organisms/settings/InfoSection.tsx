@@ -74,7 +74,7 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
             </div>
             {/* 기술 스택 */}
             <SettingsSection.InputWithLabel label='스킬' className='relative'>
-              <div className='w-full border border-[#838383] rounded-[10px] bg-transparent outline-none flex flex-wrap items-center gap-2 pl-[15px] pr-[30px] h-10'>
+              <div className='w-full border border-[#838383] rounded-[10px] bg-transparent outline-none flex flex-wrap items-center gap-2 pl-[15px] pr-[30px] min-h-10 py-2'>
                 {settingsForm?.skills?.length > 0 ? (
                   settingsForm?.skills?.map((skill) => (
                     <button

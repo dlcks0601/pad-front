@@ -113,7 +113,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
               onChange={(e) => setEditedComment(e.target.value)}
             />
             <button
-              className='text-sm text-blue-500 hover:underline w-[200px]'
+              className='text-sm text-blue-500 hover:underline'
               onClick={handleEditSubmit}
             >
               저장

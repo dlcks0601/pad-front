@@ -4,7 +4,7 @@ import { HandThumbUpIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 import notifyToast from '@/utils/notifyToast';
-import Avatar from '@/components/atoms/Avatar';
+import AvatarPopup from '@/components/molecules/AvatarPopup';
 
 interface ChatItemProps {
   chat: {
@@ -89,10 +89,12 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         'flex-row-reverse': isCurrentUser,
       })}
     >
-      <Avatar
-        src={chat.userProfileUrl || undefined}
-        alt={chat.userName}
-        className='w-[40px] h-[40px] rounded-full'
+      <AvatarPopup
+        userId={chat.userId}
+        profileUrl={chat.userProfileUrl || null}
+        nickname={chat.userName}
+        avatarClassname='w-[40px] h-[40px] rounded-full'
+        popupClassname='!left-[40px] top-[10px]'
       />
       <div
         className={clsx('flex flex-col gap-1', {
@@ -106,7 +108,7 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         {isEditing ? (
           <div className='flex flex-row gap-2 items-center'>
             <input
-              className='px-2 py-1 rounded-[10px] bg-[#EAFBFF] max-w-96 w-full focus:outline-none'
+              className='px-2 py-1 rounded-[10px] bg-[#EAFBFF] max-w-96 w-fit focus:outline-none'
               value={editedComment}
               onChange={(e) => setEditedComment(e.target.value)}
             />
@@ -126,45 +128,51 @@ const ChatItem = ({ chat, isCurrentUser, onDelete }: ChatItemProps) => {
         ) : (
           <div
             className={clsx(
-              'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#ffdfe7]',
-              { 'bg-[#EAFBFF]': isCurrentUser }
+              'flex gap-2',
+              isCurrentUser ? 'flex-row-reverse' : 'flex-row'
             )}
           >
-            {chat.comment}
+            <div
+              className={clsx(
+                'px-2 py-1 rounded-[10px] max-w-96 flex-wrap bg-[#ffdfe7]',
+                { 'bg-[#EAFBFF]': isCurrentUser }
+              )}
+            >
+              {chat.comment}
+            </div>
+            <div className='flex flex-col-reverse justify-between items-center'>
+              <div className='flex items-center gap-1'>
+                {isCurrentUser && (
+                  <div className='flex gap-2 text-gray bg-white h-[16px] px-1 rounded-[5px]'>
+                    {!isEditing && (
+                      <button
+                        className='hover:underline text-caption2'
+                        onClick={handleEditToggle}
+                      >
+                        수정
+                      </button>
+                    )}
+                    <button
+                      className='hover:underline text-caption2'
+                      onClick={() => onDelete(chat.commentId)}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+                <HandThumbUpIcon
+                  onClick={handleLikeClick}
+                  className={clsx('w-4 h-4 cursor-pointer', {
+                    'text-red-400': isLiked,
+                    'text-gray': !isLiked,
+                    'cursor-not-allowed': isLoading,
+                  })}
+                />
+                <div className='text-xs text-gray'>{likeCount}</div>
+              </div>
+            </div>
           </div>
         )}
-      </div>
-
-      <div className='flex flex-col-reverse justify-between items-center'>
-        <div className='flex items-center gap-1'>
-          {isCurrentUser && (
-            <div className='flex gap-2 text-gray bg-white h-[16px] px-1 rounded-[5px]'>
-              {!isEditing && (
-                <button
-                  className='hover:underline text-caption2'
-                  onClick={handleEditToggle}
-                >
-                  수정
-                </button>
-              )}
-              <button
-                className='hover:underline text-caption2'
-                onClick={() => onDelete(chat.commentId)}
-              >
-                삭제
-              </button>
-            </div>
-          )}
-          <HandThumbUpIcon
-            onClick={handleLikeClick}
-            className={clsx('w-4 h-4 cursor-pointer', {
-              'text-red-400': isLiked,
-              'text-gray': !isLiked,
-              'cursor-not-allowed': isLoading,
-            })}
-          />
-          <div className='text-xs text-gray'>{likeCount}</div>
-        </div>
       </div>
     </div>
   );

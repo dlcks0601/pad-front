@@ -78,7 +78,8 @@ const Message = memo(
               {formatTime(message.date)}
             </div>
             <div className='text-caption2 text-yellow-500'>
-              {unreadCount || undefined}
+              {/* {unreadCount || undefined} */}
+              {unreadCount <= 0 ? undefined : unreadCount}
             </div>
           </div>
         </div>

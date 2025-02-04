@@ -48,7 +48,7 @@ interface ConnectionHubResponse extends ProjectResult {
   bookMarkCount: number;
   viewCount: number;
   status: statusTagItemskey;
-  createdAt: string;
+  createdAT: string;
   isMarked: boolean;
 }
 

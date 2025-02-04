@@ -12,9 +12,9 @@ const HighlightedText = ({ content }: HighlightedTextProps) => {
 
   return (
     <>
-      {parts.map((part, i) =>
+      {parts.map((part) =>
         part.toLowerCase() === keyword.toLowerCase() ? (
-          <mark key={i} style={{ backgroundColor: 'yellow' }}>
+          <mark key={part} style={{ backgroundColor: 'yellow' }}>
             {part}
           </mark>
         ) : (

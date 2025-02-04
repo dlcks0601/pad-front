@@ -42,9 +42,9 @@ const TiptapHubFloatingMenu = ({ editor }: TiptapHubFloatingMenuProps) => {
       className='floating-menu'
     >
       <div className='flex flex-col'>
-        {menuItems.map(({ label, icon: Icon, action, isActive }, index) => (
+        {menuItems.map(({ label, icon: Icon, action, isActive }) => (
           <button
-            key={index}
+            key={label}
             onClick={() => action(editor)}
             className={isActive(editor) ? 'is-active' : ''}
           >

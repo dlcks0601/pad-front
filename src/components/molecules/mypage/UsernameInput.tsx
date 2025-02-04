@@ -1,5 +1,6 @@
 import SettingsSection from '@/components/organisms/settings/SettingsSection';
 import { useUpdateNickname } from '@/hooks/queries/mypage/settings';
+import useAuthStore from '@/store/authStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { querySuccessHandler } from '@/utils/querySuccessHandler';
 import { useState } from 'react';
@@ -10,6 +11,7 @@ const UsernameInput = () => {
   const [settingsForm, setSettingsForm] = useSettingsStore(
     useShallow((state) => [state.settingsForm, state.setSettingsForm])
   );
+  const { setUserNickName } = useAuthStore();
 
   const { mutate } = useUpdateNickname();
 
@@ -22,6 +24,7 @@ const UsernameInput = () => {
         {
           onSuccess: () => {
             querySuccessHandler('settings-info');
+            setUserNickName(settingsForm.nickname);
             setIsEditing(false);
           },
         }

@@ -66,7 +66,7 @@ const SideMenu = () => {
   }, [missedNotifications]);
 
   useEffect(() => {
-    if (!token || messages.length === 0) return;
+    if (!token) return;
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
       {
@@ -84,9 +84,9 @@ const SideMenu = () => {
         notificationId: data.notificationId,
         type: data.type,
         message: data.message,
-        senderNickname: data.sender.nickname,
-        senderProfileUrl: data.sender.profileUrl,
-        timestamp: formatTimeAgo(data.createdAt),
+        senderNickname: data.senderNickname,
+        senderProfileUrl: data.senderProfileUrl,
+        timestamp: formatTimeAgo(data.timestamp),
         isRead: data.isRead,
       };
 

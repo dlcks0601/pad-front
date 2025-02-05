@@ -50,23 +50,33 @@ const SideMenu = () => {
 
   useEffect(() => {
     if (missedNotifications?.notifications) {
-      const formattedNotifications: NotificationProp[] =
-        missedNotifications.notifications.map((notification) => ({
-          notificationId: notification.notificationId,
-          type: notification.type,
-          message: notification.message,
-          senderNickname: notification.sender.nickname,
-          senderProfileUrl: notification.sender.profileUrl,
-          timestamp: formatTimeAgo(notification.createdAt),
-          isRead: notification.isRead,
-        }));
+      setMessages((prevMessages) => {
+        const newNotifications = missedNotifications.notifications
+          .map((notification) => ({
+            notificationId: notification.notificationId,
+            type: notification.type,
+            message: notification.message,
+            senderNickname: notification.sender.nickname,
+            senderProfileUrl: notification.sender.profileUrl,
+            timestamp: formatTimeAgo(notification.createdAt),
+            isRead: notification.isRead,
+          }))
+          .filter(
+            (newNotification) =>
+              !prevMessages.some(
+                (existing) =>
+                  existing.notificationId === newNotification.notificationId
+              )
+          );
 
-      setMessages(formattedNotifications);
+        return [...prevMessages, ...newNotifications];
+      });
     }
   }, [missedNotifications]);
 
   useEffect(() => {
     if (!token) return;
+
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
       {
@@ -74,9 +84,11 @@ const SideMenu = () => {
         withCredentials: true,
       }
     );
+
     eventSource.addEventListener('open', () => {
       console.log('✅ SSE 연결 성공');
     });
+
     eventSource.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
 
@@ -90,10 +102,23 @@ const SideMenu = () => {
         isRead: data.isRead,
       };
 
-      setMessages((prevMessages) => [formattedData, ...prevMessages]);
+      setMessages((prevMessages) => {
+        if (
+          !prevMessages.some(
+            (msg) => msg.notificationId === formattedData.notificationId
+          )
+        ) {
+          return [formattedData, ...prevMessages];
+        }
+        return prevMessages;
+      });
       setNewNotification(true);
     });
+    return () => {
+      eventSource.close();
+    };
   }, [token]);
+
   const handleNotificationClick = () => {
     setShowNotificationBox((prev) => !prev);
     setNewNotification(false);

@@ -75,9 +75,14 @@ const ChannelList = ({ channels }: ChannelListProps) => {
                   className='object-cover'
                 />
               </ListItem.Col>
-              <ListItem.Col className='w-[calc(100% - 40px)] flex-auto p'>
-                <div className='flex justify-between'>
-                  <Title size='xs' fontWeight='medium' lineClamp={1}>
+              <ListItem.Col className='w-[calc(100% - 40px)] flex-auto'>
+                <div className='flex justify-between gap-2'>
+                  <Title
+                    size='xs'
+                    fontWeight='medium'
+                    lineClamp={1}
+                    className='leading-[28px]'
+                  >
                     {channel.title}
                   </Title>
                   <ListItem.Label

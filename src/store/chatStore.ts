@@ -157,12 +157,20 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       },
       // 메시지 받았을 때 messages 상태 업데이트
       handleMessage: (message) => {
-        const { socket } = get();
+        const { socket, channels } = get();
         set((state) => {
           if (!state.messages[message.channelId]) {
             state.messages[message.channelId] = [];
           }
           state.messages[message.channelId].push(message);
+          if (message.type === 'exit') {
+            state.channels[message.channelId] = {
+              ...channels[message.channelId],
+              users: channels[message.channelId].users.filter(
+                (user) => user.userId !== message.userId
+              ),
+            };
+          }
           socket!.emit('readMessage', {
             userId: useAuthStore.getState().userInfo.userId,
             messageId: message.messageId,

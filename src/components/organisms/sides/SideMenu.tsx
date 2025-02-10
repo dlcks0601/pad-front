@@ -16,6 +16,7 @@ import {
 import { createPortal } from 'react-dom';
 import { NotificationTypes } from '@/apis/notification.api';
 import Popup from '@/components/molecules/Popup';
+import formatTimeAgo from '@/utils/formatTimeAgo';
 
 interface NotificationProp {
   notificationId: number;
@@ -43,30 +44,39 @@ const SideMenu = () => {
   const [showNotificationBox, setShowNotificationBox] = useState(false);
   const [newNotification, setNewNotification] = useState(false);
   const [messages, setMessages] = useState<NotificationProp[]>([]);
-
   const notificationRef = useRef<HTMLDivElement>(null);
   const { data: missedNotifications } = useFetchMissedNotifications();
   const { mutate: markAsRead } = usePatchNotificationAsRead();
 
   useEffect(() => {
     if (missedNotifications?.notifications) {
-      const formattedNotifications: NotificationProp[] =
-        missedNotifications.notifications.map((notification) => ({
-          notificationId: notification.notificationId,
-          type: notification.type,
-          message: notification.message,
-          senderNickname: notification.sender.nickname,
-          senderProfileUrl: notification.sender.profileUrl,
-          timestamp: notification.createdAt,
-          isRead: notification.isRead,
-        }));
+      setMessages((prevMessages) => {
+        const newNotifications = missedNotifications.notifications
+          .map((notification) => ({
+            notificationId: notification.notificationId,
+            type: notification.type,
+            message: notification.message,
+            senderNickname: notification.sender.nickname,
+            senderProfileUrl: notification.sender.profileUrl,
+            timestamp: formatTimeAgo(notification.createdAt),
+            isRead: notification.isRead,
+          }))
+          .filter(
+            (newNotification) =>
+              !prevMessages.some(
+                (existing) =>
+                  existing.notificationId === newNotification.notificationId
+              )
+          );
 
-      setMessages(formattedNotifications);
+        return [...prevMessages, ...newNotifications];
+      });
     }
   }, [missedNotifications]);
 
   useEffect(() => {
     if (!token) return;
+
     const eventSource = new EventSourcePolyfill(
       `${import.meta.env.VITE_BASE_SERVER_URL}/notifications/stream`,
       {
@@ -74,16 +84,35 @@ const SideMenu = () => {
         withCredentials: true,
       }
     );
+
     eventSource.addEventListener('open', () => {
       console.log('✅ SSE 연결 성공');
     });
+
     eventSource.addEventListener('message', (event) => {
-      const data: NotificationProp = JSON.parse(event.data);
-      setMessages((prevMessages) => [...prevMessages, data]);
+      const data = JSON.parse(event.data);
+
+      const formattedData: NotificationProp = {
+        notificationId: data.notificationId,
+        type: data.type,
+        message: data.message,
+        senderNickname: data.senderNickname,
+        senderProfileUrl: data.senderProfileUrl,
+        timestamp: formatTimeAgo(data.timestamp),
+        isRead: data.isRead,
+      };
+
+      setMessages((prevMessages) => {
+        if (
+          !prevMessages.some(
+            (msg) => msg.notificationId === formattedData.notificationId
+          )
+        ) {
+          return [formattedData, ...prevMessages];
+        }
+        return prevMessages;
+      });
       setNewNotification(true);
-    });
-    eventSource.addEventListener('error', () => {
-      eventSource.close();
     });
     return () => {
       eventSource.close();
@@ -97,7 +126,6 @@ const SideMenu = () => {
 
   const handleCheckNotificationClick = (notificationId: number) => {
     markAsRead({ notificationId: String(notificationId) });
-    // ✅ 상태에서 즉시 제거
     setMessages((prevMessages) =>
       prevMessages.filter(
         (message) => message.notificationId !== notificationId
@@ -183,7 +211,12 @@ const SideMenu = () => {
                             src={message.senderProfileUrl || undefined}
                             size='xs'
                           />
-                          <div>{message.message}</div>
+                          <div>
+                            <div>{message.message}</div>
+                            <div className='text-[12px] text-gray-500'>
+                              {message.timestamp}
+                            </div>{' '}
+                          </div>
                           <div
                             onClick={() =>
                               handleCheckNotificationClick(

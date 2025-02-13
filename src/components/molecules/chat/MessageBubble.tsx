@@ -2,7 +2,7 @@ import HighlightedText from '@/components/atoms/HighlightedText';
 import { useSearchStore } from '@/store/searchStore';
 import { ReceiveMessage } from '@/types/message.type';
 import { cn } from '@/utils/cn';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface MessageBubbleProps {
   content: ReceiveMessage['content'];
@@ -22,9 +22,13 @@ const MessageBubble = ({
   const searchCursor = useSearchStore((state) => state.searchCursors?.search);
   const isSearchMessage = searchCursor === messageId;
 
+  useEffect(() => {
+    messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [searchCursor]);
+
   return (
     <div
-      ref={messageRef}
+      ref={searchCursor === messageId ? messageRef : undefined}
       className={cn(
         'px-[10px] py-[7px] text-caption1 w-fit rounded-[5px]',
         isMyMessage ? 'bg-[#EAFBFF]' : 'bg-[#ffdfe7]',

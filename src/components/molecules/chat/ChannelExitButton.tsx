@@ -12,9 +12,7 @@ const ChannelExitButton = ({ currentChannelId }: Props) => {
   const handleChannelExit = () => {
     if (window.confirm('현재 채팅방을 나가시겠습니까?')) {
       const userId = useAuthStore.getState().userInfo.userId;
-      exitChannel(userId, currentChannelId!);
-    } else {
-      // 나가기 취소
+      exitChannel(userId, currentChannelId);
     }
   };
 

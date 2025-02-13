@@ -18,16 +18,20 @@ export interface SearchAction {
 
 type SearchStore = SearchState & SearchAction;
 
+export const initialState: SearchState = {
+  searchDirection: 'backward',
+  searchCursors: {
+    prev: null,
+    next: null,
+    search: null,
+  },
+  searchMode: false,
+  searchKeyword: '',
+};
+
 export const useSearchStore = create<SearchStore>()(
   immer((set) => ({
-    searchDirection: 'backward',
-    searchCursors: {
-      prev: null,
-      next: null,
-      search: null,
-    },
-    searchMode: false,
-    searchKeyword: '',
+    ...initialState,
     setState: (state) => {
       set(() => ({ ...state }));
     },

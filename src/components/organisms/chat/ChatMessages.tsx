@@ -24,6 +24,7 @@ const ChatMessages = ({ currentChannelId }: ChatMessagesProps) => {
     refetch,
     isFetching,
   } = useInfiniteMessagesQuery(currentChannelId);
+  console.log(currentChannelId);
 
   const { socketMessages, updatedNeeded, setState } = useChatStore(
     useShallow((state) => ({

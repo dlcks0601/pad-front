@@ -6,36 +6,30 @@ import { ChatState, useChatStore } from '@/store/chatStore';
 import { Channel } from '@/types/channel.type';
 import { formatDateFromNow } from '@/utils/format';
 import clsx from 'clsx';
-import { MouseEvent as ReactMouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
 
 interface ChannelListProps {
   channels: ChatState['channels'];
+  currentChannelId: Channel['channelId'] | null;
 }
 
-const ChannelList = ({ channels }: ChannelListProps) => {
-  const { joinChannel, currentChannelId, messages } = useChatStore(
+const ChannelList = ({ channels, currentChannelId }: ChannelListProps) => {
+  const navigate = useNavigate();
+  const { joinChannel, messages } = useChatStore(
     useShallow((state) => ({
       joinChannel: state.joinChannel,
-      currentChannelId: state.currentChannelId,
       messages: state.messages,
     }))
   );
   const user = useAuthStore((state) => state.userInfo);
 
-  const switchChannel = (channelId: Channel['channelId']) => {
+  const handleChannelClick = (channelId: Channel['channelId']) => {
     if (channelId === currentChannelId) return;
+    navigate(`/chat/channels/${channelId}`);
     joinChannel(user.userId, channelId);
   };
 
-  const handleChannelClick = (
-    e: ReactMouseEvent,
-    channelId: Channel['channelId']
-  ) => {
-    if (e.button === 0) {
-      switchChannel(channelId);
-    }
-  };
   return (
     <ul className='grow flex flex-col gap-[24px] pb-[50px] overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'>
       {Object.entries(channels).map(([_, channel]) => {
@@ -57,7 +51,7 @@ const ChannelList = ({ channels }: ChannelListProps) => {
         return (
           <li
             key={channel.channelId}
-            onClick={(e) => handleChannelClick(e, channel.channelId)}
+            onClick={() => handleChannelClick(channel.channelId)}
             className='group relative'
           >
             <ListItem

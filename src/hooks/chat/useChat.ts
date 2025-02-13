@@ -3,9 +3,11 @@ import { useChatStore } from '@/store/chatStore';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import useAuthStore from '@/store/authStore';
+import { useChannelId } from '@/hooks/chat/useChannelId';
 
 export const useChat = () => {
   const location = useLocation();
+  const { currentChannelId } = useChannelId();
 
   const { userInfo, isLoggedIn } = useAuthStore(
     useShallow((state) => ({
@@ -15,15 +17,21 @@ export const useChat = () => {
   );
   const navigate = useNavigate();
 
-  const { createChannel, connectSocket, disconnectSocket, createGroup } =
-    useChatStore(
-      useShallow((state) => ({
-        createChannel: state.createChannel,
-        connectSocket: state.connectSocket,
-        disconnectSocket: state.disconnectSocket,
-        createGroup: state.createGroup,
-      }))
-    );
+  const {
+    createChannel,
+    connectSocket,
+    disconnectSocket,
+    createGroup,
+    joinChannel,
+  } = useChatStore(
+    useShallow((state) => ({
+      createChannel: state.createChannel,
+      connectSocket: state.connectSocket,
+      disconnectSocket: state.disconnectSocket,
+      createGroup: state.createGroup,
+      joinChannel: state.joinChannel,
+    }))
+  );
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -43,6 +51,11 @@ export const useChat = () => {
       const userIds = location.state.userIds;
       const title = location.state.title;
       createGroup(userIds, title);
+    }
+
+    if (currentChannelId) {
+      console.log('useChat >>> ', currentChannelId);
+      joinChannel(userInfo.userId, currentChannelId);
     }
 
     return () => {

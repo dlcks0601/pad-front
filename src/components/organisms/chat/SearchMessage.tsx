@@ -4,7 +4,7 @@ import { useSearchMessagesQuery } from '@/hooks/chat/useSearchMessages';
 import { useSearchUpDown } from '@/hooks/chat/useSearchUpDown';
 import { SearchState, useSearchStore } from '@/store/searchStore';
 import { Channel } from '@/types/channel.type';
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 interface SearchMessageProps {
@@ -12,20 +12,17 @@ interface SearchMessageProps {
 }
 
 const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
-  const { setState, searchMode, searchDirection, searchKeyword } =
-    useSearchStore(
-      useShallow((state) => ({
-        setState: state.setState,
-        searchMode: state.searchMode,
-        searchDirection: state.searchDirection,
-        searchKeyword: state.searchKeyword,
-      }))
-    );
-
-  const { data, isFetching, refetch } = useSearchMessagesQuery(
-    currentChannelId,
-    searchKeyword
+  const [keyword, setKeyword] = useState('');
+  const { setState, searchMode, searchDirection } = useSearchStore(
+    useShallow((state) => ({
+      setState: state.setState,
+      searchMode: state.searchMode,
+      searchDirection: state.searchDirection,
+    }))
   );
+
+  const { data, isFetching, refetch } =
+    useSearchMessagesQuery(currentChannelId);
 
   const { isFirst, isLast } = useSearchUpDown(data, searchDirection);
 
@@ -33,43 +30,38 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
     if (isFetching) return;
 
     setState({ searchDirection: direciton });
-
-    const { data } = await refetch();
-
-    if (data?.cursors) {
-      setState({
-        searchCursors: data.cursors,
-        searchMode: true,
-      });
-    } else {
-      setState({ searchMode: false });
-    }
+    refetch();
   };
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
-    if (!searchKeyword.trim() || isFetching) return;
+    if (!keyword.trim() || isFetching) return;
 
     setState({
       searchDirection: 'backward',
+      searchKeyword: keyword,
       // searchCursors: null,
     });
+  };
 
-    const { data } = await refetch();
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    // setState({ searchKeyword: e.target.value });
+    setKeyword(e.target.value);
+  };
 
-    if (data?.cursors) {
+  useEffect(() => {
+    if (!data) return;
+    if (data.cursors) {
       setState({
         searchCursors: data.cursors,
         searchMode: true,
       });
     } else {
-      setState({ searchMode: false });
+      setState({
+        searchMode: true,
+      });
     }
-  };
-
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setState({ searchKeyword: e.target.value });
-  };
+  }, [data?.cursors]);
 
   return (
     <div className='shrink-0 flex items-center gap-2'>
@@ -97,7 +89,7 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
         </>
       )}
       <SearchInput
-        value={searchKeyword}
+        value={keyword}
         onChange={handleInput}
         onSubmit={handleSearch}
       />

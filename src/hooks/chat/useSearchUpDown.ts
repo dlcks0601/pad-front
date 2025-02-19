@@ -11,8 +11,8 @@ export const useSearchUpDown = (
     | undefined,
   searchDirection: SearchState['searchDirection']
 ) => {
-  const [isFirst, setIsFirst] = useState(false);
-  const [isLast, setIsLast] = useState(false);
+  const [isFirstMessage, setIsFirstMessage] = useState(false);
+  const [isLastMessage, setIsLastMessage] = useState(false);
 
   useEffect(() => {
     if (!data) return;
@@ -20,17 +20,17 @@ export const useSearchUpDown = (
       alert(data.message.text);
       switch (searchDirection) {
         case 'backward':
-          setIsFirst(true);
+          setIsFirstMessage(true);
           break;
         case 'forward':
-          setIsLast(true);
+          setIsLastMessage(true);
           break;
       }
     } else {
-      setIsFirst(false);
-      setIsLast(false);
+      setIsFirstMessage(false);
+      setIsLastMessage(false);
     }
   }, [data]);
 
-  return { isFirst, isLast };
+  return { isFirstMessage, isLastMessage };
 };

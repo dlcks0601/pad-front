@@ -2,9 +2,15 @@ import { searchChannelMessages } from '@/apis/channel.api';
 import { LIMIT } from '@/constants/limit';
 import { useSearchStore } from '@/store/searchStore';
 import { useQuery } from '@tanstack/react-query';
+import { useShallow } from 'zustand/shallow';
 
 export const useSearchMessagesQuery = (currentChannelId: number) => {
-  const searchKeyword = useSearchStore((state) => state.searchKeyword);
+  const { searchKeyword, searchMode } = useSearchStore(
+    useShallow((state) => ({
+      searchKeyword: state.searchKeyword,
+      searchMode: state.searchMode,
+    }))
+  );
 
   return useQuery({
     queryKey: ['searchMessages', currentChannelId, searchKeyword],
@@ -16,7 +22,6 @@ export const useSearchMessagesQuery = (currentChannelId: number) => {
         direction: useSearchStore.getState().searchDirection,
         keyword: searchKeyword,
       }),
-    enabled: !!searchKeyword,
-    staleTime: 0,
+    enabled: !!searchMode,
   });
 };

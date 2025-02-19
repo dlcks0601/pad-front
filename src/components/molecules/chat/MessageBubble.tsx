@@ -23,7 +23,10 @@ const MessageBubble = ({
   const isSearchMessage = searchCursor === messageId;
 
   useEffect(() => {
-    messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    messageRef.current?.scrollIntoView({
+      behavior: 'instant',
+      block: 'center',
+    });
   }, [searchCursor]);
 
   return (

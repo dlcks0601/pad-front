@@ -24,22 +24,26 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
   const { data, isFetching, refetch } =
     useSearchMessagesQuery(currentChannelId);
 
-  const { isFirst, isLast } = useSearchUpDown(data, searchDirection);
+  const { isFirstMessage, isLastMessage } = useSearchUpDown(
+    data,
+    searchDirection
+  );
 
-  const handleUpDown = async (direciton: SearchState['searchDirection']) => {
+  const handleUpDown = (direciton: SearchState['searchDirection']) => {
     if (isFetching) return;
 
     setState({ searchDirection: direciton });
     refetch();
   };
 
-  const handleSearch = async (e: FormEvent) => {
+  const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     if (!keyword.trim() || isFetching) return;
 
     setState({
       searchDirection: 'backward',
       searchKeyword: keyword,
+      searchMode: true,
       // searchCursors: null,
     });
   };
@@ -54,11 +58,6 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
     if (data.cursors) {
       setState({
         searchCursors: data.cursors,
-        searchMode: true,
-      });
-    } else {
-      setState({
-        searchMode: true,
       });
     }
   }, [data?.cursors]);
@@ -70,7 +69,7 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
           <button
             className='p-[5px] bg-[#333333] text-white rounded-full hover:bg-[#555555] disabled:bg-[#949494] disabled:text-[#c5c5c5]'
             aria-label='이전 메시지'
-            disabled={isFirst}
+            disabled={isFirstMessage}
             onClick={() => handleUpDown('backward')}
           >
             <Icon type='arrow' className='w-[20px] h-[20px] text-inherit' />
@@ -78,7 +77,7 @@ const SearchMessage = ({ currentChannelId }: SearchMessageProps) => {
           <button
             className='p-[5px] bg-[#333333] text-white rounded-full hover:bg-[#555555] disabled:bg-[#949494] disabled:text-[#c5c5c5]'
             aria-label='다음 메시지'
-            disabled={isLast}
+            disabled={isLastMessage}
             onClick={() => handleUpDown('forward')}
           >
             <Icon

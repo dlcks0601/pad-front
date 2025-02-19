@@ -1,11 +1,14 @@
+import { searchChannelMessages } from '@/apis/channel.api';
 import LoadingDots from '@/components/molecules/LoadingDots';
 import Messages from '@/components/organisms/chat/Messages';
-import { useInfiniteMessagesQuery } from '@/hooks/chat/useMessages';
+import { useInfiniteMessages } from '@/hooks/chat/useMessages';
 import { useScroll } from '@/hooks/useScroll';
 import { useChatStore } from '@/store/chatStore';
+import { useSearchStore } from '@/store/searchStore';
 import { Channel } from '@/types/channel.type';
 import { ReceiveMessage } from '@/types/message.type';
-import { useEffect, useMemo } from 'react';
+import queryClient from '@/utils/queryClient';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useShallow } from 'zustand/shallow';
 
@@ -13,65 +16,87 @@ interface ChatMessagesProps {
   currentChannelId: Channel['channelId'];
 }
 
+let renderingCount = 1;
+
 const ChatMessages = ({ currentChannelId }: ChatMessagesProps) => {
   const {
-    data,
-    // hasPreviousPage,
-    // fetchPreviousPage,
+    data: chatMessages,
+    hasPreviousPage,
+    fetchPreviousPage,
     hasNextPage,
     fetchNextPage,
     isLoading,
     refetch,
     isFetching,
-  } = useInfiniteMessagesQuery(currentChannelId);
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+  } = useInfiniteMessages(currentChannelId);
 
-  const { socketMessages, updatedNeeded, setState } = useChatStore(
+  const { socketMessages, updateNeeded, setChatState } = useChatStore(
     useShallow((state) => ({
       socketMessages: state.messages[currentChannelId!],
-      updatedNeeded: state.updateNeeded,
-      setState: state.setState,
+      updateNeeded: state.updateNeeded,
+      setChatState: state.setState,
     }))
   );
 
-  const { ref: loadPrevRef, inView: isTopInView } = useInView({
+  const { searchMode, searchKeyword, setSearchState } = useSearchStore(
+    useShallow((state) => ({
+      searchMode: state.searchMode,
+      searchKeyword: state.searchKeyword,
+      setSearchState: state.setState,
+    }))
+  );
+
+  const { ref: loadNextRef, inView: isTopInView } = useInView({
     threshold: 1,
   });
 
-  const messages = useMemo(() => {
-    const infiniteMessages = data
-      ? data.pages?.flatMap((page) => page.messages)
-      : [];
-    const messages = [
-      ...(infiniteMessages ? infiniteMessages : []),
-      ...(socketMessages ? socketMessages : []),
-    ];
+  const { ref: loadPrevRef, inView: isBottomInView } = useInView({
+    threshold: 1,
+  });
 
-    return deduplicateAndSortMessages(messages);
-  }, [data, socketMessages]);
+  const messages = deduplicateAndSortMessages([
+    ...(chatMessages ? chatMessages : []),
+    ...(socketMessages ? socketMessages : []),
+  ]);
+
+  const searchData = queryClient.getQueryData<
+    Awaited<ReturnType<typeof searchChannelMessages>>
+  >(['searchMessages', currentChannelId, searchKeyword]);
+
+  console.log('chatMessages', renderingCount++);
 
   const totalImages = messages.filter((message) => message.type === 'image');
 
   const { handleImageLoad, scrollContainerRef } = useScroll<ReceiveMessage>({
     datas: messages,
     totalImageCount: totalImages.length,
+    searchMode,
   });
 
   useEffect(() => {
-    refetch();
-  }, [currentChannelId]);
-
-  useEffect(() => {
-    if (updatedNeeded) {
+    // 다른 사람이 채널에 입장했을 때 해당 채널의 readCount 가 1씩 증가하는데 이를 화면에 반영하기 위함
+    if (updateNeeded) {
       refetch();
-      setState({ updateNeeded: false });
+      setChatState({ updateNeeded: false });
     }
-  }, [updatedNeeded]);
+  }, [updateNeeded]);
 
+  console.log({ hasNextPage, hasPreviousPage });
   useEffect(() => {
     if (isTopInView && hasNextPage) {
+      setSearchState({ searchMode: false, searchDirection: 'backward' });
       fetchNextPage();
     }
   }, [isTopInView, hasNextPage]);
+
+  useEffect(() => {
+    if (isBottomInView && hasPreviousPage) {
+      setSearchState({ searchMode: false, searchDirection: 'forward' });
+      fetchPreviousPage();
+    }
+  }, [isBottomInView, hasPreviousPage]);
 
   if (isLoading) {
     return (
@@ -84,14 +109,19 @@ const ChatMessages = ({ currentChannelId }: ChatMessagesProps) => {
   return (
     <div
       ref={scrollContainerRef}
-      // onScroll={() => setState({ searchMode: false })}
       className='grow pl-[56px] pr-[46px] flex flex-col overflow-y-scroll mr-[10px] hover:mr-0 scrollbar'
     >
       {messages && (
         <>
-          {hasNextPage && <div ref={loadPrevRef}></div>}
+          {hasNextPage && !isFetchingNextPage && <div ref={loadNextRef}></div>}
           {isFetching && <LoadingDots />}
-          <Messages messages={messages} handleImageLoad={handleImageLoad} />
+          <Messages
+            messages={searchMode && searchData ? searchData.messages : messages}
+            handleImageLoad={handleImageLoad}
+          />
+          {hasPreviousPage && !isFetchingPreviousPage && (
+            <div ref={loadPrevRef}></div>
+          )}
         </>
       )}
     </div>

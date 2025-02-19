@@ -180,7 +180,6 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       },
       // 채널에 참가 했을 때 channels 상태 업데이트
       handleChannelJoined: (channel) => {
-        console.log('handleChannelJoined >>> ', channel);
         const myUserId = useAuthStore.getState().userInfo?.userId;
         set((state) => {
           state.currentChannelId = channel.channelId;
@@ -195,7 +194,6 @@ export const useChatStore = create<ChatState & ChatAction & Handlers>()(
       },
       // 채팅 페이지 입장시 채널 리스트 조회
       handleFetchChannels: (channels) => {
-        console.log('handleFetchChannels >>> ', channels);
         const myUserId = useAuthStore.getState().userInfo?.userId;
         set((state) => {
           channels.forEach((channel) => {

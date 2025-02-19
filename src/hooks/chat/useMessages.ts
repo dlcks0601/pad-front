@@ -4,25 +4,27 @@ import { useSearchStore } from '@/store/searchStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useShallow } from 'zustand/shallow';
 
-export const useInfiniteMessagesQuery = (currentChannelId: number) => {
-  useSearchStore(
+export const useInfiniteMessages = (currentChannelId: number) => {
+  const { cursor } = useSearchStore(
     useShallow((state) => ({
-      searchMode: state.searchMode,
-      cursors: state.searchCursors,
+      cursor: state.searchCursors,
     }))
   );
+  const direction = useSearchStore.getState().searchDirection;
+
   return useInfiniteQuery({
-    queryKey: ['messages', currentChannelId],
+    queryKey: ['messages', currentChannelId, cursor],
     queryFn: ({ pageParam }) =>
       fetchChannelMessages({
         channelId: currentChannelId,
-        direction: useSearchStore.getState().searchDirection, // backward | forward
+        direction: direction, // backward | forward
         limit: LIMIT.INFINITE_MESSAGES,
         cursor: pageParam,
       }),
-    initialPageParam: null as number | null, // next | prev | null
+    initialPageParam: direction === 'backward' ? cursor.prev : cursor.next, // next | prev | null
     getNextPageParam: (lastPage) => lastPage.cursors.prev,
-    getPreviousPageParam: (firstPage) => firstPage.cursors.next,
-    gcTime: 0, // queryKey 가 변경되면 이전 데이터들은 캐시에서 바로 제거
+    getPreviousPageParam: (firstPage, allPages) =>
+      allPages.length === 1 ? cursor.next : firstPage.cursors.next,
+    select: (data) => data.pages.flatMap((page) => page.messages),
   });
 };

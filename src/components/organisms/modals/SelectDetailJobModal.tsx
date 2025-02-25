@@ -1,5 +1,5 @@
 import Button from '@/components/atoms/Button';
-import HorizontalDivider from '@/components/atoms/HorizontalDivider';
+import Divider from '@/components/atoms/Divider';
 import Modal from '@/components/organisms/modals/Modal';
 import { ModalProps } from '@/components/organisms/modals/modalProps';
 import { ROLE_LIST } from '@/constants/roles';
@@ -66,7 +66,9 @@ const SelectDetailJobModal = ({ onClose }: ModalProps) => {
                 </button>
               ))}
             </div>
-            {i < 2 && <HorizontalDivider className='my-4' />}
+            {i < 2 && (
+              <Divider variants='horizontal' color='light' className='my-4' />
+            )}
           </div>
         ))}
       </div>

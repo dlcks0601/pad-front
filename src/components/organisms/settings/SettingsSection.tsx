@@ -1,4 +1,5 @@
 import Button from '@/components/atoms/Button';
+import Divider from '@/components/atoms/Divider';
 import Input from '@/components/atoms/Input';
 import Toggle from '@/components/atoms/Toggle';
 import { cn } from '@/utils/cn';
@@ -24,7 +25,13 @@ SettingsSection.Description = function ({ children }: { children: ReactNode }) {
 };
 
 SettingsSection.Divider = function () {
-  return <div className='w-full h-[1px] bg-[#DCDCDC] mt-[20px] mb-[30px]' />;
+  return (
+    <Divider
+      variants='horizontal'
+      color='light'
+      className='mt-[20px] mb-[30px]'
+    />
+  );
 };
 
 SettingsSection.Content = function ({

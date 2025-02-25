@@ -1,5 +1,5 @@
 import TabsButton from '@/components/atoms/TabsButton';
-import VerticalDivider from '@/components/atoms/VerticalDivider';
+import Divider from '@/components/atoms/Divider';
 import { PropsWithChildren } from 'react';
 
 export interface TabProps {
@@ -16,7 +16,7 @@ const TabItem = ({
   return (
     <>
       <TabsButton {...rest}>{children}</TabsButton>
-      {!hideDivider && <VerticalDivider />}
+      {!hideDivider && <Divider variants='vertical' color='dark' />}
     </>
   );
 };

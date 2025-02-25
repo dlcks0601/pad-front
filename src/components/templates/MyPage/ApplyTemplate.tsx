@@ -1,5 +1,5 @@
 import Button from '@/components/atoms/Button';
-import HorizontalDivider from '@/components/atoms/HorizontalDivider';
+import Divider from '@/components/atoms/Divider';
 import ApplyFormSection from '@/components/organisms/ApplyFormSection/ApplyFormSection';
 import useApply from '@/hooks/mypage/useApply.business';
 import useApplyUI from '@/hooks/mypage/useApply.ui';
@@ -126,7 +126,7 @@ const ApplyTemplate = () => {
                 {applyForm.skills.join(', ')}
               </span>
             )}
-            <HorizontalDivider className='my-5' />
+            <Divider variants='horizontal' color='light' className='my-5' />
             <span className='font-light'>{applyForm.detail}</span>
           </div>
           {isMyPage && (

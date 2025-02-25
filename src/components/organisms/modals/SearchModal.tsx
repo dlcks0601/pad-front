@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTabs } from '@/hooks/useTabs';
 import { useSearchByModal } from '@/hooks/queries/search.query';
-import HorizontalDivider from '@/components/atoms/HorizontalDivider';
+import Divider from '@/components/atoms/Divider';
 import SearchResults from '@/components/molecules/search/SearchResults';
 import { useSearchTabsStore } from '@/store/searchTabsStore';
 import { useShallow } from 'zustand/shallow';
@@ -104,7 +104,13 @@ const SearchModal = ({ onClose }: ModalProps) => {
                   }}
                 />
               )}
-              {active === '전체' && <HorizontalDivider className='my-10' />}
+              {active === '전체' && (
+                <Divider
+                  variants='horizontal'
+                  color='light'
+                  className='my-10'
+                />
+              )}
               {active !== '피드' && (
                 <SearchResults
                   items={hubs as any[]}

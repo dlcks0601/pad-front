@@ -24,7 +24,7 @@ const InputWithLabel = ({
         value={value}
         onChange={(e) => setValue(e)}
         name={name}
-        className='w-full h-10 rounded-[10px] border border-[#838383] outline-none bg-transparent px-[16px]'
+        className='w-full h-10 rounded-[10px] border border-gray outline-none bg-transparent px-[16px]'
         placeholder={placeholder}
       />
     </div>

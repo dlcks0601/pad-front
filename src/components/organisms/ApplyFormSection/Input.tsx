@@ -25,7 +25,7 @@ const ApplyFormInput = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         name={name.eng}
-        className='w-full h-10 rounded-[10px] border border-[#838383] outline-none bg-transparent px-[16px]'
+        className='w-full h-10 rounded-[10px] border border-gray outline-none bg-transparent px-[16px]'
         placeholder={`${name.kor}${getChar()} 입력해주세요`}
       />
     </div>

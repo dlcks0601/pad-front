@@ -17,8 +17,8 @@ const ShortFeed = ({ onClick, ...props }: IProps) => {
       <div className='flex flex-col ite gap-[5px] w-full'>
         <div className='flex items-center gap-[5px] relative w-full'>
           <span className='text-[16px] font-medium'>{props.userNickname}</span>
-          <div className='w-[4px] h-[4px] bg-[#838383] rounded-full' />
-          <span className='text-[#838383] text-[14px]'>
+          <div className='w-[4px] h-[4px] bg-gray rounded-full' />
+          <span className='text-gray text-[14px]'>
             {props.createdAt.split('T')[0].replaceAll('-', '.')}
           </span>
           <div className='flex gap-3 absolute right-0'>

@@ -43,7 +43,7 @@ const HubBody = ({
             .map((detailRoles) => (
               <span
                 key={detailRoles}
-                className={`${roleTagItemsColors[detailRoles]} bg-[#eaeaea] inline-flex items-center px-3 py-1`}
+                className={`${roleTagItemsColors[detailRoles]} bg-lightgray inline-flex items-center px-3 py-1`}
               >
                 {roleTagItems[detailRoles]}
               </span>

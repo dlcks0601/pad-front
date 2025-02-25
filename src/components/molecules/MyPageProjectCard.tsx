@@ -45,7 +45,7 @@ const MyPageProjectCard = ({
 
         <div className='flex flex-col h-[104px] relative'>
           <span className='font-semibold text-[20px]'>{title}</span>
-          <span className='text-[13px] font-regular text-[#838383] line-clamp-2 min-h-9'>
+          <span className='text-[13px] font-regular text-gray line-clamp-2 min-h-9'>
             {description}
           </span>
           <div className='mt-3 flex gap-1'>

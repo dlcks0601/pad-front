@@ -26,7 +26,7 @@ const SearchPage = () => {
           {tabs.map((item) => (
             <button
               key={item}
-              className={`px-2 h-[46px] flex justify-center items-center ${activeTab === item ? 'border-b-4 border-b-[#FFBA6C] text-[#FFBA6C]' : 'border-b-4 border-b-[#7D7D7D] text-[#7D7D7D]'}`}
+              className={`px-2 h-[46px] flex justify-center items-center ${activeTab === item ? 'border-b-4 border-b-[#FFBA6C] text-[#FFBA6C]' : 'border-b-4 border-b-darkgray text-darkgray'}`}
               onClick={() => setActiveTab(item)}
             >
               {item}

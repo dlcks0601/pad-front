@@ -23,7 +23,7 @@ const LinkBox = ({ links }: LinkBoxProps) => {
   };
 
   return (
-    <div className='w-full mt-4 bg-[#EAEAEA] p-5 rounded-[10px]'>
+    <div className='w-full mt-4 bg-lightgray p-5 rounded-[10px]'>
       <div className='flex flex-col gap-[13px] text-[15px]'>
         {links?.map((link, index) => {
           return <LinkInput key={link.linkId} link={link} index={index} />;

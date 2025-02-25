@@ -16,7 +16,7 @@ const Job = ({ openJobModal }: JobProps) => {
     <div className='relative w-full mt-5'>
       <Label text='상세 직무' />
       <button
-        className='border border-[#838383] rounded-[10px] h-10 bg-transparent outline-none flex justify-between items-center px-[15px] py-[11px] w-[280px] mt-2'
+        className='border border-gray rounded-[10px] h-10 bg-transparent outline-none flex justify-between items-center px-[15px] py-[11px] w-[280px] mt-2'
         onClick={openJobModal}
       >
         {settingsForm.jobDetail ? (
@@ -25,7 +25,7 @@ const Job = ({ openJobModal }: JobProps) => {
             <ChevronRightIcon width={16} strokeWidth={2} />
           </div>
         ) : (
-          <span className='text-[15px] text-[#838383]'>
+          <span className='text-[15px] text-gray'>
             상세 직무를 선택해주세요
           </span>
         )}

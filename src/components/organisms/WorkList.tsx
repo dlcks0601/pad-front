@@ -51,7 +51,7 @@ WorkList.Github = function Github({
     <>
       {isMyPage && changeGithubId && (
         <div className='flex flex-col items-center justify-center bg-white border border-[#e1e1e1] rounded-[5px] pb-[10px] pt-4 h-[158px]'>
-          <span className='text-[15px] font-medium text-[#838383]'>
+          <span className='text-[15px] font-medium text-gray'>
             깃허브 계정을 연결해주세요
           </span>
           <Input
@@ -129,7 +129,7 @@ WorkList.SoundCloud = function SoundCloud({
       />
       <div className='w-full flex justify-end'>
         <button
-          className='flex items-center text-[13px] text-[#838383] mt-[-10px]'
+          className='flex items-center text-[13px] text-gray mt-[-10px]'
           onClick={onDelete}
         >
           <span>음악 삭제하기</span>
@@ -175,7 +175,7 @@ WorkList.Spotify = function Spotify({
         className=''
       />
       <div className='w-full justify-end'>
-        <button className='text-[13px] text-[#838383]' onClick={onDelete}>
+        <button className='text-[13px] text-gray' onClick={onDelete}>
           삭제하기 <XMarkIcon width={12} />
         </button>
       </div>

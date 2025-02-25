@@ -46,7 +46,7 @@ const SearchResults = ({
             })}
             {hasMore && (
               <button
-                className='text-[#838383] flex w-full justify-end items-center gap-1'
+                className='text-gray flex w-full justify-end items-center gap-1'
                 onClick={hasMoreNavigate}
               >
                 더보기 <ChevronRightIcon width={12} strokeWidth={3} />

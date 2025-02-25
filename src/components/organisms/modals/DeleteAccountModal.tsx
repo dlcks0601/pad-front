@@ -48,7 +48,7 @@ const DeleteAccountModal = ({ onClose }: ModalProps) => {
           width='100px'
           height='40px'
           radius='md'
-          className='border border-[#838383] text-[#838383]'
+          className='border border-gray text-gray'
         >
           취소
         </Button>

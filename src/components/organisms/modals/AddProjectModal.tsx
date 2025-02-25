@@ -115,7 +115,7 @@ const AddProjectModal = ({
       <Modal.Title>프로젝트 추가</Modal.Title>
       <div className='flex gap-3'>
         <div
-          className={`w-[98px] h-[98px] rounded-[10px] ${projectForm.image ? null : 'border border-[#838383]'} flex justify-center items-center cursor-pointer`}
+          className={`w-[98px] h-[98px] rounded-[10px] ${projectForm.image ? null : 'border border-gray'} flex justify-center items-center cursor-pointer`}
           onClick={() => inputRef.current?.click()}
         >
           {projectForm.image ? (
@@ -153,7 +153,7 @@ const AddProjectModal = ({
           />
         </div>
       </div>
-      <div className='w-full mt-4 bg-[#EAEAEA] p-5 rounded-[10px]'>
+      <div className='w-full mt-4 bg-lightgray p-5 rounded-[10px]'>
         <div className='flex flex-col gap-[13px] text-[15px]'>
           <UrlInput
             icon={<img src={githubIcon} width={16} />}

@@ -74,12 +74,12 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
             </div>
             {/* 기술 스택 */}
             <SettingsSection.InputWithLabel label='스킬' className='relative'>
-              <div className='w-full border border-[#838383] rounded-[10px] bg-transparent outline-none flex flex-wrap items-center gap-2 pl-[15px] pr-[30px] min-h-10 py-2'>
+              <div className='w-full border border-gray rounded-[10px] bg-transparent outline-none flex flex-wrap items-center gap-2 pl-[15px] pr-[30px] min-h-10 py-2'>
                 {settingsForm?.skills?.length > 0 ? (
                   settingsForm?.skills?.map((skill) => (
                     <button
                       key={skill}
-                      className='flex items-center justify-between px-[10px] py-[3px] h-fit rounded-[5px] border border-[#838383] w-fit text-center text-[12px] hover:text-[#838383]'
+                      className='flex items-center justify-between px-[10px] py-[3px] h-fit rounded-[5px] border border-gray w-fit text-center text-[12px] hover:text-gray'
                       onClick={() => handleClickSkill(skill)}
                     >
                       <span>{skill}</span>
@@ -89,13 +89,13 @@ const InfoSection = ({ settingsInfo }: { settingsInfo: SettingsResponse }) => {
                     </button>
                   ))
                 ) : (
-                  <span className='text-[#838383] text-[14px]'>
+                  <span className='text-gray text-[14px]'>
                     오른쪽 추가 버튼을 눌러 기술 스택을 추가해주세요
                   </span>
                 )}
               </div>
               <button
-                className='absolute right-[10px] bg-[#f5f5f5]]'
+                className='absolute right-[10px] bg-background'
                 onClick={openSkillModal}
               >
                 <PlusIcon width={24} />

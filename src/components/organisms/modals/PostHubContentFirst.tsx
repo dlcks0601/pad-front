@@ -188,7 +188,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
             hubContent.detailRoles.map((detailRoles) => (
               <div
                 key={detailRoles}
-                className='flex text-[12px] items-center px-2 py-1 bg-[#EAEAEA] rounded-sm'
+                className='flex text-[12px] items-center px-2 py-1 bg-lightgray rounded-sm'
               >
                 <span className='mr-1'>{detailRoles}</span>
                 <button
@@ -225,7 +225,7 @@ const PostHubContentFirst = ({ onNext }: PostHubContentFirstProps) => {
             hubContent.skills.map((skill) => (
               <div
                 key={skill}
-                className='flex text-[12px] items-center px-2 py-1 bg-[#EAEAEA] rounded-sm'
+                className='flex text-[12px] items-center px-2 py-1 bg-lightgray rounded-sm'
               >
                 <span className='mr-1'>{skill}</span>
                 <button

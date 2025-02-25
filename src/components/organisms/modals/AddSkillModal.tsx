@@ -65,7 +65,7 @@ const AddSkillModal = ({ onClose }: ModalProps) => {
   return (
     <Modal onClose={onClose} className='!px-8 w-[540px]'>
       <Modal.Title>기술 스택 선택하기</Modal.Title>
-      <div className='text-[13px] text-[#7D7D7D] flex flex-col'>
+      <div className='text-[13px] text-darkgray flex flex-col'>
         <span>
           당신이 다루어 본 기술과 현재 배우고 있는 기술을 작성해주세요.
         </span>
@@ -84,7 +84,7 @@ const AddSkillModal = ({ onClose }: ModalProps) => {
           {selectedSkills.map((skill) => (
             <button
               key={skill}
-              className='flex items-center justify-between px-[10px] py-[5px] h-fit rounded-[10px] border border-[#838383] w-fit text-center text-[12px]'
+              className='flex items-center justify-between px-[10px] py-[5px] h-fit rounded-[10px] border border-gray w-fit text-center text-[12px]'
               onClick={() => handleRemoveSkill(skill)}
             >
               {skill} <XMarkIcon width={16} />

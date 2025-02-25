@@ -244,7 +244,7 @@ const SideMenu = () => {
           <Avatar
             size='sm'
             alt='User Avatar'
-            className='cursor-pointer border-4 border-transparent hover:border-[#c7c7c7] transition-shadow duration-300'
+            className='cursor-pointer border-4 border-transparent hover:border-mediumgray transition-shadow duration-300'
             src={userInfo?.profileUrl || undefined}
             onClick={() => setShowLogin((prev) => !prev)}
           />

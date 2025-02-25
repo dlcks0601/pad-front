@@ -29,7 +29,7 @@ const UrlInput = ({
             {...props}
           />
           <button
-            className='absolute top-1/2 right-0 transform -translate-y-1/2 px-2 text-[#838383] hover:text-black'
+            className='absolute top-1/2 right-0 transform -translate-y-1/2 px-2 text-gray hover:text-black'
             onClick={onDelete}
           >
             <XMarkIcon width={18} />

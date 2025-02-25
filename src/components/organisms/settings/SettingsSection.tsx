@@ -16,9 +16,7 @@ SettingsSection.Title = function ({ children }: { children: ReactNode }) {
 SettingsSection.Description = function ({ children }: { children: ReactNode }) {
   return (
     <>
-      <h2 className='mt-1 text-[16px] text-[#838383] font-normal'>
-        {children}
-      </h2>
+      <h2 className='mt-1 text-[16px] text-gray font-normal'>{children}</h2>
       <SettingsSection.Divider />
     </>
   );
@@ -68,7 +66,7 @@ SettingsSection.InputWithLabel = function ({
 }: InputWithLabelProps) {
   const buttonStyle = {
     normal: 'bg-[#FF7E5F] text-white',
-    disabled: 'bg-[#CCCCCC] text-[#7D7D7D] w-[66px] h-10',
+    disabled: 'bg-[#CCCCCC] text-darkgray w-[66px] h-10',
   };
 
   return (
@@ -82,7 +80,7 @@ SettingsSection.InputWithLabel = function ({
             {...props}
             height={40}
             bgColor='transparent'
-            className='border border-[#838383]'
+            className='border border-gray'
             value={value ?? ''}
             onChange={(e) => onSetValue?.(e.target.value)}
           />
@@ -117,7 +115,7 @@ SettingsSection.TextWithToggle = function ({
     <div className='flex justify-between items-center'>
       <div className='flex flex-col gap-1 text-[15px]'>
         <strong className='text-black font-medium'>{title}</strong>
-        <span className='text-[#7D7D7D]'>{description}</span>
+        <span className='text-darkgray'>{description}</span>
       </div>
       <Toggle {...rest} />
     </div>

@@ -204,7 +204,7 @@ export const SkillSelect = ({ onSkillSelect }: SkillSelectProps) => {
             <SelectItem
               key={skill}
               value={skill}
-              className='text-[#7d7d7d] text-[12px] rounded-sm'
+              className='text-darkgray text-[12px] rounded-sm'
             >
               {skill}
             </SelectItem>
@@ -218,7 +218,7 @@ export const SkillSelect = ({ onSkillSelect }: SkillSelectProps) => {
             <SelectItem
               key={skill}
               value={skill}
-              className='text-[#7d7d7d] text-[12px] rounded-sm'
+              className='text-darkgray text-[12px] rounded-sm'
             >
               {skill}
             </SelectItem>
@@ -232,7 +232,7 @@ export const SkillSelect = ({ onSkillSelect }: SkillSelectProps) => {
             <SelectItem
               key={skill}
               value={skill}
-              className='text-[#7d7d7d] text-[12px] rounded-sm'
+              className='text-darkgray text-[12px] rounded-sm'
             >
               {skill}
             </SelectItem>

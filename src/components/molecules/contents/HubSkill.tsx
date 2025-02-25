@@ -17,7 +17,7 @@ const HubSkill = ({ skills }: HubSkillProps) => {
       {skills.map((skills) => (
         <div
           key={skills}
-          className={`${skillTagItmesColors[skills]} px-[10px] py-[5px] border rounded-full bg-[#eaeaea] hover:text-[#525252] hover:cursor-pointer`}
+          className={`${skillTagItmesColors[skills]} px-[10px] py-[5px] border rounded-full bg-lightgray hover:text-[#525252] hover:cursor-pointer`}
           onClick={() => {
             navigate(`/search?q=${skillTagItems[skills].slice(1)}`);
           }}

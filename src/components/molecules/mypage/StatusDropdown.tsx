@@ -58,7 +58,7 @@ const StatusDropdown = () => {
     <div className='relative'>
       <Label text='상태' />
       <button
-        className='mt-2 border border-[#838383] rounded-[10px] h-10 w-[220px] bg-transparent outline-none flex justify-between items-center px-[15px] py-[11px]'
+        className='mt-2 border border-gray rounded-[10px] h-10 w-[220px] bg-transparent outline-none flex justify-between items-center px-[15px] py-[11px]'
         onClick={toggleDropdown}
       >
         <span className='text-[15px]'>{selectedOption?.label}</span>

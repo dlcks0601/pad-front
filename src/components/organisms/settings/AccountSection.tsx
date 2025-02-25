@@ -22,18 +22,16 @@ const AccountSection = () => {
           <div className='mb-[-10px]'>
             <div className='flex gap-[100px] items-center'>
               <Label text='연결된 이메일' />
-              <span className='text-[#838383] font-light'>
-                {userInfo?.email}
-              </span>
+              <span className='text-gray font-light'>{userInfo?.email}</span>
             </div>
-            <span className='text-[10px] text-[#7D7D7D] mt-[-10px]'>
+            <span className='text-[10px] text-darkgray mt-[-10px]'>
               이메일은 변경할 수 없어요.
             </span>
           </div>
           <SettingsSection.Divider />
           <div className='flex flex-col mt-[-20px] mb-5 relative'>
             <span className='text-[20px]'>계정 삭제하기</span>
-            <span className='text-[15px] text-[#7D7D7D]'>
+            <span className='text-[15px] text-darkgray'>
               계정을 삭제하시면 그동안 패드에 올려주신 글과 정보가 모두 삭제되어
               복구할 수 없습니다.
             </span>

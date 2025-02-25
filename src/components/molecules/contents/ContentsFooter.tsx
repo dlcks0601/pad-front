@@ -87,17 +87,17 @@ export const HubFooter = ({
           color={bookmarked ? 'red' : 'gray'}
           className='w-[24px] h-[24px]'
         />
-        <span className='text-[#838383]'>{bookMarkCount}</span>
+        <span className='text-gray'>{bookMarkCount}</span>
       </div>
 
       <div className='flex items-center space-x-1'>
         <Icon type='user' color='gray' className='w-[24px] h-[24px]' />
-        <span className='text-[#838383]'>{applyCount}</span>
+        <span className='text-gray'>{applyCount}</span>
       </div>
 
       <div className='flex items-center space-x-1'>
         <Icon type='eye' color='gray' className='w-[24px] h-[24px]' />
-        <span className='text-[#838383]'>{viewCount}</span>
+        <span className='text-gray'>{viewCount}</span>
       </div>
     </div>
   );

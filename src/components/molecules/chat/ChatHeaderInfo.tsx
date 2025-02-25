@@ -15,7 +15,7 @@ const ChatHeaderInfo = ({ currentChannelId }: ChatHeaderInfoProps) => {
         <Title size='md' fontWeight='bold' lineClamp={1}>
           {channels[currentChannelId]?.title}
         </Title>
-        <div className='text-caption1 text-[#838383]'>
+        <div className='text-caption1 text-gray'>
           {channels[currentChannelId]?.users.length}명의 맴버가 있습니다.
         </div>
       </div>

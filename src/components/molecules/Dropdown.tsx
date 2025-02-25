@@ -29,7 +29,7 @@ const Dropdown = ({
     <div
       className={clsx(
         className ??
-          'absolute bg-white w-[220px] h-30 top-20 rounded-[10px] border border-[#838383] text-[15px] overflow-hidden h-[138px] z-10'
+          'absolute bg-white w-[220px] h-30 top-20 rounded-[10px] border border-gray text-[15px] overflow-hidden h-[138px] z-10'
       )}
       style={style}
     >

@@ -81,7 +81,7 @@ const ApplyTemplate = () => {
               height='36px'
               variants='outline'
               radius='sm'
-              className='border border-[#838383]'
+              className='border border-gray'
               onClick={resetApplyForm}
             >
               초기화
@@ -137,7 +137,7 @@ const ApplyTemplate = () => {
                 height='36px'
                 variants='outline'
                 radius='sm'
-                className='border border-[#838383]'
+                className='border border-gray'
                 onClick={() => setIsEditing(true)}
               >
                 수정

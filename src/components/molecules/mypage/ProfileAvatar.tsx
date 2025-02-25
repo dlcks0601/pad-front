@@ -53,7 +53,7 @@ const ProfileAvatar = () => {
       <input type='file' ref={imageRef} hidden onChange={handleFileChange} />
       <div className='flex flex-col'>
         <span className='text-[15px]'>프로필 사진</span>
-        <span className='text-[12px] text-[#838383]'>
+        <span className='text-[12px] text-gray'>
           10MB 이하 PNG, JPG, GIF, SVG를 올려주세요.
         </span>
         <div className='mt-4 flex gap-[10px] items-center text-white text-[10px]'>

@@ -43,7 +43,7 @@ const AddMusicModal = ({
           height='40px'
           variants='outline'
           radius='md'
-          className='border border-[#838383]'
+          className='border border-gray'
           onClick={handleAddMusic}
         >
           추가

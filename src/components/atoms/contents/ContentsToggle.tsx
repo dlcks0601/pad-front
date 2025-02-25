@@ -1,7 +1,7 @@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useFeedSearchStore from '@/store/feedSearchStore';
 
-export function ContentsToggle() {
+export const ContentsToggle = () => {
   const setLetest = useFeedSearchStore((state) => state.setLatest);
   const onChangeToggle = (value: string) => {
     setLetest(value === 'recent');
@@ -10,7 +10,7 @@ export function ContentsToggle() {
     <ToggleGroup
       type='single'
       defaultValue='recent'
-      className='flex items-center bg-[#eaeaea] rounded-lg p-[4px]'
+      className='flex items-center bg-lightgray rounded-lg p-[4px]'
       onValueChange={onChangeToggle}
     >
       <ToggleGroupItem
@@ -27,4 +27,4 @@ export function ContentsToggle() {
       </ToggleGroupItem>
     </ToggleGroup>
   );
-}
+};

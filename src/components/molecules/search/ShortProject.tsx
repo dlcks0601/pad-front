@@ -18,7 +18,7 @@ const ShortProject = ({ onClick, ...props }: IProps) => {
       </div>
       <div className='flex gap-[10px] items-center'>
         <span className='text-[14px] font-extrabold'>{props.role}</span>
-        <span className='flex items-center text-[10px] text-[#838383]'>
+        <span className='flex items-center text-[10px] text-gray'>
           시작 예정일 : {props.startDate.split('T')[0].replaceAll('-', '.')}
           <div className='h-[10px] w-[1px] bg-[#BDBDBD] mx-[10px]'></div>
           예상 기간: {props.duration}

@@ -4,7 +4,7 @@ import { InputHTMLAttributes } from 'react';
 
 export const InputVariants = cva(
   `
-    w-full placeholder-[#838383] text-[#000]
+    w-full placeholder-gray text-[#000]
     focus:outline-none
     `,
   {
@@ -17,7 +17,7 @@ export const InputVariants = cva(
       bgColor: {
         transparent: 'bg-transparent',
         light: 'bg-[#FFFFFF]',
-        medium: 'bg-[#EAEAEA]',
+        medium: 'bg-lightgray',
         dark: 'bg-[#D6D6D6]',
       },
       spacing: {
@@ -34,7 +34,7 @@ export const InputVariants = cva(
       borderColor: {
         light: 'border border-[#DCDCDC]',
         medium: 'border border-[#CCCCCC]',
-        dark: 'border border-[#838383]',
+        dark: 'border border-gray',
       },
     },
     defaultVariants: {

@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Icon from '@/components/atoms/Icon';
 import { cva } from 'class-variance-authority';
 
 const LogInputBox = () => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
-  const editorRef = useRef<HTMLDivElement | null>(null);
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setIsEmpty(e.currentTarget.innerText.trim() === '');
@@ -25,23 +24,10 @@ const LogInputBox = () => {
     }
   );
 
-  useEffect(() => {
-    if (editorRef.current) {
-      const editor = editorRef.current;
-      const lastChild = editor.lastChild;
-
-      if (!lastChild || lastChild.nodeName !== 'BR') {
-        const br = document.createElement('br');
-        br.className = 'ProseMirror-trailingBreak';
-        editor.appendChild(br);
-      }
-    }
-  }, [isEmpty]);
-
   return (
     <div className='bg-white rounded-xl flex flex-col w-[100%] h-36'>
       <div className='py-2 px-3 flex border-b border-[rgb(242, 242, 247)] border-opacity-50 justify-between items-center h-9'>
-        <div className='text-sm'>로그를 작성해보세요.</div>
+        <div className='text-sm'>피드를 작성해보세요.</div>
       </div>
       <div className='false h-14 flex-1'>
         <div className='h-full pt-2 px-3 min-h-14 w-full overflow-auto text-sm focus:border-0 md:max-h-[300px]'>
@@ -51,13 +37,14 @@ const LogInputBox = () => {
             translate='no'
             tabIndex={0}
             onInput={handleInput}
-            suppressContentEditableWarning={true}
-            ref={editorRef}
           >
             {isEmpty && (
-              <span className='absolute text-gray-400 pointer-events-none'>
-                로그를 작성해주세요.
-              </span>
+              <p
+                className='focus:outline-none break-all is-empty before:text-text-tertiary before:content-[attr(data-placeholder)] before:h-0 before:block'
+                data-placeholder='어떤 것을 만들고 있나요?'
+              >
+                <br className='ProseMirror-trailingBreak' />
+              </p>
             )}
           </div>
         </div>

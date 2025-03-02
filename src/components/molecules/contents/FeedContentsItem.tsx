@@ -46,7 +46,7 @@ export const FeedContents = ({
         userId={user.id!}
       />
       <div className='w-full'>
-        <div className='bg-white rounded-[10px] p-[20px] w-full hover:shadow-orange-50'>
+        <div className='bg-white rounded-[10px] p-[20px] w-full hover:shadow-xl'>
           <div className='flex flex-col gap-[20px]'>
             <FeedItem
               title={title}

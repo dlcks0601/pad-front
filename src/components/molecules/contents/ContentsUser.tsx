@@ -17,10 +17,10 @@ const ContentsUser = ({
   userId,
 }: ContentsUserProps) => {
   return (
-    <div className='flex items-start space-x-3'>
+    <div className='flex items-center sm:mb-1 px-0 sm:px-0 gap-2'>
       <AvatarPopup
         profileUrl={userProfileUrl}
-        avatarSize='xs'
+        avatarSize='gg'
         userId={userId!}
         nickname={name}
         popupClassname='top-10'

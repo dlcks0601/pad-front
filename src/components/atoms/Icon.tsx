@@ -9,7 +9,6 @@ import {
   XMarkIcon,
   ChatBubbleOvalLeftIcon,
   HeartIcon,
-  EyeIcon,
   BookmarkIcon,
   ChevronLeftIcon,
   CalendarIcon,
@@ -23,7 +22,6 @@ import {
   TrashIcon,
   PencilSquareIcon,
   ArrowLongUpIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
   ArrowRightStartOnRectangleIcon,
   ListBulletIcon,
 } from '@heroicons/react/24/outline';
@@ -32,6 +30,8 @@ import {
   UserGroupIcon,
   HeartIcon as HeartSolidIcon,
   BookmarkIcon as BookmarkSolidIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+  EyeIcon,
 } from '@heroicons/react/24/solid';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';

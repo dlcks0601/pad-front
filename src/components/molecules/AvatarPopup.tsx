@@ -10,7 +10,7 @@ interface IProps {
   nickname: string;
   userId: number;
   profileUrl: string | null;
-  avatarSize?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg';
+  avatarSize?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'gg';
   avatarClassname?: string;
   popupClassname?: string;
 }

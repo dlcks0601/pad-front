@@ -37,7 +37,7 @@ export const FeedContents = ({
   createdAt,
 }: FeedContentsProps) => {
   return (
-    <div className='flex flex-col w-full gap-[20px]'>
+    <div className='flex flex-col w-full gap-[10px]'>
       {/* <ContentsUser
         userProfileUrl={user.avatarSrc}
         name={user.name}

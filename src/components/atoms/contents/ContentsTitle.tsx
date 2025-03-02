@@ -3,7 +3,11 @@ interface ContentsTitleProps {
 }
 
 const ContentsTitle = ({ title }: ContentsTitleProps) => {
-  return <div className='flex text-[20px] font-medium'>{title}</div>;
+  return (
+    <div className='text-texts-primary line-clamp-2 text-base font-medium sm:text-lg sm:leading-[140%]'>
+      {title}
+    </div>
+  );
 };
 
 export default ContentsTitle;

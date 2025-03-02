@@ -35,7 +35,7 @@ const Feed = () => {
     };
   }, [handleObserver]);
   return (
-    <div className='flex flex-col gap-[30px] w-full'>
+    <div className='flex flex-col gap-[15px] w-full'>
       {flattenedData.map((item) => (
         <FeedContents
           key={item.postId}

@@ -11,7 +11,7 @@ interface FeedBodyProps {
 
 const FeedBody = ({ title, content, tags }: FeedBodyProps) => {
   return (
-    <div className='flex flex-col w-full gap-[20px]'>
+    <div className='flex flex-col w-full gap-[10px]'>
       <ContentsTitle title={title} />
       <ContentsBody body={content} />
       <div className='flex gap-[10px]'>
@@ -19,7 +19,7 @@ const FeedBody = ({ title, content, tags }: FeedBodyProps) => {
           <div
             key={tag}
             className={clsx(
-              'px-[5px] py-[2px] text-caption1 rounded-[5px]',
+              'px-[5px] py-[2px] text-caption1 rounded-[5px] flex-shrink-0 flex-wrap',
               tagColors[tag]
             )}
           >

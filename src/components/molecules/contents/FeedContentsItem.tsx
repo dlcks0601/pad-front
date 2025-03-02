@@ -38,16 +38,23 @@ export const FeedContents = ({
 }: FeedContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[20px]'>
-      <ContentsUser
+      {/* <ContentsUser
         userProfileUrl={user.avatarSrc}
         name={user.name}
         userRole={user.job}
         createdAt={createdAt}
         userId={user.id!}
-      />
+      /> */}
       <div className='w-full'>
-        <div className='bg-white rounded-[10px] p-[20px] w-full hover:shadow-xl'>
-          <div className='flex flex-col gap-[20px]'>
+        <div className='rounded-[10px] p-[20px] w-full hover:shadow-xl'>
+          <div className='flex flex-col gap-[10px]'>
+            <ContentsUser
+              userProfileUrl={user.avatarSrc}
+              name={user.name}
+              userRole={user.job}
+              createdAt={createdAt}
+              userId={user.id!}
+            />
             <FeedItem
               title={title}
               content={content}

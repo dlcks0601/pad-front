@@ -22,6 +22,7 @@ const Feed = () => {
     },
     [hasNextPage, isFetchingNextPage, fetchNextPage]
   );
+
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       threshold: 1.0,
@@ -104,4 +105,5 @@ const Feed = () => {
     </div>
   );
 };
+
 export default Feed;

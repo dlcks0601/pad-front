@@ -34,7 +34,7 @@ const AvatarPopup = ({
     <div className='relative cursor-pointer flex items-center !h-fit'>
       <button
         onClick={() => {
-          if (!isLoggedIn) return null;
+          // if (!isLoggedIn) return null;
           if (userId === userInfo?.userId) {
             navigate(`/@${userInfo?.nickname}`);
           } else {

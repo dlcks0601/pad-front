@@ -24,7 +24,7 @@ const AvatarPopup = ({
   popupClassname,
 }: IProps) => {
   const navigate = useNavigate();
-  const { userInfo, isLoggedIn } = useAuthStore(useShallow((state) => state));
+  const { userInfo } = useAuthStore(useShallow((state) => state));
 
   const { isOpen, openModal, closeModal } = useModal();
 

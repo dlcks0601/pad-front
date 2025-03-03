@@ -23,7 +23,7 @@ const ContentsUser = ({
         avatarSize='gg'
         userId={userId!}
         nickname={name}
-        popupClassname='top-10'
+        popupClassname='top-8'
       />
       <FeedContentsUserTitle
         userNickname={name}

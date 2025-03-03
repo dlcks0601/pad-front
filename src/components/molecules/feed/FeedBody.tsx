@@ -1,5 +1,5 @@
-import ContentsTitle from '@/components/atoms/contents/ContentsTitle';
-import ContentsBody from '@/components/atoms/contents/ContentsBody';
+import ContentsTitle from '@/components/atoms/ContentsTitle';
+import ContentsBody from '@/components/molecules/feed/ContentsBody';
 import { TagItemKey, tagColors } from '@/constants/tagItem';
 import clsx from 'clsx';
 

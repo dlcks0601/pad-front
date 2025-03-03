@@ -1,9 +1,9 @@
 import Button from '@/components/atoms/Button';
-import { ContentsToggle } from '@/components/atoms/contents/ContentsToggle';
 import { Plus } from 'lucide-react';
 import PostFeedModal from '@/components/organisms/modals/PostFeedModal';
 import usePostModal from '@/hooks/usePostModal';
-import LogInputBox from '@/components/organisms/LogInputBox';
+import FeedSortToggle from '@/components/molecules/feed/FeedSortToggle';
+import { FeedTagSelect } from '@/components/molecules/feed/FeedTagSelect';
 
 export const FeedContentsTop = () => {
   const { isModalOpen, setIsSubmitted, openPostModal, closePostModal } =
@@ -12,7 +12,7 @@ export const FeedContentsTop = () => {
     <>
       <div className='flex flex-col items-start gap-[20px]'>
         <div className='flex w-full justify-between items-center border border-gray-300 rounded-lg p-1'>
-          <ContentsToggle />
+          <FeedSortToggle />
           <Button
             width='90px'
             height='50px'
@@ -24,8 +24,7 @@ export const FeedContentsTop = () => {
             <Plus className='mr-2 w-5 h-5' /> 새 피드
           </Button>
         </div>
-        {/* <FeedTagSelect /> */}
-        <LogInputBox />
+        <FeedTagSelect />
       </div>
       {isModalOpen && (
         <PostFeedModal

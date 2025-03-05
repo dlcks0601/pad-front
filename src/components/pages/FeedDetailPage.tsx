@@ -47,7 +47,7 @@ const FeedDetailPage = () => {
             postId={post.postId}
           />
           <div
-            className='relative bg-white w-full flex flex-col overflow-y-scroll [&::-webkit-scrollbar]:hidden py-[10px] rounded-[20px] z-10'
+            className='w-full flex flex-col overflow-y-scroll [&::-webkit-scrollbar]:hidden py-[10px] z-10 border-t-[1px]'
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',

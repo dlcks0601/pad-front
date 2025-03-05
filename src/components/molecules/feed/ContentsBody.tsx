@@ -15,7 +15,7 @@ const ContentsBody = ({ body }: ContentsBodyProps) => {
 
   return (
     <div
-      className='line-clamp-3'
+      className='line-clamp-3 text-sm text-[rgb(72, 72, 74)]'
       dangerouslySetInnerHTML={getTruncatedContent(body)}
     ></div>
   );

@@ -38,13 +38,6 @@ const FeedListContent = ({
 }: FeedContentsProps) => {
   return (
     <div className='flex flex-col w-full gap-[10px]'>
-      {/* <ContentsUser
-        userProfileUrl={user.avatarSrc}
-        name={user.name}
-        userRole={user.job}
-        createdAt={createdAt}
-        userId={user.id!}
-      /> */}
       <div className='w-full'>
         <div className='rounded-[10px] p-[20px] w-full hover:shadow-[4px_4px_6px_rgba(0,0,0,0.1)]'>
           <div className='flex flex-col gap-[10px]'>

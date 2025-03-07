@@ -45,6 +45,8 @@ const SearchModal = ({ onClose }: ModalProps) => {
   const hubs = data?.projectResult?.projects;
 
   const closeHandler = () => {
+    const currentPath = window.location.pathname;
+    navigate(currentPath);
     onClose();
     setKeyword('');
   };

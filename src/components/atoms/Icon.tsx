@@ -25,6 +25,7 @@ import {
   ArrowRightStartOnRectangleIcon,
   ListBulletIcon,
   H1Icon,
+  Bars3Icon,
 } from '@heroicons/react/24/outline';
 import {
   UserCircleIcon,
@@ -33,14 +34,18 @@ import {
   BookmarkIcon as BookmarkSolidIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   EyeIcon,
+  BellIcon as BellSolidIcon,
+  HomeIcon as HomeSolidIcon,
 } from '@heroicons/react/24/solid';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
 type IconType =
   | 'bell'
+  | 'bellSolid'
   | 'mail'
   | 'home'
+  | 'homeSolid'
   | 'search'
   | 'star'
   | 'plus'
@@ -68,13 +73,15 @@ type IconType =
   | 'bookmarkSolid'
   | 'exit'
   | 'list'
-  | 'h1';
+  | 'h1'
+  | 'bar3';
 
 const iconVariants = cva('', {
   variants: {
     color: {
       black: 'text-black',
       white: 'text-white',
+      lightgray: 'text-[rgb(245, 245, 247)]',
       gray: 'text-[#838383]',
       red: 'text-[#FF5E5E]',
     },
@@ -166,6 +173,13 @@ const Icon = ({ type, className = '', color }: IconProps) => {
     ),
     list: <ListBulletIcon className={cn(iconVariants({ color }), className)} />,
     h1: <H1Icon className={cn(iconVariants({ color }), className)} />,
+    bar3: <Bars3Icon className={cn(iconVariants({ color }), className)} />,
+    bellSolid: (
+      <BellSolidIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    homeSolid: (
+      <HomeSolidIcon className={cn(iconVariants({ color }), className)} />
+    ),
   };
 
   return <>{icons[type]}</>;

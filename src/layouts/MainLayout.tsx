@@ -2,10 +2,12 @@ import { Outlet, useLocation } from 'react-router-dom';
 import SideMenu from '@/components/organisms/sides/SideMenu';
 import MainSideBar from '@/components/organisms/sides/MainSideBar';
 import MobileNav from '@/components/organisms/sides/MobileNav';
+import useMobileNavStore from '@/store/mobileNavStore';
 
 const MainLayout = () => {
   const preventInfo = ['/login'];
   const location = useLocation();
+  const { isNavShowed } = useMobileNavStore();
 
   return (
     <div className='min-h-screen flex flex-col lg:flex-row lg:px-[10px]'>
@@ -13,8 +15,8 @@ const MainLayout = () => {
         <div className='hidden lg:block w-full h-full'>
           <SideMenu />
         </div>
-        <div className='block lg:hidden w-full h-full'>
-          <MobileNav />
+        <div className='lg:hidden w-full h-full'>
+          {isNavShowed && <MobileNav />}
         </div>
       </div>
       <div className='flex-1 overflow-y-auto'>

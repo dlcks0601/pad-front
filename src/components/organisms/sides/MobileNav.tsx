@@ -1,13 +1,17 @@
+import Avatar from '@/components/atoms/Avatar';
 import Icon from '@/components/atoms/Icon';
 import Logo from '@/components/atoms/Logo';
 import MobileHamburgarMenu from '@/components/organisms/sides/MobileHamburgarMenu';
+import { useNotification } from '@/components/organisms/sse/NotificationProvider';
 import useAuthStore from '@/store/authStore';
 import { useEffect, useRef, useState } from 'react';
 
 const MobileNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAlarmOpen, setIsAlarmOpen] = useState(false);
   const { isLoggedIn } = useAuthStore();
   const menuRef = useRef<HTMLDivElement>(null);
+  const { messages, markNotificationAsRead } = useNotification();
 
   useEffect(() => {
     const handleClickOutside = (event: TouchEvent) => {
@@ -52,7 +56,10 @@ const MobileNav = () => {
         </nav>
         <nav className='flex w-[102px] h-8 justify-end items-center gap-2'>
           {isLoggedIn && (
-            <div className='w-7 h-7'>
+            <div
+              className='w-7 h-7'
+              onClick={() => setIsAlarmOpen(!isAlarmOpen)}
+            >
               <Icon type='bellSolid' color={'gray'} />
             </div>
           )}
@@ -65,6 +72,49 @@ const MobileNav = () => {
         </nav>
       </div>
       {isMenuOpen && <MobileHamburgarMenu />}
+      {isAlarmOpen && (
+        <div className='absolute mt-3 ml-2 mr-2 px-1 py-2 flex w-full flex-col items-center gap-2 bg-blue-300'>
+          <div className='text-[18px] font-semibold text-[#48484a]'>
+            알림 📫
+          </div>
+          {messages.length === 0 ? (
+            <div className='text-[16px] text-[#828282]'>
+              현재 새로운 알림이 없습니다.
+            </div>
+          ) : (
+            <div className='flex w-full flex-col gap-[20px]'>
+              {messages.map((message) => (
+                <div
+                  key={message.notificationId}
+                  className='flex w-full justify-start text-[14px] items-center gap-[10px]'
+                >
+                  <Avatar
+                    src={message.senderProfileUrl || undefined}
+                    size='xs'
+                  />
+                  <div>
+                    <div>{message.message}</div>
+                    <div className='text-[12px] text-gray-500'>
+                      {message.timestamp}
+                    </div>
+                  </div>
+                  <div
+                    onClick={() =>
+                      markNotificationAsRead(message.notificationId)
+                    }
+                  >
+                    <Icon
+                      type='trash'
+                      color='black'
+                      className='w-[20px] h-[20px] cursor-pointer'
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

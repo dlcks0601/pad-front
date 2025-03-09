@@ -26,6 +26,7 @@ import {
   ListBulletIcon,
   H1Icon,
   Bars3Icon,
+  ChevronUpIcon,
 } from '@heroicons/react/24/outline';
 import {
   UserCircleIcon,
@@ -84,7 +85,8 @@ type IconType =
   | 'bar3'
   | 'logOut'
   | 'cog'
-  | 'behindSolid';
+  | 'behindSolid'
+  | 'up';
 
 const iconVariants = cva('', {
   variants: {
@@ -205,6 +207,7 @@ const Icon = ({ type, className = '', color }: IconProps) => {
     behindSolid: (
       <BehindSolid className={cn(iconVariants({ color }), className)} />
     ),
+    up: <ChevronUpIcon className={cn(iconVariants({ color }), className)} />,
   };
 
   return <>{icons[type]}</>;

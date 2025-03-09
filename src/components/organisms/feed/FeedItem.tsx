@@ -24,7 +24,7 @@ const FeedItem = ({
   };
   return (
     <div
-      className='flex flex-col-reverse lg:flex-col w-full border-black justify-between items-center gap-10 lg:hover:cursor-pointer'
+      className='flex flex-col-reverse lg:flex-col w-full border-black justify-between items-center gap-2 lg:hover:cursor-pointer'
       onClick={navigateToDetail}
     >
       <FeedBody title={title} content={content} tags={tags} />

@@ -5,6 +5,7 @@ import MobileHamburgarMenu from '@/components/organisms/sides/MobileHamburgarMen
 import { useNotification } from '@/components/organisms/sse/NotificationProvider';
 import useAuthStore from '@/store/authStore';
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const MobileNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +13,10 @@ const MobileNav = () => {
   const { isLoggedIn } = useAuthStore();
   const menuRef = useRef<HTMLDivElement>(null);
   const { messages, markNotificationAsRead } = useNotification();
+  const location = useLocation();
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: TouchEvent) => {
@@ -45,7 +50,7 @@ const MobileNav = () => {
           <a href='/search' className='w-full h-full ml-3'>
             <div className='w-full h-8 px-3 py-[6px] border rounded-lg border-none bg-[#f1f1f7] flex items-center'>
               <div className='w-5 h-5'>
-                <Icon type='search' color={'gray'} />
+                <Icon type='search' className='text-[#838383]' />
               </div>
               <input
                 className='w-full bg-transparent text-sm justify-self-center h-full outline-none'
@@ -60,11 +65,14 @@ const MobileNav = () => {
               className='w-6 h-6'
               onClick={() => setIsAlarmOpen(!isAlarmOpen)}
             >
-              <Icon type='bellSolid' color={'gray'} />
+              <Icon type='bellSolid' className='text-[#838383]' />
             </div>
           )}
           <div className='w-6 h-6' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <Icon type={isMenuOpen ? 'xmark' : 'bar3'} color={'gray'} />
+            <Icon
+              type={isMenuOpen ? 'xmark' : 'bar3'}
+              className='text-[#838383]'
+            />
           </div>
         </nav>
       </div>

@@ -55,7 +55,7 @@ const MobileHamburgarMenu = () => {
               <div className='w-full flex flex-col text-sm items-start'>
                 <div
                   className='w-full py-[6px] flex items-center gap-2'
-                  onClick={() => navgiate('/settings')}
+                  onClick={() => navgiate(`/@${userInfo.nickname}`)}
                 >
                   <div className='w-5 h-5'>
                     <Icon type='user' />

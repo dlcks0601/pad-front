@@ -40,6 +40,7 @@ import {
   StarIcon as StarSolidIcon,
   ArrowLeftStartOnRectangleIcon,
   Cog6ToothIcon,
+  ChevronLeftIcon as BehindSolid,
 } from '@heroicons/react/24/solid';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
@@ -82,7 +83,8 @@ type IconType =
   | 'h1'
   | 'bar3'
   | 'logOut'
-  | 'cog';
+  | 'cog'
+  | 'behindSolid';
 
 const iconVariants = cva('', {
   variants: {
@@ -200,6 +202,9 @@ const Icon = ({ type, className = '', color }: IconProps) => {
       />
     ),
     cog: <Cog6ToothIcon className={cn(iconVariants({ color }), className)} />,
+    behindSolid: (
+      <BehindSolid className={cn(iconVariants({ color }), className)} />
+    ),
   };
 
   return <>{icons[type]}</>;

@@ -26,9 +26,9 @@ const MobileNav = () => {
           className='flex flex-row items-center mr-1 w-full'
         >
           <a href='/' className='w-[40px] h-[16px]'>
-            <Logo width='40px' height='16px' />
+            <Logo width='44px' height='18px' />
           </a>
-          <div className='w-full h-8 pl-3 pr-1 py-[6px] border rounded-lg border-none bg-lightgray flex ml-2 mr-1'>
+          <div className='w-full h-8 pl-3 pr-1 py-[6px] border rounded-lg border-none bg-lightgray flex ml-6 mr-1'>
             <div className='w-5 h-5'>
               <Icon type='search' className='text-gray' />
             </div>

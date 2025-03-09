@@ -1,6 +1,8 @@
 import FeedView from '@/components/organisms/search/FeedView';
 import ProjectView from '@/components/organisms/search/ProjectView';
+import { useSearchModal } from '@/store/modals/searchModalstore';
 import { useSearchTabsStore } from '@/store/searchTabsStore';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
 
@@ -8,6 +10,23 @@ const SearchPage = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const keyword = query.get('q') as string;
+
+  const { keyword: searchKeyword } = useSearchModal();
+
+  useEffect(() => {
+    if (query.get('q')) {
+      const handlePopState = () => {
+        const currentUrl = window.location.href;
+        const newUrl = currentUrl.includes('q=')
+          ? currentUrl
+          : `${currentUrl}?q=${searchKeyword}`;
+        window.history.pushState(null, '', newUrl);
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => window.removeEventListener('popstate', handlePopState);
+    }
+  }, [location]);
 
   const { tabs, activeTab, setActiveTab } = useSearchTabsStore(
     useShallow((state) => state)

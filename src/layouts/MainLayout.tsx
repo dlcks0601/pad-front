@@ -12,7 +12,10 @@ const MainLayout = () => {
   const { isModalOpen, openModal, closeModal } = useSearchModal();
 
   useEffect(() => {
-    if (window.location.href.includes('q=')) {
+    if (
+      window.location.href.includes('q=') &&
+      !window.location.href.includes('type=page')
+    ) {
       openModal();
     }
   }, [location]);

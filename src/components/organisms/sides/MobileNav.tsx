@@ -35,7 +35,7 @@ const MobileNav = () => {
             <Input
               placeholder='검색어 입력'
               bgColor='transparent'
-              className='border-0 !text-[16px] spacing-none ml-[-10px]'
+              className='border-0 !text-sm spacing-none ml-[-10px]'
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               onKeyDown={keyHandler}

@@ -36,6 +36,10 @@ import {
   EyeIcon,
   BellIcon as BellSolidIcon,
   HomeIcon as HomeSolidIcon,
+  EnvelopeIcon as EnvelopeSolidIcon,
+  StarIcon as StarSolidIcon,
+  ArrowLeftStartOnRectangleIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/solid';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
@@ -44,10 +48,12 @@ type IconType =
   | 'bell'
   | 'bellSolid'
   | 'mail'
+  | 'mailSolid'
   | 'home'
   | 'homeSolid'
   | 'search'
   | 'star'
+  | 'starSolid'
   | 'plus'
   | 'xmark'
   | 'comment'
@@ -74,14 +80,16 @@ type IconType =
   | 'exit'
   | 'list'
   | 'h1'
-  | 'bar3';
+  | 'bar3'
+  | 'logOut'
+  | 'cog';
 
 const iconVariants = cva('', {
   variants: {
     color: {
       black: 'text-black',
       white: 'text-white',
-      lightgray: 'text-[rgb(245, 245, 247)]',
+      lightgray: 'text-lightgray',
       gray: 'text-[#838383]',
       red: 'text-[#FF5E5E]',
     },
@@ -180,6 +188,18 @@ const Icon = ({ type, className = '', color }: IconProps) => {
     homeSolid: (
       <HomeSolidIcon className={cn(iconVariants({ color }), className)} />
     ),
+    mailSolid: (
+      <EnvelopeSolidIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    starSolid: (
+      <StarSolidIcon className={cn(iconVariants({ color }), className)} />
+    ),
+    logOut: (
+      <ArrowLeftStartOnRectangleIcon
+        className={cn(iconVariants({ color }), className)}
+      />
+    ),
+    cog: <Cog6ToothIcon className={cn(iconVariants({ color }), className)} />,
   };
 
   return <>{icons[type]}</>;

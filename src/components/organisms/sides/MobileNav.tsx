@@ -57,17 +57,14 @@ const MobileNav = () => {
         <nav className='flex w-[102px] h-8 justify-end items-center gap-2'>
           {isLoggedIn && (
             <div
-              className='w-7 h-7'
+              className='w-6 h-6'
               onClick={() => setIsAlarmOpen(!isAlarmOpen)}
             >
               <Icon type='bellSolid' color={'gray'} />
             </div>
           )}
-          <div
-            className='w-7 h-7 cursor-pointer'
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Icon type={isMenuOpen ? 'xmark' : 'bar3'} />
+          <div className='w-6 h-6' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Icon type={isMenuOpen ? 'xmark' : 'bar3'} color={'gray'} />
           </div>
         </nav>
       </div>

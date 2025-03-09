@@ -43,12 +43,12 @@ const MobileNav = () => {
             <Logo width='40px' height='16px' />
           </a>
           <a href='/search' className='w-full h-full ml-3'>
-            <div className='w-full h-8 px-3 py-[6px] border rounded-lg border-none bg-[rgb(245, 245, 247)] flex'>
+            <div className='w-full h-8 px-3 py-[6px] border rounded-lg border-none bg-[#f1f1f7] flex items-center'>
               <div className='w-5 h-5'>
-                <Icon type='search' className='text-lightgray' />
+                <Icon type='search' color={'gray'} />
               </div>
               <input
-                className='w-full bg-transparent text-sm justify-self-center'
+                className='w-full bg-transparent text-sm justify-self-center h-full outline-none'
                 placeholder='검색하기'
               />
             </div>
@@ -73,7 +73,7 @@ const MobileNav = () => {
       </div>
       {isMenuOpen && <MobileHamburgarMenu />}
       {isAlarmOpen && (
-        <div className='absolute mt-3 ml-2 mr-2 px-1 py-2 flex w-full flex-col items-center gap-2 bg-blue-300'>
+        <div className='absolute mt-3 px-1 py-2 flex w-full flex-col items-center gap-2 bg-white'>
           <div className='text-[18px] font-semibold text-[#48484a]'>
             알림 📫
           </div>
@@ -86,7 +86,7 @@ const MobileNav = () => {
               {messages.map((message) => (
                 <div
                   key={message.notificationId}
-                  className='flex w-full justify-start text-[14px] items-center gap-[10px]'
+                  className='flex w-full justify-start text-[14px] items-center gap-[10px] '
                 >
                   <Avatar
                     src={message.senderProfileUrl || undefined}

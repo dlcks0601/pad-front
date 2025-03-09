@@ -1,5 +1,6 @@
 import Avatar from '@/components/atoms/Avatar';
 import Icon from '@/components/atoms/Icon';
+import Input from '@/components/atoms/Input';
 import Logo from '@/components/atoms/Logo';
 import MobileHamburgarMenu from '@/components/organisms/sides/MobileHamburgarMenu';
 import { useNotification } from '@/components/organisms/sse/NotificationProvider';
@@ -45,7 +46,7 @@ const MobileNav = () => {
           className='flex flex-row items-center mr-1 w-full'
         >
           <a href='/' className='w-[40px] h-[16px]'>
-            <Logo width='40px' height='16px' />
+            <Logo width='44px' height='18px' />
           </a>
           <a href='/search' className='w-full h-full ml-3'>
             <div className='w-full h-8 px-3 py-[6px] border rounded-lg border-none bg-[#f1f1f7] flex items-center'>

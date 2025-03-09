@@ -20,7 +20,11 @@ const SearchPage = () => {
         const newUrl = currentUrl.includes('q=')
           ? currentUrl
           : `${currentUrl}?q=${searchKeyword}`;
-        window.history.pushState(null, '', newUrl);
+        window.history.pushState(
+          null,
+          '',
+          window.innerWidth >= 768 ? newUrl : currentUrl // 탭 이하는 모달 제외
+        );
       };
 
       window.addEventListener('popstate', handlePopState);

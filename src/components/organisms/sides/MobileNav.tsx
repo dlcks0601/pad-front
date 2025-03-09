@@ -14,7 +14,7 @@ const MobileNav = () => {
 
   const keyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      navigate(`/search?q=${keyword}`);
+      navigate(`/search?q=${keyword}&type=page`);
     }
   };
 

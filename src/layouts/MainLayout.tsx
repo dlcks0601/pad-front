@@ -3,11 +3,19 @@ import SideMenu from '@/components/organisms/sides/SideMenu';
 import MainSideBar from '@/components/organisms/sides/MainSideBar';
 import MobileNav from '@/components/organisms/sides/MobileNav';
 import useMobileNavStore from '@/store/mobileNavStore';
+import { useEffect } from 'react';
 
 const MainLayout = () => {
   const preventInfo = ['/login'];
   const location = useLocation();
-  const { isNavShowed } = useMobileNavStore();
+  const { isNavShowed, setNavHide } = useMobileNavStore();
+
+  useEffect(() => {
+    const isFeedDetailPage = /^\/feed\/\d+$/.test(location.pathname);
+    if (isFeedDetailPage) {
+      setNavHide();
+    }
+  }, [location.pathname]);
 
   return (
     <div className='min-h-screen flex flex-col lg:flex-row lg:px-[10px]'>
@@ -15,12 +23,14 @@ const MainLayout = () => {
         <div className='hidden lg:block w-full h-full'>
           <SideMenu />
         </div>
-        <div className='lg:hidden w-full h-full bg-white'>
-          {isNavShowed && <MobileNav />}
-        </div>
+        {isNavShowed && (
+          <div className='lg:hidden w-full h-full bg-white'>
+            <MobileNav />
+          </div>
+        )}
       </div>
       <div className='flex-1 overflow-y-auto'>
-        <div className='max-w-[800px] w-full mx-auto py-6'>
+        <div className='max-w-[800px] w-full mx-auto lg:py-6 py-2'>
           <Outlet />
         </div>
       </div>

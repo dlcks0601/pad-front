@@ -216,7 +216,12 @@ body {
   border-radius: 10px;
 }
 
-.prose a {
+.prose ol {
+  margin: 5px 0px 5px 0px;
+}
+
+.prose ul {
+  margin: 5px 0px 5px 0px;
 }
 
 .tiptap-editor a {
